@@ -1,3 +1,4 @@
+```mermaid
 ---
 title: CESI & Dragons , L'Épique Donjon du Code
 ---
@@ -409,3 +410,4 @@ Items <-- BluntSword
 Items <-- MajorHealingPotion
 Items <-- ScepterSyntactic
 Items <-- BookOfLostRules
+```
