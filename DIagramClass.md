@@ -342,8 +342,10 @@ classDiagram
     class RustyKey {
         -name : string
         -desc : string
+        -map stat : string , int
         +getNameItem() string
         +getDescItem() string
+        +getStatItem() map(string,int)
     }
 
     class PotionIntelligence {
@@ -358,15 +360,19 @@ classDiagram
     class RopeTrap {
         -name : string
         -desc : string
+        -map stat : string , int
         +getNameItem() string
         +getDescItem() string
+        +getStatItem() map(string,int)
     }
 
     class KeyCorridor {
         -name : string
         -desc : string
+        -map stat : string , int
         +getNameItem() string
         +getDescItem() string
+        +getStatItem() map(string,int)
     }
 
     class DiscretionShoesNoisy {
@@ -380,6 +386,7 @@ classDiagram
 
     class BluntSword {
         -name : string
+        -desc : string
         -map stat : string , int
         +getNameItem() string
         +getDescItem() string
@@ -407,8 +414,10 @@ classDiagram
     class BookOfLostRules {
         -name : string
         -desc : string
+        -map stat : string , int
         +getNameItem() string
         +getDescItem() string
+        +getStatItem() map(string,int)
     }
 
     Entity <--Hero
