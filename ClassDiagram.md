@@ -318,6 +318,47 @@ classDiagram
 
     }
 
+    class BeerPotion{
+
+    }
+
+    class RustyKey {
+
+    }
+
+    class PotionIntelligence {
+
+    }
+
+    class RopeTrap {
+
+    }
+
+    class KeyCorridor {
+
+    }
+
+     class DiscretionShoesNoisy {
+
+    }
+
+
+    class BluntSword {
+
+    }
+
+    class MajorHealingPotion {
+
+    }
+
+    class ScepterSyntactic {
+
+    }
+
+    class BookOfLostRules {
+
+    }
+
 Entity <--Hero
 Hero <-- Race
 Hero <-- Jobs
@@ -358,3 +399,13 @@ Player <-- Inventory
 Common <-- RhetoricianTroll
 Common <-- SarcasticGobelin
 Common <-- ExplosiveDuck
+Items <-- RustyKey
+Items <-- BeerPotion
+Items <-- PotionIntelligence
+Items <-- RopeTrap
+Items <-- KeyCorridor
+Items <-- DiscretionShoesNoisy
+Items <-- BluntSword
+Items <-- MajorHealingPotion
+Items <-- ScepterSyntactic
+Items <-- BookOfLostRules
