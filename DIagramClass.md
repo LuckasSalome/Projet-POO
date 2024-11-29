@@ -169,7 +169,15 @@ classDiagram
     }
 
     class Movement {
-
+        - speed float
+        - x float
+        - y float
+        + Movement(float initialSpeed)
+        + getSpeed() float
+        + void setSpeed(float newSpeed)
+        + void move(sf::Vector2f &mapOffset)
+        + getX() float
+        + getY() float
     }
 
     class Sprites {
