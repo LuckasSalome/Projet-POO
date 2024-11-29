@@ -31,11 +31,20 @@ classDiagram
     }
 
     class Creature {
-
+        <<abstract>>
+        # virtual getNameCreature() string
+        # virtual getStatCreature() map(string, int)
+        # virtual getDescCreature() string
+        # virtual getAbility1(string) map(string,int)
+        # virtual getAbility2(string) map(string,int)
+        # virtual getAbility3(string) map(string,int)
     }
 
     class Party {
-
+        -HeroParty vector 
+        -CreatureParty vector
+        +getHeroParty() vector
+        +getcreatureParty() vector
     }
 
     class Jobs {
@@ -58,6 +67,7 @@ classDiagram
     }
 
     class Boss {
+        <<abstract>>
         # virtual getNameCreature() string
         # virtual getStatCreature() map(string, int)
         # virtual getDescCreature() string
