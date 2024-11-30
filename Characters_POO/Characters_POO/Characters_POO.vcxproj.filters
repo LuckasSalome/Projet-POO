@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Ability">
+      <UniqueIdentifier>{70b22a25-d7a9-4ffe-ab49-49a5b4180f13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entity">
+      <UniqueIdentifier>{8756cb4b-95a7-49d3-b968-acb912b10a7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entity\Heroes">
+      <UniqueIdentifier>{d35025d5-4435-40b5-9df6-8274a01f77d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entity\Heroes\Jobs">
+      <UniqueIdentifier>{118171c8-7a87-4111-9525-a6b1bd606eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entity\Heroes\Race">
+      <UniqueIdentifier>{688df22c-c25b-4bcc-80d4-2efa83dd273a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entity\Creature">
+      <UniqueIdentifier>{22f2bb93-cf31-4d44-bca8-328886e948ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entity\Creature\Common">
+      <UniqueIdentifier>{ba7ec5ae-a81e-4de1-8b7a-d2411164cb12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entity\Creature\Boss">
+      <UniqueIdentifier>{992e52a3-4b8a-44c7-8f81-d04a323f3c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entity\Creature\Boss\Patterns">
+      <UniqueIdentifier>{e37541cf-9899-4484-b67d-44902c12d90b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Ability\basics">
+      <UniqueIdentifier>{56056390-1988-4060-9e0b-7ab7a2fa57f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Ability\spells">
+      <UniqueIdentifier>{166f94be-d280-42a8-aaaf-1096876b1d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Ability\monsters">
+      <UniqueIdentifier>{7aca8090-4952-4c09-9f15-05d2f835748b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Characters_POO.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicBlock.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\basics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Heroes.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Race.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Race</Filter>
+    </ClInclude>
+    <ClInclude Include="Jobs.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="Ranger.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="Barbarian.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Race</Filter>
+    </ClInclude>
+    <ClInclude Include="Dwarf.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Race</Filter>
+    </ClInclude>
+    <ClInclude Include="Elf.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Race</Filter>
+    </ClInclude>
+    <ClInclude Include="Human.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Race</Filter>
+    </ClInclude>
+    <ClInclude Include="Sorcerer.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="Thief.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="Warrior.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Heroes\Jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="Creatures.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Pattern1.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Creature\Boss\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Pattern2.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Creature\Boss\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosiveDuck.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Creature\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramLich.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Creature\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="RhetoricianTroll.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Creature\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SarcasticGobelin.hpp">
+      <Filter>Fichiers d%27en-tête\Entity\Creature\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
+      <Filter>Fichiers d%27en-tête\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Abilities.hpp">
+      <Filter>Fichiers d%27en-tête\Ability</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicAttack.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\basics</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="WarCry.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="Mimic.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="Headshot.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="DwarfPride.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="BackStab.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="RavenousHit.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="FancyFeet.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="DevastatingRush.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="DrunkHit.hpp">
+      <Filter>Fichiers d%27en-tête\Ability\monsters</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+</Project>

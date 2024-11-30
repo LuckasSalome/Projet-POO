@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Jobs">
+    <Position X="6.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAIAAwAAAAAQAAAAAAAAAAABAA=</HashCode>
+      <FileName>Jobs.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Warrior">
+    <Position X="4" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAwAAAAEQgBAAAAAAAAAAAA=</HashCode>
+      <FileName>Warrior.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Race">
+    <Position X="16.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Race.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Barbarian">
+    <Position X="15.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAwAAAAEQgBAAAAAAAAAAAA=</HashCode>
+      <FileName>Barbarian.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dwarf">
+    <Position X="20" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAwAAAAEQgBAAAAAAAAAAAA=</HashCode>
+      <FileName>Dwarf.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Elf">
+    <Position X="13.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAwAAAAEQgBAAAAAAAAAAAA=</HashCode>
+      <FileName>Elf.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Human">
+    <Position X="17.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAwAAAAEQgBAAAAAAAAAAAA=</HashCode>
+      <FileName>Human.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Heroes">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARAAAAABIABAAAAIIEAIBAwAACAAQAAAAFAAAQAABEA=</HashCode>
+      <FileName>Heroes.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ranger">
+    <Position X="6" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAwAAAAEQgBAAAAAAAAAAAA=</HashCode>
+      <FileName>Ranger.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sorcerer">
+    <Position X="8.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAwAAAAEQgBAAAAAAAAAAAA=</HashCode>
+      <FileName>Sorcerer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Thief">
+    <Position X="10.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAwAAAAEQgBAAAAAAAAAAAA=</HashCode>
+      <FileName>Thief.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
