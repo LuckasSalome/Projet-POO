@@ -1,8 +1,10 @@
+// Player.cpp
 #include "Player.h"
 #include "Wall.h"
+#include "teleporteur.h" // Ajoutez cette ligne
 
-Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float SwitchTime, float speed)
-    : animation(texture, imageCount, SwitchTime), mousePressed(false) // Initialisez mousePressed ici
+Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed)
+    : animation(texture, imageCount, switchTime), speed(speed), row(0), faceRight(true), mousePressed(false)
 {
     this->speed = speed;
     row = 4;
@@ -14,7 +16,7 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float SwitchTime, 
     body.setTexture(texture);
 }
 
-void Player::Update(float deltaTime, const std::vector<Wall>& walls, const sf::RenderWindow& window) //deltaTime = temps entre chaque frame 
+void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::vector<Teleporteur*>& teleporteurs, const sf::RenderWindow& window) //deltaTime = temps entre chaque frame 
 {
     sf::Vector2f movement(0.0f, 0.0f); //initialise le vecteur de mouvement à 0,0
 
@@ -30,7 +32,7 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const sf::R
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
         movement.y -= speed * deltaTime;
     }
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+    /*if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         if (!mousePressed) {
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
             sf::Vector2f worldPosition = window.mapPixelToCoords(mousePosition);
@@ -41,7 +43,7 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const sf::R
             }
             mousePressed = true; // Marquez le bouton comme enfoncé
         }
-    }
+    }*/
     else {
         mousePressed = false; // Réinitialisez l'état lorsque le bouton est relâché
     }
@@ -60,6 +62,13 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const sf::R
     for (const auto& wall : walls) {
         if (newBounds.intersects(wall.GetBounds())) {
             movement = sf::Vector2f(0.0f, 0.0f);
+            break;
+        }
+    }
+
+    for (const auto& tp : teleporteurs) {
+        if (tp->conditionRemplie() && tp->checkCollision(*this)) { // Corrigé
+            body.setPosition(tp->getArrivalPosition());
             break;
         }
     }
@@ -100,3 +109,4 @@ void Player::PrintPosition() const {
 }
 
 Player::~Player() {}
+

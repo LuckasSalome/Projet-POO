@@ -1,12 +1,16 @@
+// main.cpp
 #include <iostream>
 #include <vector>
-#include "sfml/Graphics.hpp"
-#include "SFML/window.hpp"
+#include "SFML/Graphics.hpp"
+#include "SFML/Window.hpp"
 #include "SFML/System.hpp"
 #include "Player.h"
 #include "Wall.h"
 #include "Sol.h"
 #include "Salle.h"
+#include "teleporteur.h"
+#include "SpecialTeleporteur.hpp"
+
 
 static const float VIEW_HEIGHT = 912.0f;
 static const float VIEW_WIDTH = 1712.0f;
@@ -19,11 +23,13 @@ void rezisedView(sf::RenderWindow& window, sf::View& view) {
 }
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(VIEW_WIDTH, VIEW_HEIGHT), "Donjon test", sf::Style::Close | sf::Style::Resize);
+    sf::RenderWindow window(sf::VideoMode(static_cast<unsigned int>(VIEW_WIDTH), static_cast<unsigned int>(VIEW_HEIGHT)), "Donjon test", sf::Style::Close | sf::Style::Resize);
 
     sf::Texture playerTexture;
     sf::Texture wallTexture;
     sf::Texture solTexture;
+    sf::Texture teleporteurTexture;
+
     sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(1212.0f, 712.0f));
 
     if (!playerTexture.loadFromFile("PlayerSheet_V2.png")) {
@@ -40,6 +46,14 @@ int main() {
         cerr << "Erreur lors du chargement de la texture du sol" << endl;
         return -1;
     }
+
+    if (!teleporteurTexture.loadFromFile("Teleporteur.png")) {
+        cerr << "Erreur lors du chargement de la texture du teleporteur" << endl;
+        return -1;
+    }
+
+    std::vector<Teleporteur*> teleporteurs;
+    teleporteurs.push_back(new SpecialTeleporteur(1800.0f, 965.0f, 2500.0f, 990.0f, &teleporteurTexture));
 
     Player player(&playerTexture, sf::Vector2u(4, 5), 0.3f, 350.0f);
 
@@ -103,7 +117,7 @@ int main() {
             }
         }
 
-        player.Update(deltaTime, allWalls, window); // Utiliser les murs combinés pour la collision
+        player.Update(deltaTime, allWalls, teleporteurs, window); // Utiliser les murs combinés pour la collision
 
         view.setCenter(player.GetPosition());
 
@@ -112,12 +126,20 @@ int main() {
 
         salle.drawRoom(window);
         couloir.drawRoom(window);
-		SalleTroll.drawRoom(window);
+        SalleTroll.drawRoom(window);
 
         player.Draw(window);
 
+        for (const auto& tp : teleporteurs) {
+            tp->draw(window);
+        }
+
         window.display();
         rezisedView(window, view);
+    }
+
+    for (auto tp : teleporteurs) {
+        delete tp;
     }
 
     return 0;
