@@ -6,11 +6,11 @@
 
 using namespace std;
 
-class Dwarf : public Race {
+class Barbarian : public Race {
 private:
-	string name = " Nain";
-	map<string, int> stat{ {"COU", 11}, {"CHA", 7}, {"INT", 3}, {"FO",12 }, {"AD", 7} };
-	string desc = " De nos jour, il serait plus adapte de dire 'personne de petite taille'.";
+	string name = " Barbare";
+	map<string, int> stat{ {"COU", 12}, { "CHA", 9 }, { "INT", 3 }, { "FO", 13}, { "AD", 2 }};
+	string desc = " SKKAAAAARRRRR,ahoo ahoo ahoo huwhawhawhauaha.";
 
 protected:
 	string getNameRace() override {

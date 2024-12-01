@@ -34,7 +34,7 @@ public :
 
 	string getName(Race& race, Jobs& job) {																	//fusionne les noms de race et de classe
 		if (StatCoparison(race, job)) {
-			this->HeroName += job.getNameJob() + race.getNameRace();
+			this->HeroName += race.getNameRace() + job.getNameJob();
 			return (this->HeroName);
 		}
 	}

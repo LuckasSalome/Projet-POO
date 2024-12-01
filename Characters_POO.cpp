@@ -6,7 +6,6 @@ using namespace std;
 
 Jobs* createJobs(const string& type) {
     if (type == "Guerrier") {
-        cout << "job created" << endl;
         return new Warrior();
     }
     else if (type == "Sorcier") {
@@ -30,7 +29,6 @@ Race* createRace(const string& type) {
         return new Barbarian();
     }
     else if (type == "Nain") {
-        cout << "race created" << endl;
         return new Dwarf();
     }
     else if (type == "Humain") {
@@ -47,14 +45,13 @@ int main()
     string raceType;
     string statistics[5] = { "COU", "CHA", "INT", "FO", "AD" };
 
-    Jobs* job = createJobs("Guerrier");
-    Race* race = createRace("Nain");
+    cin >> jobType;
+    cin >> raceType;
+
+    Jobs* job = createJobs(jobType);
+    Race* race = createRace(raceType);
     Heroes* Character1 = new Heroes("Michel");
 
-    if (Character1->StatCoparison(*race, *job))
-        cout << "true" << endl;
-    else
-        cout << "false" << endl;
 
     cout << Character1->getName(*race, *job) << endl;
     cout << Character1->getDesc(*race, *job) << endl;
