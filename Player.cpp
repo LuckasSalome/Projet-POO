@@ -54,6 +54,11 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::
         movement.y *= 0.75f;
     }
 
+    if ((movement.x || movement.y) != 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))) {
+        movement.x *= 2.00f;
+        movement.y *= 2.00f;
+    }
+
     sf::Vector2f newPosition = body.getPosition() + movement;
     sf::FloatRect newBounds = body.getGlobalBounds();
     newBounds.left = newPosition.x - body.getOrigin().x;
