@@ -1,30 +1,15 @@
 ```mermaid
 classDiagram
-    class Entity {
-
-    }
-
     class Hero {
         -HeroName string
-        -map HeroStat : string, int
-        -HeroDesc string
-        -map HeroItems : string, int
-        -map HeroAbility1 : string, int
-        -map HeroAbility2 : string, int
-        -map HeroAbility3 : string, int
-        # virtual getNameJob() string
-        # virtual getStatJob() map(string, int)
-        # virtual getDescJob() string
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
-        # virtual getNameRace() string
-        # virtual getStatRace() map(string, int)
-        # virtual getDescRace() string
-        +get HeroStat() map(string, int)
-        +get HeroName() string
-        +get HeroDesc() string
-        +get HeroItems() map(string, int)
+        - Health int
+
+        + Heroes (string)
+        + getHeroStat() map(string, int)
+        + getHeroName() string
+        + getHeroDesc() string
+        + getHealth () int
+        + StatComparison () bool
 
     }
 
@@ -46,20 +31,24 @@ classDiagram
     }
 
     class Jobs {
-        <<abstract>>
-        # virtual getNameJob() string
-        # virtual getStatJob() map(string, int)
-        # virtual getDescJob() string
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
+        - nda string
+        - map nullMap: string, int
+
+        + virtual getNameJob() string
+        + virtual getStatJob() map(string, int)
+        + virtual getDescJob() string
+        + virtual getAbility1(string) map(string,int)
+        + virtual getAbility2(string) map(string,int)
+        + virtual getAbility3(string) map(string,int)
     }
 
     class Race {
-        <<abstract>>
-        # virtual getNameRace() string
-        # virtual getStatRace() map<string, int>
-        # virtual getDescRace() string
+        - nda string
+        - map nullMap : string, int
+
+        + virtual getNameRace() string
+        + virtual getStatRace() map<string, int>
+        + virtual getDescRace() string
     }
 
     class Boss {
@@ -146,7 +135,7 @@ classDiagram
 
     }
 
-    class Patern1 {
+    class Pattern1 {
         -map stat : string , int
         -map Ability1 : string , int
         -map Ability2 : string , int
@@ -157,7 +146,7 @@ classDiagram
         + getAbility3(string) map(string,int)
     }
 
-    class Patern2 {
+    class Pattern2 {
         -map stat : string , int
         -map Ability1 : string , int
         -map Ability2 : string , int
@@ -225,9 +214,9 @@ classDiagram
         -name : string
         -map stat : string , int
         -desc : string
-        +getNameJob() string
-        +getStatJob() map(string, int)
-        +getDescJob() string
+        # getNameJob() string
+        # getStatJob() map(string, int)
+        # getDescJob() string
     }
 
     class Warrior {
@@ -237,13 +226,12 @@ classDiagram
         -map Ability2 : string , int
         -map Ability3 : string , int
         -desc : string
-        +getNameJob() string
-        +getStatJob() map(string, int)
-        +getDescJob() string
-        +getAbility1()
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        # getNameJob() string
+        # getStatJob() map(string, int)
+        # getDescJob() string
+        # getAbility1(string) map(string,int)
+        # getAbility2(string) map(string,int)
+        # getAbility3(string) map(string,int)
     }
 
     class Ranger {
@@ -253,12 +241,12 @@ classDiagram
         -map Ability2 : string , int
         -map Ability3 : string , int
         -desc : string
-        +getNameJob() string
-        +getStatJob() map(string, int)
-        +getDescJob() string
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        # getNameJob() string
+        # getStatJob() map(string, int)
+        # getDescJob() string
+        # getAbility1(string) map(string,int)
+        # getAbility2(string) map(string,int)
+        # getAbility3(string) map(string,int)
     }
 
     class Sorcerer{
@@ -268,12 +256,12 @@ classDiagram
         -map Ability2 : string , int
         -map Ability3 : string , int
         -desc : string
-        +getNameJob() string
-        +getStatJob() map(string, int)
-        +getDescJob() string
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        # getNameJob() string
+        # getStatJob() map(string, int)
+        # getDescJob() string
+        # getAbility1(string) map(string,int)
+        # getAbility2(string) map(string,int)
+        # getAbility3(string) map(string,int)
     }
 
     class Thief {
@@ -283,39 +271,39 @@ classDiagram
         -map Ability2 : string , int
         -map Ability3 : string , int
         -desc : string
-        +getNameJob() string
-        +getStatJob() map(string, int)
-        +getDescJob() string
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        # getNameJob() string
+        # getStatJob() map(string, int)
+        # getDescJob() string
+        # getAbility1(string) map(string,int)
+        # getAbility2(string) map(string,int)
+        # getAbility3(string) map(string,int)
     }
 
     class Dwarf {
         -name : string
         -map stat : string , int
         -desc : string
-        +getNameJob() string
-        +getStatJob() map(string, int)
-        +getDescJob() string
+        # getNameJob() string
+        # getStatJob() map(string, int)
+        # getDescJob() string
     }
 
     class Human {
         -name : string
         -map stat : string , int
         -desc : string
-        +getNameJob() string
-        +getStatJob() map(string, int)
-        +getDescJob() string
+        # getNameJob() string
+        # getStatJob() map(string, int)
+        # getDescJob() string
     }
 
     class Barbarian {
         -name : string
         -map stat : string , int
         -desc : string
-        +getNameJob() string
-        +getStatJob() map(string, int)
-        +getDescJob() string
+        # getNameJob() string
+        # getStatJob() map(string, int)
+        # getDescJob() string
     }
 
     class System {
@@ -420,15 +408,15 @@ classDiagram
         +getStatItem() map(string,int)
     }
 
-    Entity <--Hero
-    Hero <-- Race
-    Hero <-- Jobs
-    Entity <-- Creature
+   
+    Hero --o Race
+    Hero --o Jobs
+   
     Creature <-- Common
     Creature <-- Boss
     Boss <-- ProgramLich
-    ProgramLich <-- Patern1
-    Patern1 <-- Patern2
+    ProgramLich <-- Pattern1
+    Pattern1 <-- Pattern2
     Hero o-- Party
     Jobs <-- Warrior
     Race <-- Elf
