@@ -1,0 +1,17 @@
+﻿  Animation.cpp
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(11,39): warning C4244: '=' : conversion de 'float' en 'T', perte possible de données
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(11,39): warning C4244:         with
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(11,39): warning C4244:         [
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(11,39): warning C4244:             T=int
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(11,39): warning C4244:         ]
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(12,39): warning C4244: '=' : conversion de 'float' en 'T', perte possible de données
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(12,39): warning C4244:         with
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(12,39): warning C4244:         [
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(12,39): warning C4244:             T=int
+C:\Users\SALOME\source\repos\Projet-POO\Animation.cpp(12,39): warning C4244:         ]
+  Player.cpp
+  SFML download.cpp
+C:\Users\SALOME\source\repos\Projet-POO\SFML download.cpp(22,55): warning C4244: 'argument' : conversion de 'const float' en 'unsigned int', perte possible de données
+C:\Users\SALOME\source\repos\Projet-POO\SFML download.cpp(22,43): warning C4244: 'argument' : conversion de 'const float' en 'unsigned int', perte possible de données
+  Génération de code en cours...
+  SFML download.vcxproj -> C:\Users\SALOME\Source\Repos\Projet-POO\x64\Debug\SFML download.exe
