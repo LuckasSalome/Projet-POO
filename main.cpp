@@ -10,6 +10,8 @@
 #include "Salle.h"
 #include "teleporteur.h"
 #include "SpecialTeleporteur.hpp"
+#include "Teleporteur2.hpp"
+
 
 
 static const float VIEW_HEIGHT = 912.0f;
@@ -53,7 +55,11 @@ int main() {
     }
 
     std::vector<Teleporteur*> teleporteurs;
-    teleporteurs.push_back(new SpecialTeleporteur(1800.0f, 965.0f, 2500.0f, 990.0f, &teleporteurTexture));
+	teleporteurs.push_back(new SpecialTeleporteur(1800.0f, 1000.0f, 2500.0f, 990.0f, &teleporteurTexture)); //position(x;y) = (1800;965) et position d'arrive(x;y) = (2500;990)
+    teleporteurs.push_back(new Teleporteur2(5200.0f, 875.0f, 5750.0f, 1000.0f, &teleporteurTexture));
+    teleporteurs.push_back(new Teleporteur2(7900.0f, 875.0f, 8500.0f, 1000.0f, &teleporteurTexture));
+    teleporteurs.push_back(new Teleporteur2(12300.0f, 875.0f, 12900.0f, 1000.0f, &teleporteurTexture));
+	teleporteurs.push_back(new Teleporteur2(15700.0f, 875.0f, 16300.0f, 1000.0f, &teleporteurTexture));
 
     Player player(&playerTexture, sf::Vector2u(4, 5), 0.3f, 350.0f);
 
