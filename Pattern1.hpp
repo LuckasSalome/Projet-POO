@@ -1,21 +1,22 @@
-#pragma once 
+#pragma once
 
-#include <iostream>
-#include <string>
 #include "ProgramLich.hpp"
 
 using namespace std;
 
 class Pattern1 : public ProgramLich {
-private:
-    virtual map<string, int> stat() = 0;
-    virtual map<string, int> Ability1() = 0;
-    virtual map<string, int> Ability2() = 0;
-    virtual map<string, int> Ability3() = 0;
-
 public:
-    virtual map<string, int> getstat() = 0;
-    virtual map<string, int> getAbility1(const string) = 0;
-    virtual map<string, int> getAbility2(const string) = 0;
-    virtual map<string, int> getAbility3(const string) = 0;
+    Pattern1(const string& name, const string& desc, int maxHp) : ProgramLich(name, desc, maxHp) {}
+
+    map<string, int> Ability1() const override {
+        return { {"Name", "SyntaxError"}, {"Damage", 30};
+    }
+
+    map<string, int> Ability2() const override {
+            return { {"Name", "NullPointerException"}, {"Damage", 50};
+    }
+
+    map<string, int> Ability3() const override {
+                return { {"Name", "StackOverflow"}, {"Damage", 80};
+    }
 };

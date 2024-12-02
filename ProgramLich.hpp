@@ -1,8 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <map>
-#include <string>
 #include "Boss.hpp"
 
 using namespace std;
@@ -13,19 +10,15 @@ private:
     string desc;
 
 public:
-    ProgramLich(const string& name, const string& desc) : name(name), desc(desc) {}
+    ProgramLich()
+        : name("Liche Programmatrice"),
+          desc("Une Liche Programmatrice terrifiante, maître des boucles infinies et des segfaults mystiques.") {}
 
     string getNameCreature() const override {
-        return name;
+        return this->name;
     }
 
     string getDescCreature() const override {
-        return desc;
+        return this->desc;
     }
-
-protected:
-    virtual map<string, int> getStatCreature() = 0;
-    virtual map<string, int> getAbility1(const string) const = 0;
-    virtual map<string, int> getAbility2(const string) const = 0;
-    virtual map<string, int> getAbility3(const string) const = 0;
 };

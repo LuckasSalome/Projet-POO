@@ -1,21 +1,28 @@
 #pragma once 
 
-#include <iostream>
-#include <string>
 #include "Pattern1.hpp"
 
 using namespace std;
 
-class Pattern2 : public Pattern1 {
-private:
-    virtual map<string, int> stat() = 0;
-    virtual map<string, int> Ability1() = 0;
-    virtual map<string, int> Ability2() = 0;
-    virtual map<string, int> Ability3() = 0;
+#pragma once
 
+#include "ProgramLich.hpp"
+
+class Pattern2 : public ProgramLich {
 public:
-    virtual map<string, int> getstat() = 0;
-    virtual map<string, int> getAbility1(const string) = 0;
-    virtual map<string, int> getAbility2(const string) = 0;
-    virtual map<string, int> getAbility3(const string) = 0;
+    Pattern2(const string& name, const string& desc, int maxHp)
+        : ProgramLich(name, desc, maxHp) {}
+
+    map<string, int> Ability1() const override {
+        return { {"Name", "MemoryLeak"}, {"Damage", 40};
+    }
+
+    map<string, int> Ability2() const override {
+        return { {"Name", "SegmentationFault"}, {"Damage", 60};
+    }
+
+    map<string, int> Ability3() const override {
+        return { {"Name", "RaceCondition"}, {"Damage", 100};
+    }
 };
+
