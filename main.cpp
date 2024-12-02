@@ -86,12 +86,51 @@ int main() {
     Salle SalleTroll(LargeurSalleTroll, HauteurSalleTroll, &solTexture, &wallTexture, positionSalleTroll);
     SalleTroll.generateRoom(); // Générer les murs et les sols de la Salle 3
 
-    // Combiner les murs des deux salles pour la détection des collisions
+    // Corridor des malentendus
+    int largeurCorridor = 20;
+    int hauteurCorridor = 5;
+    sf::Vector2f positionCorridor(
+        positionSalleTroll.x + LargeurSalleTroll * largeurTile + largeurTile, // Décaler la salle du Troll à droite du couloir
+        positionSalleTroll.y + (HauteurSalleTroll * hauteurTile - hauteurCorridor * hauteurTile) / 2.0f // Centrer verticalement la salle du Troll par rapport au couloir
+    );
+    Salle Corridor(largeurCorridor, hauteurCorridor, &solTexture, &wallTexture, positionCorridor);
+    Corridor.generateRoom(); 
+
+
+    // Salle des Trésors Illusoires
+    int largeurSalleTresors = 15;
+    int hauteurSalleTresors = 10;
+    sf::Vector2f positionSalleTresors(
+        positionCorridor.x + largeurCorridor * largeurTile + largeurTile, // Décaler la salle des Trésors à droite du corridor
+        positionCorridor.y + (hauteurCorridor * hauteurTile - hauteurSalleTresors * hauteurTile) / 2.0f // Centrer verticalement la salle des Trésors par rapport au corridor
+    );
+    Salle salleTresors(largeurSalleTresors, hauteurSalleTresors, &solTexture, &wallTexture, positionSalleTresors);
+    salleTresors.generateRoom();
+
+    // Antre de la Syntaxe Perdue
+    int largeurAntreSyntaxe = 20;
+    int hauteurAntreSyntaxe = 20;
+    sf::Vector2f positionAntreSyntaxe(
+        positionSalleTresors.x + largeurSalleTresors * largeurTile + largeurTile, // Décaler l'Antre de la Syntaxe à droite de la salle des Trésors
+        positionSalleTresors.y + (hauteurSalleTresors * hauteurTile - hauteurAntreSyntaxe * hauteurTile) / 2.0f // Centrer verticalement l'Antre de la Syntaxe par rapport à la salle des Trésors
+    );
+    Salle antreSyntaxe(largeurAntreSyntaxe, hauteurAntreSyntaxe, &solTexture, &wallTexture, positionAntreSyntaxe);
+    antreSyntaxe.generateRoom();
+
+
+
+    // Combiner les murs des salles pour la détection des collisions
     std::vector<Wall> allWalls = salle.getMurs();
     std::vector<Wall> couloirWalls = couloir.getMurs();
     std::vector<Wall> Salle3Walls = SalleTroll.getMurs();
+    std::vector<Wall> CorridorWalls = Corridor.getMurs();
+    std::vector<Wall> Salle4Walls = salleTresors.getMurs();
+    std::vector<Wall> AntreWalls = antreSyntaxe.getMurs();
     allWalls.insert(allWalls.end(), couloirWalls.begin(), couloirWalls.end());
     allWalls.insert(allWalls.end(), Salle3Walls.begin(), Salle3Walls.end());
+    allWalls.insert(allWalls.end(), CorridorWalls.begin(), CorridorWalls.end());
+    allWalls.insert(allWalls.end(), Salle4Walls.begin(), Salle4Walls.end());
+    allWalls.insert(allWalls.end(), AntreWalls.begin(), AntreWalls.end());
 
     float deltaTime = 0.0f;
     sf::Clock clock;
@@ -127,6 +166,9 @@ int main() {
         salle.drawRoom(window);
         couloir.drawRoom(window);
         SalleTroll.drawRoom(window);
+        Corridor.drawRoom(window);
+        salleTresors.drawRoom(window);
+        antreSyntaxe.drawRoom(window);
 
         player.Draw(window);
 
