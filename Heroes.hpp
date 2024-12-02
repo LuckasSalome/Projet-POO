@@ -17,10 +17,9 @@ using namespace std;
 class Heroes {																								//class hero observer des class race et job pour savoir avec le polymorphisme la classe et la race du personnage
 private  :
 	string HeroName;
-	int Health;
 
 public :
-	Heroes(string Name) : HeroName(Name), Health(40) {};
+	Heroes(string Name) : HeroName(Name) {};
 
 	bool StatCoparison(Race& race, Jobs& job) {																//comparaison des stats de race et requises pour un metrier
 		string statistics[5] = { "COU", "CHA", "INT", "FO", "AD" };
@@ -49,7 +48,7 @@ public :
 			return race.getStat();
 	}
 
-	int getHealth() {																						//donne les pv du hero
-		return this->Health;
+	int getHealth(Race& race) {																						//donne les pv du hero
+		return race.getHealth();
 	}
 };

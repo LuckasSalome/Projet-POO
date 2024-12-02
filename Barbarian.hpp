@@ -11,6 +11,7 @@ private:
 	string name = " Barbare";
 	map<string, int> stat{ {"COU", 12}, { "CHA", 9 }, { "INT", 3 }, { "FO", 13}, { "AD", 2 }};
 	string desc = " SKKAAAAARRRRR,ahoo ahoo ahoo huwhawhawhauaha.";
+	int health = 35;
 
 protected:
 	string getNameRace() override {
@@ -21,5 +22,8 @@ protected:
 	}
 	map<string, int> getStat() override {
 		return this->stat;
+	}
+	int getHealth() {
+		return this->health;
 	}
 };
