@@ -2,29 +2,11 @@
 
 #include "Items.hpp"
 
-class MajorHealingPotion : Items {
-private:
-
-    string name;
-    string description;
-    map <string, int> stats;
-
+class MajorHealingPotion : public Items {
 public:
-
-    MajorHealingPotion() : name("Potion de soin majeur"), description("Une potion digne des plus grands, confectionner Ã  partir de jus de mirabelle, elle restaure une grande quantitÃ© de point de vie") {
-        stats["PV"] = 50;
-        stats["Poids"] = 1;
-    }
-
-    string getNameItem() const override {
-        return name;
-    }
-
-    string getDescItem() const override {
-        return description;
-    }
-
-    map<string, int> getStatItem() const override {
-        return stats;
-    }
+    MajorHealingPotion()
+        : Items("Potion de soin majeur",
+            "Une potion digne des plus grands, confectionnée à partir de jus de mirabelle, elle restaure une grande quantité de points de vie",
+            { {"PV", 50}, {"Poids", 1} },
+            "images/MajorHealingPotion.png") {}
 };

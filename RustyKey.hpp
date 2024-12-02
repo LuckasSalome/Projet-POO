@@ -2,28 +2,15 @@
 
 #include "Items.hpp"
 
-class RustyKey : Items {
-private:
-
-	string name;
-	string description;
-    map <string, int> stats;
-
+// RustyKey class inherits from Items
+class RustyKey : public Items {
 public:
-
-	RustyKey() : name("Cle rouillee"), description("Une cle sale et rouillee") {
-        stats["Poids"] = 1;
-    }
-
-    string getNameItem() const override {
-        return name;
-    }
-
-    string getDescItem() const override {
-        return description;
-    }
-
-    map<string, int> getStatItem() const override {
-        return stats;
-    }
+    // Constructor initializes with specific values for this key
+    RustyKey()
+        : Items("Cle rouillée",
+            "Une cle sale et rouillée",
+            { {"Poids", 1} },
+            "images/RustKey.png") {}
 };
+
+
