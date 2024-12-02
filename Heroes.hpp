@@ -1,5 +1,6 @@
 #pragma once
 
+#include <random>
 #include <string>
 #include <map>
 #include "Thief.hpp"
@@ -10,45 +11,124 @@
 #include "Dwarf.hpp"
 #include "Elf.hpp"
 #include "Human.hpp"
-
+#include "Creatures.hpp"
 
 using namespace std;
 
 class Heroes {																								//class hero observer des class race et job pour savoir avec le polymorphisme la classe et la race du personnage
 private  :
-	string HeroName;
+	string heroName;
+	string heroDesc;
+	string heroRace;
+	string heroJob;
+	int heroHealth;
+	map<string, int> heroStat;
+	bool possible;
+	bool isAlive;
+	int heroLevel = 1;
+	int exp = 0;
+	int expMax = 30;
 
 public :
-	Heroes(string Name) : HeroName(Name) {};
+	Heroes(string Name) : heroName(Name) {};
 
 	bool StatCoparison(Race& race, Jobs& job) {																//comparaison des stats de race et requises pour un metrier
 		string statistics[5] = { "COU", "CHA", "INT", "FO", "AD" };
 		for (int i = 0; i < 5; i++) {
 			if (race.getStat()[statistics[i]] < job.getStatRequiredJob()[statistics[i]]) {
-				return false;
+				this->possible = false;
+				return this->possible;
 			}
-			return true;
+			this->possible = true;
+			return this->possible;
 		}
 	}
 
-	string getName(Race& race, Jobs& job) {																	//fusionne les noms de race et de classe
-		if (StatCoparison(race, job)) {
-			this->HeroName += race.getNameRace() + job.getNameJob();
-			return (this->HeroName);
+	string initName(Race& race, Jobs& job) {																	//fusionne les noms de race et de classe
+		if (this->possible) {
+			this->heroRace = race.getNameRace();
+			this->heroJob = job.getNameJob();
+			this->heroName += race.getNameRace() + job.getNameJob();
+			return (this->heroName);
 		}
 	}
 
-	string getDesc(Race& race, Jobs& job) {																	//fusionne les descriptions de race et de classe
-		if (StatCoparison(race, job))
-			return (job.getDescJob() + race.getDescRace());
+	string initDesc(Race& race, Jobs& job) {																	//fusionne les descriptions de race et de classe
+		if (this->possible)
+			this->heroDesc += (job.getDescJob() + race.getDescRace());
+			return this->heroDesc;
 	}
 
-	virtual map<string, int> getHeroStat(Race& race, Jobs& job) {											//donne les stats du hero
-		if (StatCoparison(race, job))
-			return race.getStat();
+	virtual map<string, int> initHeroStat(Race& race, Jobs& job) {											//init les stats du hero
+		if (this->possible)
+			this->heroStat = race.getStat();
+			return this->heroStat;
 	}
 
-	int getHealth(Race& race) {																						//donne les pv du hero
-		return race.getHealth();
+	int initHeroHealth(Race& race) {																				//init les pv du hero
+		this->heroHealth = race.getHealth();
+		return this->heroHealth;
 	}
+
+
+	// getter
+
+	string getName() {																	
+		return (this->heroName);
+
+	}
+
+	string getDesc() {																	
+		return this->heroDesc;
+	}
+
+	virtual map<string, int> getHeroStat() {											
+		return this->heroStat;
+	}
+
+	int getHeroHealth() {																				
+		return this->heroHealth;
+	}
+	int getHeroLevel() {
+		return this->heroLevel;
+	}
+
+	//setter
+	void setHeroHealth(int set) {
+		this->heroHealth = set;
+	}
+
+	bool getHeroAlive() {
+		return this->isAlive;
+	}
+	
+	void transiLevel() {
+		if (this->exp >= this->expMax) {
+			this->heroLevel++;
+			this->exp -= this->expMax;
+			this->expMax += 5;
+		}
+	}
+
+	virtual void getRaceSpell(Race& race, Creatures& foe) {
+		race.raceSpell(foe, *this);
+	}
+
+	virtual void getBasicAttack(Race& race, Creatures& foe) {
+		race.basicAttack(foe, *this);
+	}
+
+	virtual void getJobSpell(Jobs& job, Creatures& foe) {
+		job.jobSpell(foe, *this);
+	}
+	virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2) {
+		job.jobSpell(foe1, foe2, *this);
+	}
+	virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2, Creatures& foe3) {
+		job.jobSpell(foe1, foe2, foe3, *this);
+	}
+	virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2, Creatures& foe3, Creatures& foe4) {
+		job.jobSpell(foe1, foe2, foe3, foe4, *this);
+	}
+
 };
