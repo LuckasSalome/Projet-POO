@@ -68,14 +68,17 @@ int main() {
     teleporteurs.push_back(new Teleporteur2(12300.0f, 875.0f, 12900.0f, 1000.0f, &teleporteurTexture));
     teleporteurs.push_back(new Teleporteur2(15700.0f, 875.0f, 16300.0f, 1000.0f, &teleporteurTexture));
 
+    // Créer un vecteur de pointeurs vers des objets de type Coffre
     std::vector<Coffre*> chests;
-    // Ajoutez des coffres au vecteur si nécessaire
-
-    // chests.push_back(new Coffre(...));
-
     // Créer deux coffres
-    chests.push_back(new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(2500.0f, 990.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f)); // Coffre dans la salle 3
-    chests.push_back(new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(6000.0f, 990.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f)); // Coffre dans la salle des Trésors
+    Coffre* chest1 = new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(3780.0f, 500.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f); // Coffre dans la salle 3
+    chest1->addObjet("Potion de prout");
+    chest1->addObjet("Lame en caoutchouc");
+    chests.push_back(chest1);
+
+    Coffre* chest2 = new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(6000.0f, 990.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f); // Coffre dans la salle des Trésors
+    chest2->addObjet("Chaussures de discrétion bruyantes");
+    chests.push_back(chest2);
 
     Player player(&playerTexture, sf::Vector2u(4, 5), 0.3f, 350.0f);
 
@@ -151,6 +154,22 @@ int main() {
     allWalls.insert(allWalls.end(), Salle4Walls.begin(), Salle4Walls.end());
     allWalls.insert(allWalls.end(), AntreWalls.begin(), AntreWalls.end());
 
+    // Combiner les sols des salles pour la détection des collisions
+    std::vector<Sol> allSols = salle.getSols();
+    std::vector<Sol> couloirSols = couloir.getSols();
+    std::vector<Sol> Salle3Sols = SalleTroll.getSols();
+    std::vector<Sol> CorridorSols = Corridor.getSols();
+    std::vector<Sol> Salle4Sols = salleTresors.getSols();
+    std::vector<Sol> AntreSols = antreSyntaxe.getSols();
+    allSols.insert(allSols.end(), couloirSols.begin(), couloirSols.end());
+    allSols.insert(allSols.end(), Salle3Sols.begin(), Salle3Sols.end());
+    allSols.insert(allSols.end(), CorridorSols.begin(), CorridorSols.end());
+    allSols.insert(allSols.end(), Salle4Sols.begin(), Salle4Sols.end());
+    allSols.insert(allSols.end(), AntreSols.begin(), AntreSols.end());
+
+
+
+
     float deltaTime = 0.0f;
     sf::Clock clock;
 
@@ -175,7 +194,7 @@ int main() {
             }
         }
 
-        player.Update(deltaTime, allWalls, teleporteurs, chests, window); // Utiliser les murs combinés pour la collision
+        player.Update(deltaTime, allWalls, teleporteurs, chests, allSols, window); // Utiliser les murs et les sols combinés pour la collision
 
         view.setCenter(player.GetPosition());
 
@@ -189,8 +208,6 @@ int main() {
         salleTresors.drawRoom(window);
         antreSyntaxe.drawRoom(window);
 
-        player.Draw(window);
-
         for (const auto& tp : teleporteurs) {
             tp->draw(window);
         }
@@ -198,6 +215,8 @@ int main() {
         for (const auto& chest : chests) {
             chest->draw(window); // Dessiner les coffres
         }
+
+        player.Draw(window);
 
         window.display();
         rezisedView(window, view);

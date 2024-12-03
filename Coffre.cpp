@@ -1,4 +1,6 @@
 #include "Coffre.h"
+#include "Wall.h"
+#include "Sol.h"
 #include <iostream>
 
 Coffre::Coffre(sf::Vector2f size, sf::Vector2f position, sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
@@ -8,17 +10,24 @@ Coffre::Coffre(sf::Vector2f size, sf::Vector2f position, sf::Texture* texture, s
     body.setSize(size);
     body.setPosition(position);
     body.setTexture(texture);
-    objet = "Nom de l'objet";
 }
 
 Coffre::~Coffre() {}
 
 void Coffre::ouvrir() {
-    std::cout << "Le coffre contient : " << objet << std::endl;
+    std::cout << "Le coffre contient : " << std::endl;
+    for (const auto& objet : objets) {
+        std::cout << "- " << objet << std::endl;
+    }
 }
 
-void Coffre::drawMessage(sf::RenderWindow& window, const std::string& message) const
+void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& walls, const std::vector<Sol>& sols, const Player& player) const
 {
+    std::string fullMessage = "Le coffre contient :";
+    for (const auto& obj : objets) {
+        fullMessage += "\n- " + obj;
+    }
+
     sf::Font font;
     if (!font.loadFromFile("arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -27,14 +36,16 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::string& message) c
 
     sf::Text text;
     text.setFont(font);
-    text.setString(message);
+    text.setString(fullMessage);
     text.setCharacterSize(24);
     text.setFillColor(sf::Color::White);
     text.setStyle(sf::Text::Bold);
 
-    sf::Vector2f textPosition = body.getPosition();
-    textPosition.y -= body.getSize().y / 2.0f + 30.0f;
-    text.setPosition(textPosition);
+    sf::FloatRect textBounds = text.getLocalBounds();
+    sf::RectangleShape background(sf::Vector2f(textBounds.width + 20, textBounds.height + 20));
+    background.setFillColor(sf::Color::Black);
+    background.setPosition(body.getPosition().x - textBounds.width / 2 - 10, body.getPosition().y - body.getSize().y / 2 - textBounds.height - 30);
+    text.setPosition(background.getPosition().x + 10, background.getPosition().y + 10);
 
     while (true) {
         sf::Event event;
@@ -48,8 +59,8 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::string& message) c
             }
         }
 
-        window.clear();
-        window.draw(body);
+        // Dessiner le rectangle noir et le texte par-dessus la scène existante
+        window.draw(background);
         window.draw(text);
         window.display();
     }
@@ -67,6 +78,12 @@ sf::FloatRect Coffre::GetBounds() const {
     return body.getGlobalBounds();
 }
 
-std::string Coffre::getObjet() const {
-    return objet;
+std::vector<std::string> Coffre::getObjets() const {
+    return objets;
 }
+
+void Coffre::addObjet(const std::string& objet) {
+    objets.push_back(objet);
+}
+
+

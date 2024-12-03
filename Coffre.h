@@ -5,13 +5,15 @@
 #include <vector>
 #include <iostream>
 #include "Player.h"
+#include "Wall.h"
+#include "Sol.h" // Assurez-vous d'inclure Sol.h
 
 using namespace std;
 
 class Coffre
 {
 private:
-    string objet; // le nom de l'objet dans le coffre
+    std::vector<std::string> objets; // Liste des objets dans le coffre
     sf::Texture* texture;
     sf::RectangleShape body;
     Animation animation;
@@ -21,9 +23,11 @@ public:
     ~Coffre();
     void ouvrir();
     void draw(sf::RenderWindow& window) const;
-    std::string getObjet() const;
-    void drawMessage(sf::RenderWindow& window, const std::string& message) const;
+    std::vector<std::string> getObjets() const;
+    void drawMessage(sf::RenderWindow& window, const std::vector<Wall>& walls, const std::vector<Sol>& sols, const Player& player) const; // Modification ici
+    void addObjet(const std::string& objet);
 
     sf::Vector2f GetPosition() const;
     sf::FloatRect GetBounds() const;
 };
+

@@ -1,4 +1,3 @@
-// Player.cpp
 #include "Player.h"
 #include "Wall.h"
 #include "teleporteur.h"
@@ -17,7 +16,7 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
     body.setTexture(texture);
 }
 
-void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::vector<Teleporteur*>& teleporteurs, const std::vector<Coffre*>& Chests, sf::RenderWindow& window) // Enlever const
+void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::vector<Teleporteur*>& teleporteurs, const std::vector<Coffre*>& Chests, const std::vector<Sol>& sols, sf::RenderWindow& window)
 {
     sf::Vector2f movement(0.0f, 0.0f); //initialise le vecteur de mouvement à 0,0
 
@@ -115,16 +114,15 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::
     body.setTextureRect(animation.uvRect);
     body.move(movement);
 
-    CheckChestCollision(Chests, window); // Passez la fenêtre ici
+    CheckChestCollision(Chests, window, walls, sols); // Passez la fenêtre, les murs et les sols ici
     PrintPosition(); // Ajoutez cet appel pour imprimer la position
 }
 
-void Player::Draw(sf::RenderWindow& window)
-{
+void Player::Draw(sf::RenderWindow& window) const {
     window.draw(body);
 }
 
-void Player::CheckChestCollision(const std::vector<Coffre*>& Chests, sf::RenderWindow& window)
+void Player::CheckChestCollision(const std::vector<Coffre*>& Chests, sf::RenderWindow& window, const std::vector<Wall>& walls, const std::vector<Sol>& sols)
 {
     for (const auto& chest : Chests)
     {
@@ -133,15 +131,16 @@ void Player::CheckChestCollision(const std::vector<Coffre*>& Chests, sf::RenderW
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
             {
                 chest->ouvrir();
-                chest->drawMessage(window, "Le coffre contient : " + chest->getObjet());
+                chest->drawMessage(window, walls, sols, *this);
             }
         }
     }
 }
-
 
 void Player::PrintPosition() const {
     std::cout << "Position du joueur: (" << body.getPosition().x << ", " << body.getPosition().y << ")" << std::endl;
 }
 
 Player::~Player() {}
+
+
