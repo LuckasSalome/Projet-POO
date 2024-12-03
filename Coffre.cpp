@@ -4,7 +4,7 @@
 #include <iostream>
 
 Coffre::Coffre(sf::Vector2f size, sf::Vector2f position, sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
-    : animation(texture, imageCount, switchTime)
+    : animation(texture, imageCount, switchTime), isOpen(false), eKeyPressed(false), showMessage(false) // Initialisation de showMessage à false
 {
     this->texture = texture;
     body.setSize(size);
@@ -15,17 +15,25 @@ Coffre::Coffre(sf::Vector2f size, sf::Vector2f position, sf::Texture* texture, s
 Coffre::~Coffre() {}
 
 void Coffre::ouvrir() {
-    std::cout << "Le coffre contient : " << std::endl;
-    for (const auto& objet : objets) {
-        std::cout << "- " << objet << std::endl;
+    if (!isOpen) {
+        showMessage = true; // Marquer le message comme devant être affiché
+    }
+    else {
+        std::cout << "Le coffre est deja vide..." << std::endl;
     }
 }
 
 void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& walls, const std::vector<Sol>& sols, const Player& player) const
 {
-    std::string fullMessage = "Le coffre contient :";
-    for (const auto& obj : objets) {
-        fullMessage += "\n- " + obj;
+    std::string fullMessage;
+    if (!isOpen) {
+        fullMessage = "Le coffre contient :";
+        for (const auto& obj : objets) {
+            fullMessage += "\n- " + obj;
+        }
+    }
+    else {
+        fullMessage = "Le coffre est déjà vide...";
     }
 
     sf::Font font;
@@ -55,6 +63,14 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
                 return;
             }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+                // Utiliser const_cast pour contourner la constance et modifier les membres
+                const_cast<Coffre*>(this)->isOpen = true; // Marquer le coffre comme ouvert après que le message a été affiché
+                sf::Texture* openTexture = new sf::Texture();
+                if (!openTexture->loadFromFile("open_empty.png")) {
+                    std::cerr << "Erreur lors du chargement de la texture du coffre ouvert" << std::endl;
+                }
+                const_cast<Coffre*>(this)->setTexture(openTexture); // Changer la texture du coffre
+                const_cast<Coffre*>(this)->showMessage = false; // Réinitialiser l'état du message
                 return;
             }
         }
@@ -65,6 +81,14 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
         window.display();
     }
 }
+
+
+
+
+bool Coffre::shouldShowMessage() const {
+    return showMessage;
+}
+
 
 void Coffre::draw(sf::RenderWindow& window) const {
     window.draw(body);
@@ -86,4 +110,14 @@ void Coffre::addObjet(const std::string& objet) {
     objets.push_back(objet);
 }
 
+void Coffre::setTexture(sf::Texture* newTexture) {
+    body.setTexture(newTexture);
+}
 
+bool Coffre::isEKeyPressed() const {
+    return eKeyPressed;
+}
+
+void Coffre::setEKeyPressed(bool state) {
+    eKeyPressed = state;
+}

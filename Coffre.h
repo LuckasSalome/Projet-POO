@@ -6,17 +6,20 @@
 #include <iostream>
 #include "Player.h"
 #include "Wall.h"
-#include "Sol.h" // Assurez-vous d'inclure Sol.h
+#include "Sol.h" 
 
 using namespace std;
 
 class Coffre
 {
 private:
-    std::vector<std::string> objets; // Liste des objets dans le coffre
+    std::vector<std::string> objets;
     sf::Texture* texture;
     sf::RectangleShape body;
     Animation animation;
+    bool isOpen;
+    bool eKeyPressed;
+    bool showMessage;
 
 public:
     Coffre(sf::Vector2f size, sf::Vector2f position, sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
@@ -24,10 +27,16 @@ public:
     void ouvrir();
     void draw(sf::RenderWindow& window) const;
     std::vector<std::string> getObjets() const;
-    void drawMessage(sf::RenderWindow& window, const std::vector<Wall>& walls, const std::vector<Sol>& sols, const Player& player) const; // Modification ici
+    void drawMessage(sf::RenderWindow& window, const std::vector<Wall>& walls, const std::vector<Sol>& sols, const Player& player) const; // Marquer comme const
     void addObjet(const std::string& objet);
+    void setTexture(sf::Texture* newTexture);
+    bool isEKeyPressed() const;
+    void setEKeyPressed(bool state);
+    bool shouldShowMessage() const;
 
     sf::Vector2f GetPosition() const;
     sf::FloatRect GetBounds() const;
 };
+
+
 
