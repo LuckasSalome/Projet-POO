@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Items.hpp"
+#include "Weapon.hpp"
 
-class BluntSword : public Items {
+
+class BluntSword : public Weapon {
 public:
     BluntSword()
-        : Items("Epee émoussée",
-            "Une épée faiblarde qui a besoin d'être aiguisée",
+        : Weapon("Epee émoussée",
+            "Une épée faiblarde qui à besoin d'être aiguisée",
             { {"ATT", 10}, {"Poids", 5} },
             "images/BluntSword.png") {}
 };
