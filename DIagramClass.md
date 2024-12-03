@@ -1,27 +1,38 @@
-```mermaid
-
-classDiagram
+``` mermaid
+ classDiagram
     class Hero {
-        -HeroName string
-        - Health int
+        - string heroName;
+        - string heroDesc;
+        - string heroRace;
+        - string heroJob;
+        - map  heroStat:string, int;
+        - bool possible;
+        - bool isAlive = true;
+        - int heroLevel = 1;
+        - int exp = 0;
+        - int expMax = 30;
 
         + Heroes (string)
-        + getHeroStat() map(string, int)
-        + getHeroName() string
-        + getHeroDesc() string
-        + getHealth () int
-        + StatComparison () bool
+        + StatCoparison(Race& , Jobs& ) void
+        + initName(Race& , Jobs& ) string 
+        + initDesc(Race& , Jobs& ) string
+        + virtual initHeroStat(Race& , Jobs& ) map :string, int 
+        + getName() string
+        + getDesc() string
+        + getStat() map : string, int
+        + setHeroHealth(int) void
+        + setHeroCourage(int) void
+        + setHeroCharsim(int) void
+        + setHeroStrengh(int) void
+        + setHeroIntelligence(int) void
+        + setHeroDexterity(int) void
+        + transiLevel() void
+        + const getHeroLevel() int
+        + const getHeroAlive() bool
+        + const getRaceSpell(Race& , Creatures& ) string
+        + const getJobSpell(Jobs& , Creatures& ) string
+        + isHeroAlive() bool
 
-    }
-
-    class Creature {
-        <<abstract>>
-        # virtual getNameCreature() string
-        # virtual getStatCreature() map(string, int)
-        # virtual getDescCreature() string
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
     }
 
     class Party {
@@ -32,31 +43,165 @@ classDiagram
     }
 
     class Jobs {
-        - nda string
-        - map nullMap: string, int
+        <<abstract>>
+        + virtual  getNameJob() string
+        + virtual  getDescJob() string
+        + virtual  getSpellName() string
+        + virtual  jobSpell(Creatures& , map : string, int) string
+        + virtual  getStatRequiredJob() map : string, int
+    }
 
-        + virtual getNameJob() string
-        + virtual getStatJob() map(string, int)
-        + virtual getDescJob() string
-        + virtual getAbility1(string) map(string,int)
-        + virtual getAbility2(string) map(string,int)
-        + virtual getAbility3(string) map(string,int)
+    class Warrior {
+        - name string 
+        - desc string  
+        - spellName string 
+        - requiredStat map : string, int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName() string
+        # getBasicAttack(Creatures&, map : string, int) string
+        # getStatJob() map: string, int
+        # jobSpell(Creatures&, map : string, int) map : string, int
+    }
+
+    class Ranger {
+        - name string 
+        - desc string  
+        - spellName string 
+        - requiredStat map : string, int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName() string
+        # getBasicAttack(Creatures&, map : string, int) string
+        # getStatJob() map: string, int
+        # jobSpell(Creatures&, map : string, int) map : string, int
+    }
+
+    class Sorcerer{
+        - name string 
+        - desc string  
+        - spellName string 
+        - requiredStat map : string, int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName() string
+        # getBasicAttack(Creatures&, map : string, int) string
+        # getStatJob() map: string, int
+        # jobSpell(Creatures&, map : string, int) map : string, int
+    }
+
+    class Thief {
+        - name string 
+        - desc string  
+        - spellName string 
+        - requiredStat map : string, int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName() string
+        # getBasicAttack(Creatures&, map : string, int) string
+        # getStatJob() map: string, int
+        # jobSpell(Creatures&, map : string, int) map : string, int
     }
 
     class Race {
-        - nda string
-        - map nullMap : string, int
-
-        + virtual getNameRace() string
-        + virtual getStatRace() map<string, int>
-        + virtual getDescRace() string
+        <<abstract>>
+        + virtual  getNameRace() string
+        + virtual  getDescRace() string
+        + virtual  getSpellName() string
+        + virtual  basicAttack(Creatures& , map: string, int ) string
+        + virtual  getStat() map : string, int
+        + virtual  raceSpell(Creatures& , map : string, int>) map : string, int
     }
+
+    class Elf {
+        -name string
+        -desc string 
+        -spellName string
+        -stat map : string , int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName () string
+        # basicAttack (Creatures&, map : string, int) string
+        # raceSpell (Creatures&, map : string , int) string 
+        # getStat() map(string, int)
+    }
+
+    class Dwarf {
+        - name string
+        - desc string 
+        - spellName string
+        - stat map : string , int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName () string
+        # basicAttack (Creatures&, map : string, int) string
+        # raceSpell (Creatures&, map : string , int) string 
+        # getStat() map(string, int)
+    }
+
+    class Human {
+        - name string
+        - desc string 
+        - spellName string
+        - stat map : string , int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName () string
+        # basicAttack (Creatures&, map : string, int) string
+        # raceSpell (Creatures&, map : string , int) string 
+        # getStat() map(string, int)
+    }
+
+    class Barbarian {
+        - name string
+        - desc string 
+        - spellName string
+        - stat map : string , int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName () string
+        # basicAttack (Creatures&, map : string, int) string
+        # raceSpell (Creatures&, map : string , int) string 
+        # getStat() map(string, int)
+    }
+
+    class Creature {
+        - creatureName string
+        - creatureDesc string
+        - isAlive bool
+        - creatureStat map : string, int
+
+        + initCreatureName(Common&) string
+        + initCreatureDesc (Common&) string
+        + initCreatureStat (Common&) map : string, int
+        + getCreatureName () string
+        + getCreatureDesc() string
+        + getCreatureStat () map : string, int
+        + getCreatureAlive () bool
+        + setCreatureHealth (int) void
+        + setCreatureCourage (int) void
+        + setCreatureCharism (int) void
+        + setCreatureStrengh (int) void
+        + setCreatureIntelligence (int) void
+        + setCreatureDexterity (int) void
+        + isCreatureAlive () void
+        + getMonsterSpell (Common&, Heroes&) string
+        + const getBasicAttack (Common&, Heroes&) string
+     }
 
     class Boss {
         <<abstract>>
-        # virtual getNameCreature() string
-        # virtual getStatCreature() map(string, int)
-        # virtual getDescCreature() string
+        + virtual getNameCreature() string
+        + virtual getStatCreature() map(string, int)
+        + virtual getDescCreature() string
         # virtual getAbility1(string) map(string,int)
         # virtual getAbility2(string) map(string,int)
         # virtual getAbility3(string) map(string,int)
@@ -73,59 +218,78 @@ classDiagram
         # virtual getAbility3(string) map(string,int)
     }
 
+        class Pattern1 {
+        -map stat : string , int
+        -map Ability1 : string , int
+        -map Ability2 : string , int
+        -map Ability3 : string , int
+        + get getStat() map (string, int)
+        + getAbility1(string) map(string,int)
+        + getAbility2(string) map(string,int)
+        + getAbility3(string) map(string,int)
+    }
+
+    class Pattern2 {
+        -map stat : string , int
+        -map Ability1 : string , int
+        -map Ability2 : string , int
+        -map Ability3 : string , int
+        + get getStat() map (string, int)
+        + getAbility1(string) map(string,int)
+        + getAbility2(string) map(string,int)
+        + getAbility3(string) map(string,int)
+    }
+
     class Common {
         <<abstract>>
-        # virtual getNameCreature() string
-        # virtual getStatCreature() map(string, int)
-        # virtual getDescCreature() string
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
+        + virtual getName() string
+        + virtual getDesc() string
+        + virtual getSpellName() string 
+        + virtual basicAttack (Heroes&, map : string, int)
+        + virtual getStat() map(string, int)
+        + virtual monsterSpell(Heroes&, map : string , int) map : string, int
     }
 
     class SarcasticGobelin{
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        +getNameCreature() string
-        +getStatCreature() map(string, int)
-        +getDescCreature() string
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        - name string 
+        - desc string 
+        - spellName string
+        - stat map: string, int
+
+        # getName() string
+        # getDesc() string 
+        # getSpellName() string
+        # basicAttack (Heroes&, map : string, int) string
+        # monsterSpell (Heroes&, map : string, int) map : string, int
+        # getStat () map : string, int
     }
 
     class RhetoricianTroll{
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        +getNameCreature() string
-        +getStatCreature() map(string, int)
-        +getDescCreature() string
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        - name string 
+        - desc string 
+        - spellName string
+        - stat map: string, int
+
+        # getName() string
+        # getDesc() string 
+        # getSpellName() string
+        # basicAttack (Heroes&, map : string, int) string
+        # monsterSpell (Heroes&, map : string, int) map : string, int
+        # getStat () map : string, int
     }
 
     class ExplosiveDuck {
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        +getNameCreature() string
-        +getStatCreature() map(string, int)
-        +getDescCreature() string
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        - name string 
+        - desc string 
+        - spellName string
+        - stat map: string, int
+
+        # getName() string
+        # getDesc() string 
+        # getSpellName() string
+        # basicAttack (Heroes&, map : string, int) string
+        # monsterSpell (Heroes&, map : string, int) map : string, int
+        # getStat () map : string, int
     }
 
     class Inventory {
@@ -159,27 +323,6 @@ classDiagram
 
     }
 
-    class Pattern1 {
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        + get getStat() map (string, int)
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
-    }
-
-    class Pattern2 {
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        + get getStat() map (string, int)
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
-    }
 
     class Movement {
         - speed float
@@ -261,102 +404,6 @@ classDiagram
         + bool isWeapon() const
     }
 
-
-    class Elf {
-        -name : string
-        -map stat : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-    }
-
-    class Warrior {
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-        # getAbility1(string) map(string,int)
-        # getAbility2(string) map(string,int)
-        # getAbility3(string) map(string,int)
-    }
-
-    class Ranger {
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-        # getAbility1(string) map(string,int)
-        # getAbility2(string) map(string,int)
-        # getAbility3(string) map(string,int)
-    }
-
-    class Sorcerer{
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-        # getAbility1(string) map(string,int)
-        # getAbility2(string) map(string,int)
-        # getAbility3(string) map(string,int)
-    }
-
-    class Thief {
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-        # getAbility1(string) map(string,int)
-        # getAbility2(string) map(string,int)
-        # getAbility3(string) map(string,int)
-    }
-
-    class Dwarf {
-        -name : string
-        -map stat : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-    }
-
-    class Human {
-        -name : string
-        -map stat : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-    }
-
-    class Barbarian {
-        -name : string
-        -map stat : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-    }
 
     class System {
         <<Interface>>
@@ -461,18 +508,8 @@ classDiagram
 
 
 
-
-
-   
     Hero --o Race
     Hero --o Jobs
-   
-    Creature <-- Common
-    Creature <-- Boss
-    Boss <-- ProgramLich
-    ProgramLich <-- Pattern1
-    Pattern1 <-- Pattern2
-    Hero o-- Party
     Jobs <-- Warrior
     Race <-- Elf
     Race <-- Barbarian
@@ -481,6 +518,18 @@ classDiagram
     Jobs <-- Ranger
     Jobs <-- Sorcerer
     Jobs <-- Thief
+
+    Hero o-- Party
+
+    Creature <-- Common
+    Common <-- RhetoricianTroll
+    Common <-- SarcasticGobelin
+    Common <-- ExplosiveDuck
+    Creature <-- Boss
+    Boss <-- ProgramLich
+    ProgramLich <-- Pattern1
+    Pattern1 <-- Pattern2
+    
     System <-- Camera
     System <-- Audio
     System <-- Sprites
@@ -491,18 +540,8 @@ classDiagram
     Fight <-- DiceRolls
     System <-- Map
     Map <-- Scene
-    Warrior --o Ability
-    Ranger --o Ability
-    Sorcerer --o Ability
-    Thief --o Ability
-    RhetoricianTroll --o Ability
-    ExplosiveDuck --o Ability
-    SarcasticGobelin --o Ability
     Inventory <-- Items
     Player <-- Inventory
-    Common <-- RhetoricianTroll
-    Common <-- SarcasticGobelin
-    Common <-- ExplosiveDuck
     
     Items <-- BeerPotion
     Items <-- PotionIntelligence       
@@ -514,20 +553,22 @@ classDiagram
     Items <-- ChestArmor
     Items <-- Boots
     Items <-- Weapon
+
     ChestArmor <-- ChainMail  
     ChestArmor <-- LeatherChest
     ChestArmor <-- DarkCape
     ChestArmor <-- SorcererCape
+
     Boots <-- DiscretionShoesNoisy
     Boots <-- StealBoots
     Boots <-- LeatherBoots
     Boots <-- DarkBoots
     Boots <-- SorcererBoots
+
     Weapon <-- BluntSword
     Weapon <-- ScepterSyntactic
     Weapon <-- Sword
     Weapon <-- Bow
     Weapon <-- Dagger
     Weapon <-- SorcererStick
-
 ```
