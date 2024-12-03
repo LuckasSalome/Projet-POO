@@ -1,4 +1,5 @@
 ```mermaid
+
 classDiagram
     class Hero {
         -HeroName string
@@ -128,7 +129,30 @@ classDiagram
     }
 
     class Inventory {
+        - size_t rows
+        - size_t cols
+        - size_t slotSize
+        - vector<vector<Items*>> inventoryGrid
+        - Items* selectedItem
+        - Font& font
+        - RectangleShape infoPanel
+        - Text infoText
+        - bool isOpen
+        - Items* weaponSlot
+        - Items* chestSlot
+        - Items* bootsSlot
+        - Vector2f weaponSlotPos
+        - Vector2f chestSlotPos
+        - Vector2f bootsSlotPos
 
+        + Inventory(size_t rows, size_t cols, Font& font)
+        + void toggleInventory()
+        + bool getIsOpen() const
+        + void addItem(size_t row, size_t col, Items* item)
+        + void handleMouseClick(Vector2i mousePos, RenderWindow& window)
+        + void unequipItem(const string& slotType)
+        + void drawEquipmentSlot(RenderWindow& window, Vector2f position, Items* item, const string& label)
+        + void draw(RenderWindow& window)
     }
 
     class Menus {
@@ -205,10 +229,38 @@ classDiagram
     }
 
     class Items{
-        #virtual getNameItem() string
-        #virtual getDescItem() string
-        #virtual getStatItem() map(string,int)
+        - string name
+        - string description
+        - map<string, int> stats
+        - Texture texture
+        - Sprite sprite
+
+        + Items(const string& name, const string& description, const map<string, int>& stats, const string& spritePath)
+        + ~Items()
+        + bool isChestArmor() const
+        + bool isBoots() const
+        + bool isWeapon() const
+        + const string& getName() const
+        + const string& getDescription() const
+        + const map<string, int>& getStats() const
+        + const Sprite& getSprite() const
     }
+
+    class ChestArmor {
+        + ChestArmor(const string& name, const string& description, const map<string, int>& stats, const string& spritePath)
+        + bool isChestArmor() const
+    }
+
+    class Boots {
+        + Boots(const string& name, const string& description, const map<string, int>& stats, const string& spritePath)
+        + bool isBoots() const
+    }
+
+     class Weapon {
+        + Weapon(const string& name, const string& description, const map<string, int>& stats, const string& spritePath)
+        + bool isWeapon() const
+    }
+
 
     class Elf {
         -name : string
@@ -319,94 +371,97 @@ classDiagram
     }
 
     class BeerPotion{
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int) 
-    }
-
-    class RustyKey {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+        +BeerPotion
     }
 
     class PotionIntelligence {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
-    }
-
-    class RopeTrap {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
-    }
-
-    class KeyCorridor {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
-    }
-
-    class DiscretionShoesNoisy {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
-    }
-
-    class BluntSword {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+        +PotionIntelligence()
     }
 
     class MajorHealingPotion {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+        +MajorHealingPotion
     }
 
-    class ScepterSyntactic {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+    class RustyKey {
+        +RustyKey
+    }
+
+    class KeyCorridor {
+        +KeyCorridor()
+    }
+
+    class RopeTrap {
+        +RopeTrap()
     }
 
     class BookOfLostRules {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+        +BookOfLostRules()
     }
+
+    
+    class DiscretionShoesNoisy {
+        +DiscretionShoesNoisy()
+    }
+
+    class StealBoots {
+        +StealBoots()
+    }
+
+    class DarkBoots {
+        +DarkBoots()
+    }
+
+    class SorcererBoots {
+        +SorcererBoots()
+    }
+
+    class LeatherBoots {
+        +LeatherBoots()
+    } 
+
+    class BluntSword {
+        +BluntSword()
+    }
+
+    class Bow {
+        +Bow()
+    }
+
+    class Dagger {
+        +Dagger()
+    }
+
+    class Sword {
+        +Sword()
+    }
+
+    class SorcererStick {
+        +SorcererStick()
+    }
+
+    class ScepterSyntactic {
+        +ScepterSyntactic()
+    }
+
+    class DarkCape {
+        +DarkCape()
+    }
+
+    class ChainMail {
+        +ChainMail()
+    }
+
+    class LeatherChest {
+        +LeatherChest()
+    }
+
+    class SorcererCape {
+        +SorcererCape()
+    }
+
+
+
+
 
    
     Hero --o Race
@@ -448,14 +503,31 @@ classDiagram
     Common <-- RhetoricianTroll
     Common <-- SarcasticGobelin
     Common <-- ExplosiveDuck
-    Items <-- RustyKey
+    
     Items <-- BeerPotion
-    Items <-- PotionIntelligence
-    Items <-- RopeTrap
-    Items <-- KeyCorridor
-    Items <-- DiscretionShoesNoisy
-    Items <-- BluntSword
+    Items <-- PotionIntelligence       
     Items <-- MajorHealingPotion
-    Items <-- ScepterSyntactic
+    Items <-- KeyCorridor
+    Items <-- RustyKey
+    Items <-- RopeTrap
     Items <-- BookOfLostRules
+    Items <-- ChestArmor
+    Items <-- Boots
+    Items <-- Weapon
+    ChestArmor <-- ChainMail  
+    ChestArmor <-- LeatherChest
+    ChestArmor <-- DarkCape
+    ChestArmor <-- SorcererCape
+    Boots <-- DiscretionShoesNoisy
+    Boots <-- StealBoots
+    Boots <-- LeatherBoots
+    Boots <-- DarkBoots
+    Boots <-- SorcererBoots
+    Weapon <-- BluntSword
+    Weapon <-- ScepterSyntactic
+    Weapon <-- Sword
+    Weapon <-- Bow
+    Weapon <-- Dagger
+    Weapon <-- SorcererStick
+
 ```
