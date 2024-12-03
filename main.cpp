@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
+#include "SFML/Audio.hpp"
 #include "Player.h"
 #include "Wall.h"
 #include "Sol.h"
@@ -27,6 +28,14 @@ int main() {
     settings.antialiasingLevel = 15;
     sf::RenderWindow window(sf::VideoMode(static_cast<unsigned int>(VIEW_WIDTH), static_cast<unsigned int>(VIEW_HEIGHT)), "Donjon test", sf::Style::Close | sf::Style::Resize, settings);
     window.setVerticalSyncEnabled(true);
+
+    sf::Music music;
+    if (!music.openFromFile("UnderClocked.mp3")) {
+        std::cerr << "Erreur lors du chargement du fichier audio" << std::endl;
+        return -1;
+    }
+    music.setLoop(true);
+    music.play();
 
     sf::Texture playerTexture;
     sf::Texture wallTexture;
