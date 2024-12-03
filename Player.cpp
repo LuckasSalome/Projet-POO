@@ -1,7 +1,8 @@
 // Player.cpp
 #include "Player.h"
 #include "Wall.h"
-#include "teleporteur.h" // Ajoutez cette ligne
+#include "teleporteur.h"
+#include "Coffre.h" 
 
 Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed)
     : animation(texture, imageCount, switchTime), speed(speed), row(0), faceRight(true), mousePressed(false)
@@ -16,7 +17,7 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
     body.setTexture(texture);
 }
 
-void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::vector<Teleporteur*>& teleporteurs, const sf::RenderWindow& window) //deltaTime = temps entre chaque frame 
+void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::vector<Teleporteur*>& teleporteurs, const std::vector<Coffre*>& Chests, sf::RenderWindow& window) // Enlever const
 {
     sf::Vector2f movement(0.0f, 0.0f); //initialise le vecteur de mouvement à 0,0
 
@@ -32,7 +33,7 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
         movement.y -= speed * deltaTime;
     }
-    /*if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         if (!mousePressed) {
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
             sf::Vector2f worldPosition = window.mapPixelToCoords(mousePosition);
@@ -43,7 +44,7 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::
             }
             mousePressed = true; // Marquez le bouton comme enfoncé
         }
-    }*/
+    }
     else {
         mousePressed = false; // Réinitialisez l'état lorsque le bouton est relâché
     }
@@ -54,9 +55,22 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::
         movement.y *= 0.75f;
     }
 
+    // Sprint
     if ((movement.x || movement.y) != 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))) {
         movement.x *= 2.00f;
         movement.y *= 2.00f;
+    }
+
+    // Mega Sprint
+    if ((movement.x || movement.y) != 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))) {
+        movement.x *= 5.00f;
+        movement.y *= 5.00f;
+    }
+
+    // Mega Sprint
+    if ((movement.x || movement.y) != 0 && (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))) {
+        movement.x *= 12.0f;
+        movement.y *= 12.0f;
     }
 
     sf::Vector2f newPosition = body.getPosition() + movement;
@@ -101,6 +115,7 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::
     body.setTextureRect(animation.uvRect);
     body.move(movement);
 
+    CheckChestCollision(Chests, window); // Passez la fenêtre ici
     PrintPosition(); // Ajoutez cet appel pour imprimer la position
 }
 
@@ -109,9 +124,24 @@ void Player::Draw(sf::RenderWindow& window)
     window.draw(body);
 }
 
+void Player::CheckChestCollision(const std::vector<Coffre*>& Chests, sf::RenderWindow& window)
+{
+    for (const auto& chest : Chests)
+    {
+        if (body.getGlobalBounds().intersects(chest->GetBounds()))
+        {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+            {
+                chest->ouvrir();
+                chest->drawMessage(window, "Le coffre contient : " + chest->getObjet());
+            }
+        }
+    }
+}
+
+
 void Player::PrintPosition() const {
     std::cout << "Position du joueur: (" << body.getPosition().x << ", " << body.getPosition().y << ")" << std::endl;
 }
 
 Player::~Player() {}
-

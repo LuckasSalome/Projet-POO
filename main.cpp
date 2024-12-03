@@ -1,4 +1,3 @@
-// main.cpp
 #include <iostream>
 #include <vector>
 #include "SFML/Graphics.hpp"
@@ -11,8 +10,7 @@
 #include "teleporteur.h"
 #include "SpecialTeleporteur.hpp"
 #include "Teleporteur2.hpp"
-
-
+#include "Coffre.h"
 
 static const float VIEW_HEIGHT = 912.0f;
 static const float VIEW_WIDTH = 1712.0f;
@@ -25,12 +23,16 @@ void rezisedView(sf::RenderWindow& window, sf::View& view) {
 }
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(static_cast<unsigned int>(VIEW_WIDTH), static_cast<unsigned int>(VIEW_HEIGHT)), "Donjon test", sf::Style::Close | sf::Style::Resize);
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 15;
+    sf::RenderWindow window(sf::VideoMode(static_cast<unsigned int>(VIEW_WIDTH), static_cast<unsigned int>(VIEW_HEIGHT)), "Donjon test", sf::Style::Close | sf::Style::Resize, settings);
+    window.setVerticalSyncEnabled(true);
 
     sf::Texture playerTexture;
     sf::Texture wallTexture;
     sf::Texture solTexture;
     sf::Texture teleporteurTexture;
+    sf::Texture ChestTexture;
 
     sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(1212.0f, 712.0f));
 
@@ -54,12 +56,26 @@ int main() {
         return -1;
     }
 
+    if (!ChestTexture.loadFromFile("closed.png")) {
+        cerr << "Erreur lors du chargement de la texture du coffre" << endl;
+        return -1;
+    }
+
     std::vector<Teleporteur*> teleporteurs;
-	teleporteurs.push_back(new SpecialTeleporteur(1800.0f, 1000.0f, 2500.0f, 990.0f, &teleporteurTexture)); //position(x;y) = (1800;965) et position d'arrive(x;y) = (2500;990)
+    teleporteurs.push_back(new SpecialTeleporteur(1800.0f, 1000.0f, 2500.0f, 990.0f, &teleporteurTexture)); //position(x;y) = (1800;965) et position d'arrive(x;y) = (2500;990)
     teleporteurs.push_back(new Teleporteur2(5200.0f, 875.0f, 5750.0f, 1000.0f, &teleporteurTexture));
     teleporteurs.push_back(new Teleporteur2(7900.0f, 875.0f, 8500.0f, 1000.0f, &teleporteurTexture));
     teleporteurs.push_back(new Teleporteur2(12300.0f, 875.0f, 12900.0f, 1000.0f, &teleporteurTexture));
-	teleporteurs.push_back(new Teleporteur2(15700.0f, 875.0f, 16300.0f, 1000.0f, &teleporteurTexture));
+    teleporteurs.push_back(new Teleporteur2(15700.0f, 875.0f, 16300.0f, 1000.0f, &teleporteurTexture));
+
+    std::vector<Coffre*> chests;
+    // Ajoutez des coffres au vecteur si nécessaire
+
+    // chests.push_back(new Coffre(...));
+
+    // Créer deux coffres
+    chests.push_back(new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(2500.0f, 990.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f)); // Coffre dans la salle 3
+    chests.push_back(new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(6000.0f, 990.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f)); // Coffre dans la salle des Trésors
 
     Player player(&playerTexture, sf::Vector2u(4, 5), 0.3f, 350.0f);
 
@@ -100,8 +116,7 @@ int main() {
         positionSalleTroll.y + (HauteurSalleTroll * hauteurTile - hauteurCorridor * hauteurTile) / 2.0f // Centrer verticalement la salle du Troll par rapport au couloir
     );
     Salle Corridor(largeurCorridor, hauteurCorridor, &solTexture, &wallTexture, positionCorridor);
-    Corridor.generateRoom(); 
-
+    Corridor.generateRoom();
 
     // Salle des Trésors Illusoires
     int largeurSalleTresors = 15;
@@ -122,8 +137,6 @@ int main() {
     );
     Salle antreSyntaxe(largeurAntreSyntaxe, hauteurAntreSyntaxe, &solTexture, &wallTexture, positionAntreSyntaxe);
     antreSyntaxe.generateRoom();
-
-
 
     // Combiner les murs des salles pour la détection des collisions
     std::vector<Wall> allWalls = salle.getMurs();
@@ -162,7 +175,7 @@ int main() {
             }
         }
 
-        player.Update(deltaTime, allWalls, teleporteurs, window); // Utiliser les murs combinés pour la collision
+        player.Update(deltaTime, allWalls, teleporteurs, chests, window); // Utiliser les murs combinés pour la collision
 
         view.setCenter(player.GetPosition());
 
@@ -182,12 +195,20 @@ int main() {
             tp->draw(window);
         }
 
+        for (const auto& chest : chests) {
+            chest->draw(window); // Dessiner les coffres
+        }
+
         window.display();
         rezisedView(window, view);
     }
 
     for (auto tp : teleporteurs) {
         delete tp;
+    }
+
+    for (auto chest : chests) {
+        delete chest;
     }
 
     return 0;

@@ -31,8 +31,6 @@ void Animation::update(int row, float deltaTime, bool faceRight)
 		{
 			currentImage.x = 0;
 		}
-
-
 	}
 
 
