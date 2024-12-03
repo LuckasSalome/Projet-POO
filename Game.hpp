@@ -4,29 +4,25 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
-#include "State.hpp"
 #include "Collision.hpp"
 #include "Player.hpp"
-#include "Map.hpp"
-
+#include "MapManager.hpp"
 
 using namespace sf;
 using namespace std;
 
-class Game
-{
+class Game {
 private:
     RenderWindow* window;
     Event sfEvent;
     Collision* wall;
     Player* player;
-    Map* tileMap;
+    MapManager* mapManager;
     View playerView;
     Clock dtClock;
     float dt;
 
     void initWindow() {
-
         ifstream ifs("Config/window.txt");
 
         string title = "None";
@@ -34,63 +30,47 @@ private:
         unsigned framerate_limit = 120;
 
         if (ifs.is_open()) {
-
             getline(ifs, title);
             ifs >> window_bounds.width >> window_bounds.height;
             ifs >> framerate_limit;
-
         }
 
         ifs.close();
 
         this->window = new RenderWindow(window_bounds, title);
         this->window->setFramerateLimit(framerate_limit);
-
     };
 
 public:
-
-    //Constructeur
+    // Constructeur
     Game() {
-
         this->initWindow();
-        this->tileMap = new Map();
-        this->player = new Player(tileMap);
-        this->wall = new Collision(tileMap,player, this->window->getSize().x, this->window->getSize().y);
-        
-
+        this->mapManager = new MapManager(75.f, 20, "Config/tileTypes.txt", "Config/collisionMap.txt");
+        this->player = new Player(mapManager);
+        this->wall = new Collision(mapManager, player, this->window->getSize().x, this->window->getSize().y);
     };
 
-    //Destructeur
-
-    virtual ~Game() {
+    // Destructeur
+    ~Game() {
         delete this->window;
         delete this->player;
-        delete this->tileMap;
+        delete this->mapManager;
         delete this->wall;
     };
 
     //////////////////Methodes\\\\\\\\\\\\\\\\\\\
 
-    //Gerer les events
+    // Gerer les events
     void updateSFMLEvents() {
-
         while (this->window->pollEvent(this->sfEvent)) {
-
             if (this->sfEvent.type == Event::Closed)
                 this->window->close();
-
-
         }
-
     };
 
-    //Update l'horloge dt en seconde pour voir cbn de temp prend une frame a render
-
+    // Update l'horloge dt en seconde pour voir cbn de temp prend une frame a render
     void updateDT() {
-
         this->dt = this->dtClock.restart().asSeconds();
-
     };
 
     // Update les events
@@ -98,58 +78,54 @@ public:
         this->updateSFMLEvents();
         this->player->playerMovement(this->dt, this->wall->getWalls());
         this->viewOnPlayer();
+
+        //Voir collisions
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
+            this->wall->setWallsColor(Color::Red);
+        }
+        else {
+            this->wall->setWallsColor(Color::Transparent);
+        }
     }
 
-
-
-    //Display
+    // Display
     void render() {
-
         this->window->clear();
 
-  
-        for (const auto& row : this->tileMap->getTileMap()) {
+        for (const auto& row : this->mapManager->getTileMap()) {
             for (const auto& tile : row) {
                 this->window->draw(tile);
-            }  
+            }
         }
 
         this->window->setView(playerView);
-        this->window->draw(this->wall->getWall());
+        for (const auto& wall : this->wall->getWalls()) {
+            this->window->draw(wall);
+        }
         this->window->draw(this->player->getPlayer());
 
-        //Render Items
-
+        // Render Items
         this->window->display();
+    }
 
-    };
-
-    //Methode pour gérer le lancement du jeu
+    // Methode pour gérer le lancement du jeu
     void run() {
         while (this->window->isOpen()) {
-
             this->updateDT();
             this->update();
             this->render();
-
         }
     };
 
     void viewOnPlayer() {
-
         this->playerView.setCenter(player->getPositionPlayer());
     };
 
     float getPlayerViewCenterX() {
-
         return this->playerView.getCenter().x;
-
     };
 
     float getPlayerViewCenterY() {
-
         return this->playerView.getCenter().y;
-
     };
-
 };
