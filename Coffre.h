@@ -20,6 +20,7 @@ private:
     bool isOpen;
     bool eKeyPressed;
     bool showMessage;
+    int dumbness;
 
 public:
     Coffre(sf::Vector2f size, sf::Vector2f position, sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
@@ -27,7 +28,7 @@ public:
     void ouvrir();
     void draw(sf::RenderWindow& window) const;
     std::vector<std::string> getObjets() const;
-    void drawMessage(sf::RenderWindow& window, const std::vector<Wall>& walls, const std::vector<Sol>& sols, const Player& player) const; // Marquer comme const
+    void drawMessage(sf::RenderWindow& window, const std::vector<Wall>& walls, const std::vector<Sol>& sols, const Player& player) const;
     void addObjet(const std::string& objet);
     void setTexture(sf::Texture* newTexture);
     bool isEKeyPressed() const;

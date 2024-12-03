@@ -4,7 +4,7 @@
 #include <iostream>
 
 Coffre::Coffre(sf::Vector2f size, sf::Vector2f position, sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
-    : animation(texture, imageCount, switchTime), isOpen(false), eKeyPressed(false), showMessage(false) // Initialisation de showMessage à false
+    : animation(texture, imageCount, switchTime), isOpen(false), eKeyPressed(false), showMessage(false), dumbness(0) // Initialisation de showMessage à false
 {
     this->texture = texture;
     body.setSize(size);
@@ -33,8 +33,42 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
         }
     }
     else {
-        fullMessage = "Le coffre est déjà vide...";
-    }
+        switch (dumbness) {
+            case 0:
+                fullMessage = "Le coffre est déjà vide...";
+                break;
+            case 1:
+                fullMessage = "Je t'ai dit, il est vide.";
+                break;
+            case 2:
+                fullMessage = "Toujours vide...";
+                break;
+            case 3:
+                fullMessage = "Pourquoi tu continues à vérifier ?";
+                break;
+            case 4:
+                fullMessage = "Tu n'as rien de mieux à faire ? ...";
+                break;
+            case 5:
+				fullMessage = "Je commence à me lasser...";
+                break;
+			case 6:
+				fullMessage = "Tu es vraiment têtu...";
+				break;
+			case 7:
+				fullMessage = "Je ne te le dirai plus...";
+				break;
+			case 8:
+				fullMessage = "...";
+				break;
+            default:
+                fullMessage = "Le coffre est toujours vide.";
+                break;
+            }
+        if (dumbness < 8) {
+            const_cast<Coffre*>(this)->dumbness++;
+        }
+       }
 
     sf::Font font;
     if (!font.loadFromFile("arial.ttf")) {
@@ -45,15 +79,15 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
     sf::Text text;
     text.setFont(font);
     text.setString(fullMessage);
-    text.setCharacterSize(24);
+    text.setCharacterSize(100);
     text.setFillColor(sf::Color::White);
     text.setStyle(sf::Text::Bold);
 
     sf::FloatRect textBounds = text.getLocalBounds();
-    sf::RectangleShape background(sf::Vector2f(textBounds.width + 20, textBounds.height + 20));
+    sf::RectangleShape background(sf::Vector2f(textBounds.width + 30, textBounds.height + 100));
     background.setFillColor(sf::Color::Black);
     background.setPosition(body.getPosition().x - textBounds.width / 2 - 10, body.getPosition().y - body.getSize().y / 2 - textBounds.height - 30);
-    text.setPosition(background.getPosition().x + 10, background.getPosition().y + 10);
+    text.setPosition(background.getPosition().x + 10, background.getPosition().y + 12);
 
     while (true) {
         sf::Event event;
