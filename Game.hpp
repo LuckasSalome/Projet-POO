@@ -5,8 +5,10 @@
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
 #include "State.hpp"
+#include "Collision.hpp"
 #include "Player.hpp"
 #include "Map.hpp"
+
 
 using namespace sf;
 using namespace std;
@@ -16,6 +18,7 @@ class Game
 private:
     RenderWindow* window;
     Event sfEvent;
+    Collision* wall;
     Player* player;
     Map* tileMap;
     View playerView;
@@ -53,6 +56,8 @@ public:
         this->initWindow();
         this->tileMap = new Map();
         this->player = new Player(tileMap);
+        this->wall = new Collision(tileMap,player, this->window->getSize().x, this->window->getSize().y);
+        
 
     };
 
@@ -62,6 +67,7 @@ public:
         delete this->window;
         delete this->player;
         delete this->tileMap;
+        delete this->wall;
     };
 
     //////////////////Methodes\\\\\\\\\\\\\\\\\\\
@@ -85,18 +91,15 @@ public:
 
         this->dt = this->dtClock.restart().asSeconds();
 
-        system("cls");
-        cout << this->dt << "\n";
-
     };
 
     // Update les events
     void update() {
-
         this->updateSFMLEvents();
-        this->player->playerMovement(this -> dt);
+        this->player->playerMovement(this->dt, this->wall->getWalls());
         this->viewOnPlayer();
-    };
+    }
+
 
 
     //Display
@@ -104,14 +107,15 @@ public:
 
         this->window->clear();
 
-        // this->window->draw(this->tileMap->getTileMap());
+  
         for (const auto& row : this->tileMap->getTileMap()) {
             for (const auto& tile : row) {
                 this->window->draw(tile);
-            }
+            }  
         }
 
         this->window->setView(playerView);
+        this->window->draw(this->wall->getWall());
         this->window->draw(this->player->getPlayer());
 
         //Render Items
@@ -120,7 +124,7 @@ public:
 
     };
 
-    //Methode pour gérer le lancement du jeu
+    //Methode pour gÃ©rer le lancement du jeu
     void run() {
         while (this->window->isOpen()) {
 
