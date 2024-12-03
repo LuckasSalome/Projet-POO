@@ -23,9 +23,13 @@ protected:
 	map<string, int> getStatRequiredJob() override {
 		return this->requiredStat;
 	}
-	string jobSpell(Creatures& foe, Heroes& self) override {
+	string jobSpell(Creatures& foe, map<string, int> selfStat) override {						//le fait attaquer en premier de 5 degats
 		int damage = 5;
 		//le met en premier en attaque
+		foe.setCreatureHealth(foe.getCreatureStat()["HP"]-damage);
+		return this->spellName;
+	}
+	string getSpellName() override {
 		return this->spellName;
 	}
 };

@@ -10,8 +10,7 @@ class SarcasticGobelin : public Common {
 private:
 	string name = "Gobelin Sarcastique";
 	string description = "Il vient de dire que tu es tres beau.";
-	map <string, int> stat{ { "COU", 7 }, { "CHA", 7 }, { "INT", 4 }, { "FO", 15 }, { "AD", 8 } };
-	int health = 20;
+	map <string, int> stat{ { "COU", 7 }, { "CHA", 7 }, { "INT", 4 }, { "FO", 15 }, { "AD", 8 }, {"HP", 30}};
 
 protected:
 	string getName() override {

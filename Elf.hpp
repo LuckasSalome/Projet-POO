@@ -11,8 +11,7 @@ private :
 	string name = " Elfe";
 	string spellName = "Jeu De Jambes";
 	string desc = " Ne se melange pas avec la plebe, cette aventure ne l'emballe guere par ailleur.";
-	map<string, int> stat{ {"COU", 3}, {"CHA", 11}, {"INT", 12}, {"FO",2 }, {"AD", 12} };
-	int health = 25;
+	map<string, int> stat{ {"COU", 3}, {"CHA", 11}, {"INT", 12}, {"FO",2 }, {"AD", 12}, {"HP", 25} };
 	int damage;
 	int proba;
 
@@ -27,19 +26,19 @@ protected:
 	map<string, int> getStat() override {
 		return this->stat;
 	}
-	int getHealth() override {
-		return this->health;
-	}
-	string raceSpell(Creatures& foe, Heroes& self) override {
+	map<string, int> raceSpell(Creatures& foe, map<string, int> selfStat) override {
 		//if (rand()%2 == 1)
 			//=======================  remplacer dans le systeme de combat par faire esquiver une attaque
-		return this->spellName;
+		return selfStat;
 	}
-	void basicAttack(Creatures& foe, Heroes& self) override {
-		damage = self.getHeroStat()["INT"];
-		proba = 50 - self.getHeroStat()["INT"];
+	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
+		damage = selfStat["INT"];
+		proba = 50 - selfStat["INT"];
 		//dice roll()
 		//if (diceRoll())
-		//	foe.setCreatureHealth(foe.getCreatureHealth() - damage);
+		//	foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
+	}
+	string getSpellName() override {
+		return this->spellName;
 	}
 };

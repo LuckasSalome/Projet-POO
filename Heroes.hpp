@@ -21,14 +21,13 @@ private  :
 	string heroDesc;
 	string heroRace;
 	string heroJob;
-	int heroHealth;
 	map<string, int> heroStat;
 	bool possible;
-	bool isAlive;
+	bool isAlive = true;
 	int heroLevel = 1;
 	int exp = 0;
-	int expMax = 30;
-
+	int expMax = 30; 
+	Heroes& self = *this;
 public :
 	Heroes(string Name) : heroName(Name) {};
 
@@ -39,6 +38,7 @@ public :
 				this->possible = false;
 				return this->possible;
 			}
+			cout << "ok" << endl;
 			this->possible = true;
 			return this->possible;
 		}
@@ -65,11 +65,6 @@ public :
 			return this->heroStat;
 	}
 
-	int initHeroHealth(Race& race) {																				//init les pv du hero
-		this->heroHealth = race.getHealth();
-		return this->heroHealth;
-	}
-
 
 	// getter
 
@@ -86,19 +81,16 @@ public :
 		return this->heroStat;
 	}
 
-	int getHeroHealth() {																				
-		return this->heroHealth;
-	}
-	int getHeroLevel() {
+	const int getHeroLevel() {
 		return this->heroLevel;
 	}
 
 	//setter
 	void setHeroHealth(int set) {
-		this->heroHealth = set;
+		this->heroStat["HP"] = set;
 	}
 
-	bool getHeroAlive() {
+	const bool getHeroAlive() {
 		return this->isAlive;
 	}
 	
@@ -110,25 +102,30 @@ public :
 		}
 	}
 
-	virtual void getRaceSpell(Race& race, Creatures& foe) {
-		race.raceSpell(foe, *this);
+	string getRaceSpell(Race& race, Creatures& foe) {
+		map <string, int> result = race.raceSpell(foe, this->heroStat);
+		if (result["HP"] != this->heroStat["HP"])
+			this->setHeroHealth(result["HP"]);
+		return race.getSpellName();
 	}
 
-	virtual void getBasicAttack(Race& race, Creatures& foe) {
-		race.basicAttack(foe, *this);
+	string getBasicAttack(Race& race, Creatures& foe) {
+		race.basicAttack(foe, this->heroStat);
 	}
 
-	virtual void getJobSpell(Jobs& job, Creatures& foe) {
-		job.jobSpell(foe, *this);
-	}
-	virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2) {
-		job.jobSpell(foe1, foe2, *this);
-	}
-	virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2, Creatures& foe3) {
-		job.jobSpell(foe1, foe2, foe3, *this);
-	}
-	virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2, Creatures& foe3, Creatures& foe4) {
-		job.jobSpell(foe1, foe2, foe3, foe4, *this);
-	}
+    string getJobSpell(Jobs& job, Creatures& foe) {
+		job.jobSpell(foe, this->heroStat);
+		return job.getSpellName();
+
+    }
+	//virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2) {
+	//	job.jobSpell(foe1, foe2, *this);
+	//}
+	//virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2, Creatures& foe3) {
+	//	job.jobSpell(foe1, foe2, foe3, *this);
+	//}
+	//virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2, Creatures& foe3, Creatures& foe4) {
+	//	job.jobSpell(foe1, foe2, foe3, foe4, *this);
+	//}
 
 };

@@ -11,11 +11,9 @@ private:
 	string name = " Humain";
 	string desc = " Personne pas folle folle, un peu comme toi.";
 	string spellName = "Bon Repas";
-	map<string, int> stat { { "COU", 8 }, { "CHA", 8 }, { "INT", 8 }, { "FO",8 }, { "AD", 8 } };
+	map<string, int> stat{ { "COU", 8 }, { "CHA", 8 }, { "INT", 8 }, { "FO",8 }, { "AD", 8 }, {"HP", 30 }};
 	int damage;
 	int proba;
-	int health = 30;
-
 
 protected:
 	string getNameRace() override {
@@ -27,27 +25,27 @@ protected:
 	map<string, int> getStat() override {
 		return this->stat;
 	}
-	int getHealth() override {
-		return this->health;
+	map<string, int> raceSpell(Creatures& foe, map<string, int> selfStat) override {
+		selfStat.insert({ "HP", selfStat["HP"] + 5 });
+		return selfStat;
 	}
-	string raceSpell(Creatures& foe, Heroes& self) override {
-		self.setHeroHealth(self.getHeroHealth() + 5);
-		return this->spellName;
-	}
-	void basicAttack(Creatures& foe, Heroes& self) override {
-		if (self.getHeroStat()["FO"] < self.getHeroStat()["INT"])
+	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
+		if (selfStat["FO"] < selfStat["INT"])
 		{
-			damage = self.getHeroStat()["INT"];
-			proba = 50 - self.getHeroStat()["INT"];
+			damage = selfStat["INT"];
+			proba = 50 - selfStat["INT"];
 			//dice roll()
 		}
 		else
 		{
-			damage = self.getHeroStat()["FO"];
-			proba = 50 - self.getHeroStat()["FO"];
+			damage = selfStat["FO"];
+			proba = 50 - selfStat["FO"];
 			//dice roll()
-			//if (diceRoll())
-			//	foe.setCreatureHealth(foe.getCreatureHealth() - damage);
 		}
+		//if (diceRoll())
+		//	foe.setCreatureHealth(foe.getStat()["HP"] - damage);
+	}
+	string getSpellName() override {
+		return this->spellName;
 	}
 };

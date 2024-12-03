@@ -10,8 +10,7 @@ class ExplosiveDuck : public Common {
 private : 
 	string name = "Canard Explofif";
 	string description = "Il aime pas Macron.";
-	map <string, int> stat{ { "COU", 10 }, { "CHA", 5 }, { "INT", 1 }, { "FO", 1 }, { "AD", 10 } };
-	int health = 20;
+	map <string, int> stat{ { "COU", 10 }, { "CHA", 5 }, { "INT", 1 }, { "FO", 1 }, { "AD", 10 }, {"HP", 20}};
 
 protected : 
 	string getName() override {

@@ -2,7 +2,8 @@
 
 #include <string>
 #include <map>
-
+#include "Creatures.hpp"
+#include "Heroes.hpp"
 
 using namespace std;
 
@@ -11,7 +12,4 @@ public :
 	virtual string getName() = 0;
 	virtual string getDesc() = 0;
 	virtual map<string, int> getStat() = 0;
-	//virtual map < string, int> Ability1() = 0;
-	//virtual map < string, int> Ability2() = 0;
-	//virtual map < string, int> Ability3() = 0;
 };
