@@ -10,7 +10,8 @@ class SarcasticGobelin : public Common {
 private:
 	string name = "Gobelin Sarcastique";
 	string description = "Il vient de dire que tu es tres beau.";
-	map <string, int> stat{ { "COU", 7 }, { "CHA", 7 }, { "INT", 4 }, { "FO", 15 }, { "AD", 8 }, {"HP", 30}};
+	string spellName = "Coup De Bibine";
+	map <string, int> stat{ { "COU", 8 }, { "CHA", 8 }, { "INT", 4 }, { "FO", 15 }, { "AD", 6 }, {"HP", 30}};
 
 protected:
 	string getName() override {
@@ -21,5 +22,20 @@ protected:
 	}
 	map<string, int> getStat() override {
 		return this->stat;
+	}
+	map<string, int> monsterSpell(Heroes& ennemy, map<string, int> creatureStat) override {
+		int damage = 15;
+		int proba = (50 - creatureStat["AD"])*2;
+		return creatureStat;
+	}
+	string basicAttack(Heroes& ennemy, map<string, int> creatureStat) override {
+		int damage = creatureStat["FO"];
+		int proba = (50 - creatureStat["FO"])*2;
+		//dice roll()
+		//if (diceRoll())
+		//	foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
+	}
+	string getSpellName() override {
+		return this->spellName;
 	}
 };

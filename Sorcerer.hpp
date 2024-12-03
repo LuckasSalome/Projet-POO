@@ -10,7 +10,7 @@ class Sorcerer : public Jobs {
 private:
 	string Name = " Sorcier ";
 	string Desc = "Tu es un Sorcier Harry !";
-	string spellName = "";
+	string spellName = "Mur De Feu";
 	map<string, int> requiredStat{ { "COU", 1 }, { "CHA", 1 }, { "INT", 8 }, { "FO", 1 }, { "AD", 1 } };
 
 protected :
@@ -24,10 +24,14 @@ protected :
 		return this->requiredStat;
 	}
 	string jobSpell(Creatures& foe1, map<string, int> selfStat) override {				//attaque de zone qui inflige un quart de l'intelligence
-		int damage = selfStat["INT"] / 4;
+		int damage = selfStat["INT"] / 3;
 		foe1.setCreatureHealth(foe1.getCreatureStat()["HP"] - damage);
 		return this->spellName;
 	}
+	string getSpellName() override {
+		return this->spellName;
+	}
+
 	//string jobSpell(Creatures& foe1, Creatures&foe2, Heroes& self) override {
 	//	int damage = self.getHeroStat()["INT"] / 4;
 	//	foe1.setCreatureHealth(foe1.getCreatureHealth() - damage);
@@ -49,7 +53,4 @@ protected :
 	//	foe4.setCreatureHealth(foe4.getCreatureHealth() - damage);
 	//	return this->spellName;
 	//}
-	string getSpellName() override {
-		return this->spellName;
-	}
 };

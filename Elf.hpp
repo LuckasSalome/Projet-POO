@@ -12,9 +12,6 @@ private :
 	string spellName = "Jeu De Jambes";
 	string desc = " Ne se melange pas avec la plebe, cette aventure ne l'emballe guere par ailleur.";
 	map<string, int> stat{ {"COU", 3}, {"CHA", 11}, {"INT", 12}, {"FO",2 }, {"AD", 12}, {"HP", 25} };
-	int damage;
-	int proba;
-
 
 protected:
 	string getNameRace() override {
@@ -31,9 +28,9 @@ protected:
 			//=======================  remplacer dans le systeme de combat par faire esquiver une attaque
 		return selfStat;
 	}
-	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
-		damage = selfStat["INT"];
-		proba = 50 - selfStat["INT"];
+	string basicAttack(Creatures& foe, map<string, int> selfStat) override {
+		int damage = selfStat["INT"];
+		int proba = (50 - selfStat["INT"])*2;
 		//dice roll()
 		//if (diceRoll())
 		//	foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);

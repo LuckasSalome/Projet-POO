@@ -1,6 +1,5 @@
 #pragma once
 
-#include <random>
 #include <string>
 #include <map>
 #include "Thief.hpp"
@@ -11,11 +10,10 @@
 #include "Dwarf.hpp"
 #include "Elf.hpp"
 #include "Human.hpp"
-#include "Creatures.hpp"
 
 using namespace std;
 
-class Heroes {																								//class hero observer des class race et job pour savoir avec le polymorphisme la classe et la race du personnage
+class Heroes {													//class hero observer des class race et job pour savoir avec le polymorphisme la classe et la race du personnage
 private  :
 	string heroName;
 	string heroDesc;
@@ -27,7 +25,7 @@ private  :
 	int heroLevel = 1;
 	int exp = 0;
 	int expMax = 30; 
-	Heroes& self = *this;
+
 public :
 	Heroes(string Name) : heroName(Name) {};
 
@@ -38,7 +36,6 @@ public :
 				this->possible = false;
 				return this->possible;
 			}
-			cout << "ok" << endl;
 			this->possible = true;
 			return this->possible;
 		}
@@ -81,19 +78,32 @@ public :
 		return this->heroStat;
 	}
 
-	const int getHeroLevel() {
+	const int getHeroLevel() const {
 		return this->heroLevel;
+	}
+	const bool getHeroAlive() const {
+		return this->isAlive;
 	}
 
 	//setter
-	void setHeroHealth(int set) {
+	void setHeroHealth(int set) {							//modifie les valleurs de stat, equivalent a un .insrt()
 		this->heroStat["HP"] = set;
 	}
-
-	const bool getHeroAlive() {
-		return this->isAlive;
+	void setHeroCourage(int set) {
+		this->heroStat["COU"] = set;
 	}
-	
+	void setHeroStrengh(int set) {
+		this->heroStat["FO"] = set;
+	}
+	void seHeroIntelligence(int set) {
+		this->heroStat["INT"] = set;
+	}
+	void setHeroDexterity(int set) {
+		this->heroStat["AD"] = set;
+	}
+	void setHeroCharism(int set) {
+		this->heroStat["CHA"] = set;
+	}
 	void transiLevel() {
 		if (this->exp >= this->expMax) {
 			this->heroLevel++;
@@ -101,21 +111,30 @@ public :
 			this->expMax += 5;
 		}
 	}
-
 	string getRaceSpell(Race& race, Creatures& foe) {
-		map <string, int> result = race.raceSpell(foe, this->heroStat);
-		if (result["HP"] != this->heroStat["HP"])
-			this->setHeroHealth(result["HP"]);
-		return race.getSpellName();
+		if (isAlive)
+		{
+			map <string, int> result = race.raceSpell(foe, this->heroStat);
+			if (result["HP"] != this->heroStat["HP"])
+				this->setHeroHealth(result["HP"]);
+			return race.getSpellName();
+		}
 	}
 
-	string getBasicAttack(Race& race, Creatures& foe) {
-		race.basicAttack(foe, this->heroStat);
+	string getBasicAttack(Race& race, Creatures& foe) const {
+		if (isAlive)
+		{
+			race.basicAttack(foe, this->heroStat);
+			return "Attaque Basique";
+		}
 	}
 
-    string getJobSpell(Jobs& job, Creatures& foe) {
-		job.jobSpell(foe, this->heroStat);
-		return job.getSpellName();
+    string getJobSpell(Jobs& job, Creatures& foe) const {
+		if (isAlive)
+		{
+			job.jobSpell(foe, this->heroStat);
+			return job.getSpellName();
+		}
 
     }
 	//virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2) {
@@ -128,4 +147,9 @@ public :
 	//	job.jobSpell(foe1, foe2, foe3, foe4, *this);
 	//}
 
+	bool isHeroAlive() {
+		if (this->heroStat["HP"] <= 0)
+			isAlive = false;
+		return this->isAlive;
+	}
 };

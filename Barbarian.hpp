@@ -12,8 +12,6 @@ private:
 	string desc = " SKKAAAAARRRRR,ahoo ahoo ahoo huwhawhawhauaha.";
 	string spellName = "Coup Vorace";
 	map<string, int> stat{ {"COU", 12}, { "CHA", 9 }, { "INT", 3 }, { "FO", 13}, { "AD", 2 }, {"HP", 35} };
-	int damage;
-	int proba;
 
 protected:
 	string getNameRace() override {
@@ -33,9 +31,9 @@ protected:
 		foe.setCreatureHealth(foeHealth - damage);
 		return selfStat;
 	}
-	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
-		damage = selfStat["FO"];
-		proba = 50 - selfStat["FO"];
+	string basicAttack(Creatures& foe, map<string, int> selfStat) override {
+		int damage = selfStat["FO"];
+		int proba = (50 - selfStat["FO"])*2;
 		//dice roll()
 		//if (diceRoll())
 		//	foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);

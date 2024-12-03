@@ -12,8 +12,6 @@ private:
 	string desc = " Personne pas folle folle, un peu comme toi.";
 	string spellName = "Bon Repas";
 	map<string, int> stat{ { "COU", 8 }, { "CHA", 8 }, { "INT", 8 }, { "FO",8 }, { "AD", 8 }, {"HP", 30 }};
-	int damage;
-	int proba;
 
 protected:
 	string getNameRace() override {
@@ -29,17 +27,17 @@ protected:
 		selfStat.insert({ "HP", selfStat["HP"] + 5 });
 		return selfStat;
 	}
-	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
+	string basicAttack(Creatures& foe, map<string, int> selfStat) override {
 		if (selfStat["FO"] < selfStat["INT"])
 		{
-			damage = selfStat["INT"];
-			proba = 50 - selfStat["INT"];
+			int damage = selfStat["INT"];
+			int proba = (50 - selfStat["INT"])*2;
 			//dice roll()
 		}
 		else
 		{
-			damage = selfStat["FO"];
-			proba = 50 - selfStat["FO"];
+			int damage = selfStat["FO"];
+			int proba = (50 - selfStat["FO"])*2;
 			//dice roll()
 		}
 		//if (diceRoll())
