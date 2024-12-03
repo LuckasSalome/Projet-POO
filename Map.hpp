@@ -24,7 +24,7 @@ private:
     int toX = 0;
     int fromY = 0;
     int toY = 0;
-    // int renderDistance = 3;
+    // int renderDistance = 3; POUR PLUS TARD
 
     void mapInit() {
         this->setTileTex();
@@ -81,7 +81,7 @@ public:
     //         toY = 0;
     //     else if (toY >= mapSize)
     //         toY = mapSize - 1;
-    // };
+    // };  POUR PLUS TARD
 
     const vector<vector<RectangleShape>>& getTileMap() const {
         return this->tileMap;
