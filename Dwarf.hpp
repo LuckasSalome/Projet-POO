@@ -32,7 +32,7 @@ protected:
 		foe.setCreatureDexterity(foe.getCreatureStat()["AD"] - 1);
 		return selfStat;
 	}
-	string basicAttack(Creatures& foe, map<string, int> selfStat) override {
+	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
 		int damage = selfStat["FO"];
 		int proba = (50 - damage)*2;
 		//dice roll()

@@ -30,7 +30,7 @@ protected :
 		ennemy.setHeroHealth(ennemy.getHeroStat()["HP"] - damage);
 		return creatureStat;
 	}
-	string basicAttack(Heroes& ennemy, map<string, int> creatureStat) override {
+	void basicAttack(Heroes& ennemy, map<string, int> creatureStat) override {
 		int damage = creatureStat["FO"];
 		int proba = 50 - creatureStat["FO"];
 		//dice roll()

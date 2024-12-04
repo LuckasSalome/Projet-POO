@@ -28,7 +28,7 @@ protected:
 		int proba = (50 - creatureStat["AD"])*2;
 		return creatureStat;
 	}
-	string basicAttack(Heroes& ennemy, map<string, int> creatureStat) override {
+	void basicAttack(Heroes& ennemy, map<string, int> creatureStat) override {
 		int damage = creatureStat["FO"];
 		int proba = (50 - creatureStat["FO"])*2;
 		//dice roll()

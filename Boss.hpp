@@ -1,18 +1,18 @@
 #pragma once
 
-#include <iostream>
-#include <map>
+#include "Heroes.hpp"
 #include <string>
+#include <map>
 
-using namespace std;
+class Heroes; // Déclaration avancée
 
 class Boss {
-protected:
-
-	virtual string getNameCreature() const = 0;
-	virtual map<string, int> getStatCreature() const = 0;
-	virtual string getDescCreature() const = 0;
-	virtual map<string, int> getAbility1(string) const = 0;
-	virtual map<string, int> getAbility2(const string) const = 0;
-	virtual map<string, int> getAbility3(const string) const = 0;
+public:
+	virtual std::string getBossName() = 0;
+	virtual std::string getBossDesc() = 0;
+	virtual std::string getSpellName1(bool midlife) = 0;
+	virtual std::string getSpellName2(bool midlife) = 0;
+	virtual std::map<std::string, int> getBossStat() = 0;
+	virtual std::map<std::string, int> bossSpell1(Heroes& ennemy, std::map<std::string, int> creatureStat, bool midlife) = 0;
+	virtual std::map<std::string, int> bossSpell2(Heroes& ennemy, std::map<std::string, int> creatureStat, bool midlife) = 0;
 };

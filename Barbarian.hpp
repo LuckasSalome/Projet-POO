@@ -31,7 +31,7 @@ protected:
 		foe.setCreatureHealth(foeHealth - damage);
 		return selfStat;
 	}
-	string basicAttack(Creatures& foe, map<string, int> selfStat) override {
+	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
 		int damage = selfStat["FO"];
 		int proba = (50 - selfStat["FO"])*2;
 		//dice roll()

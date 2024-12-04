@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include "Common.hpp"
+#include "Boss.hpp"
 
 class Creatures {
 private:
@@ -10,6 +11,7 @@ private:
     std::string creatureDesc;
     std::map<std::string, int> creatureStat;
     bool isAlive = true;
+    bool cond = false;
 
 public:
     std::string initCreatureName(Common& mob) {
@@ -24,6 +26,21 @@ public:
 
     std::map<std::string, int> initCreatureStat(Common& mob) {
         this->creatureStat = mob.getStat();
+        return this->creatureStat;
+    }
+
+    std::string initBossName(Boss& mob) {
+        this->creatureName = mob.getBossName();
+        return this->creatureName;
+    }
+
+    std::string initBossDesc(Boss& mob) {
+        this->creatureDesc = mob.getBossDesc();
+        return this->creatureDesc;
+    }
+
+    std::map<std::string, int> initBossStat(Boss& mob) {
+        this->creatureStat = mob.getBossStat();
         return this->creatureStat;
     }
 
@@ -76,21 +93,40 @@ public:
                 this->setCreatureHealth(result["HP"]);
             return mob.getSpellName();
         }
-        return "";
+        return "Impossible, " + getCreatureName() + " est Mort(e).";
     }
 
-    std::string getBasicAttack(Common& mob, Heroes& ennemy) const {
+    std::string getBasicAttack(Common& mob, Heroes& ennemy) {
         if (isAlive) {
             mob.basicAttack(ennemy, this->creatureStat);
             return "Attaque Basique";
         }
-        return "";
+        return "Impossible, " + getCreatureName() + " est Mort(e).";
+    }
+
+    std::string getBossSpell1(Boss& mob, Heroes& ennemy) {
+        if (isAlive) {
+            if (getCreatureStat()["HP"] <= 50)
+                this->cond = true;
+            mob.bossSpell1(ennemy, this->creatureStat, cond);
+            return mob.getSpellName1(cond);
+        }
+        return "Impossible, " + getCreatureName() + " est Mort(e).";
+    }
+
+    std::string getBossSpell2(Boss& mob, Heroes& ennemy) {
+        if (isAlive) {
+            if (getCreatureStat()["HP"] <= 50)
+                this->cond = true;
+            mob.bossSpell2(ennemy, this->creatureStat, cond);
+            return mob.getSpellName2(cond);
+        }
+        return "Impossible, " + getCreatureName() + " est Mort(e).";
     }
 
 
-    bool isCreatureAlive() {
+    void isCreatureAlive() {
         if (this->creatureStat["HP"] <= 0)
             isAlive = false;
-        return this->isAlive;
     }
 };

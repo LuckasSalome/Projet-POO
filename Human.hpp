@@ -27,7 +27,7 @@ protected:
 		selfStat.insert({ "HP", selfStat["HP"] + 5 });
 		return selfStat;
 	}
-	string basicAttack(Creatures& foe, map<string, int> selfStat) override {
+	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
 		if (selfStat["FO"] < selfStat["INT"])
 		{
 			int damage = selfStat["INT"];

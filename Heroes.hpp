@@ -20,7 +20,7 @@ private  :
 	string heroRace;
 	string heroJob;
 	map<string, int> heroStat;
-	bool possible;
+	bool possible = false;
 	bool isAlive = true;
 	int heroLevel = 1;
 	int exp = 0;
@@ -29,16 +29,13 @@ private  :
 public :
 	Heroes(string Name) : heroName(Name) {};
 
-	bool StatCoparison(Race& race, Jobs& job) {																//comparaison des stats de race et requises pour un metrier
+	void StatComparison(Race& race, Jobs& job) {																//comparaison des stats de race et requises pour un metrier
 		string statistics[5] = { "COU", "CHA", "INT", "FO", "AD" };
 		for (int i = 0; i < 5; i++) {
-			if (race.getStat()[statistics[i]] < job.getStatRequiredJob()[statistics[i]]) {
+			if (race.getStat()[statistics[i]] < job.getStatRequiredJob()[statistics[i]])
 				this->possible = false;
-				return this->possible;
-			}
-			this->possible = true;
-			return this->possible;
 		}
+		this->possible = true;
 	}
 
 	string initName(Race& race, Jobs& job) {																	//fusionne les noms de race et de classe
@@ -78,10 +75,10 @@ public :
 		return this->heroStat;
 	}
 
-	const int getHeroLevel() const {
+	int getHeroLevel() const {
 		return this->heroLevel;
 	}
-	const bool getHeroAlive() const {
+	bool getHeroAlive() const {
 		return this->isAlive;
 	}
 
@@ -95,7 +92,7 @@ public :
 	void setHeroStrengh(int set) {
 		this->heroStat["FO"] = set;
 	}
-	void seHeroIntelligence(int set) {
+	void setHeroIntelligence(int set) {
 		this->heroStat["INT"] = set;
 	}
 	void setHeroDexterity(int set) {
