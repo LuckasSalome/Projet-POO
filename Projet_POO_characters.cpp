@@ -115,13 +115,13 @@ int main()
     cout << Character1->getName() << endl;
     cout << Character1->getDesc() << endl;
     for (int i = 0; i < 6; i++)
-        cout << Character1->getHeroStat()[statistics[i]] << endl;
+        cout << Character1->getStat()[statistics[i]] << endl;
 
 
-    cout << Mob1->getCreatureName() << endl;
-    cout << Mob1->getCreatureDesc() << endl;
+    cout << Mob1->getName() << endl;
+    cout << Mob1->getDesc() << endl;
     for (int i = 0; i < 6; i++)
-        cout << Mob1->getCreatureStat()[statistics[i]] << endl;
+        cout << Mob1->getStat()[statistics[i]] << endl;
 
 
     //attaque du hero
@@ -130,20 +130,20 @@ int main()
     cout << Character1->getBasicAttack(*race, *Mob1) << endl;
 
     //stats retours monstre
-    cout << Mob1->getCreatureName() << endl;
-    cout << Mob1->getCreatureDesc() << endl;
+    cout << Mob1->getName() << endl;
+    cout << Mob1->getDesc() << endl;
     for (int i = 0; i < 6; i++)
-        cout << Mob1->getCreatureStat()[statistics[i]] << endl;
+        cout << Mob1->getStat()[statistics[i]] << endl;
 
     //attaque du monstre 
     cout << Mob1->getMonsterSpell(*mob, *Character1) << endl;
     cout << Mob1->getBasicAttack(*mob, *Character1) << endl;
 
     //affiche boss
-    cout << Boss->getCreatureName() << endl;
-    cout << Boss->getCreatureDesc() << endl;
+    cout << Boss->getName() << endl;
+    cout << Boss->getDesc() << endl;
     for (int i = 0; i < 6; i++)
-        cout << Boss->getCreatureStat()[statistics[i]] << endl;
+        cout << Boss->getStat()[statistics[i]] << endl;
 
 
     //attaque p1 boss
@@ -155,14 +155,14 @@ int main()
     cout << Character1->getName() << endl;
     cout << Character1->getDesc() << endl;
     for (int i = 0; i < 6; i++)
-        cout << Character1->getHeroStat()[statistics[i]] << endl;
+        cout << Character1->getStat()[statistics[i]] << endl;
 
     Boss->setCreatureHealth(45);
     //affiche boss
-    cout << Boss->getCreatureName() << endl;
-    cout << Boss->getCreatureDesc() << endl;
+    cout << Boss->getName() << endl;
+    cout << Boss->getDesc() << endl;
     for (int i = 0; i < 6; i++)
-        cout << Boss->getCreatureStat()[statistics[i]] << endl;
+        cout << Boss->getStat()[statistics[i]] << endl;
 
     // attaque p2 bosse
     cout << Boss->getBossSpell1(*lich, *Character1) << endl;
@@ -172,7 +172,7 @@ int main()
     cout << Character1->getName() << endl;
     cout << Character1->getDesc() << endl;
     for (int i = 0; i < 6; i++)
-        cout << Character1->getHeroStat()[statistics[i]] << endl;
+        cout << Character1->getStat()[statistics[i]] << endl;
 
     return 0;
 }

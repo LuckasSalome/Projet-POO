@@ -26,7 +26,7 @@ protected:
 	map<string, int> raceSpell(Creatures& foe, map<string, int> selfStat) override {;
 		int damage = 5;
 		int regen = 3;
-		int foeHealth = foe.getCreatureStat()["HP"];
+		int foeHealth = foe.getStat()["HP"];
 		selfStat.insert({ "HP", selfStat["HP"] + 3 });
 		foe.setCreatureHealth(foeHealth - damage);
 		return selfStat;
@@ -36,7 +36,7 @@ protected:
 		int proba = (50 - selfStat["FO"])*2;
 		int alea = rand() % 100;
 		if (alea <= proba)
-			foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
+			foe.setCreatureHealth(foe.getStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

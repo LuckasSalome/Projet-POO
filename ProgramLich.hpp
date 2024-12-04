@@ -45,11 +45,11 @@ protected:
     map<string, int> bossSpell1(Heroes& ennemy, map<string, int> creatureStat, bool midlife) {
         if (midlife == false) {
             int damage = creatureStat["INT"] / 3 + creatureStat["CHA"] / 3;
-            ennemy.setHeroHealth(ennemy.getHeroStat()["HP"] - damage);
+            ennemy.setHeroHealth(ennemy.getStat()["HP"] - damage);
             return creatureStat;
         }
         else {
-            int vamp = ennemy.getHeroStat()["HP"] / 2;
+            int vamp = ennemy.getStat()["HP"] / 2;
             ennemy.setHeroHealth(vamp);
             creatureStat.insert({ "HP", (creatureStat["HP"] + vamp) }); 
             return creatureStat;
@@ -63,11 +63,11 @@ protected:
             return creatureStat;
         }
         else {
-            ennemy.setHeroCourage(ennemy.getHeroStat()["COU"] - (ennemy.getHeroStat()["COU"]/4));
-            ennemy.setHeroStrengh(ennemy.getHeroStat()["FO"] - (ennemy.getHeroStat()["FO"] / 4));
-            ennemy.setHeroIntelligence(ennemy.getHeroStat()["INT"] - (ennemy.getHeroStat()["INT"] / 4));
-            ennemy.setHeroCharism(ennemy.getHeroStat()["CHA"] - (ennemy.getHeroStat()["CHA"] / 4));
-            ennemy.setHeroDexterity(ennemy.getHeroStat()["AD"] - (ennemy.getHeroStat()["AD"] / 4));
+            ennemy.setHeroCourage(ennemy.getStat()["COU"] - (ennemy.getStat()["COU"]/4));
+            ennemy.setHeroStrengh(ennemy.getStat()["FO"] - (ennemy.getStat()["FO"] / 4));
+            ennemy.setHeroIntelligence(ennemy.getStat()["INT"] - (ennemy.getStat()["INT"] / 4));
+            ennemy.setHeroCharism(ennemy.getStat()["CHA"] - (ennemy.getStat()["CHA"] / 4));
+            ennemy.setHeroDexterity(ennemy.getStat()["AD"] - (ennemy.getStat()["AD"] / 4));
             return creatureStat;
         }
     }

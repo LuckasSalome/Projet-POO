@@ -25,11 +25,11 @@ protected:
 	}
 	map<string, int> raceSpell(Creatures& foe, map<string, int> selfStat) override {
 		selfStat.insert({ "COU", selfStat["COU"] + 5 });
-		foe.setCreatureCourage(foe.getCreatureStat()["COU"] - 1);
-		foe.setCreatureStrengh(foe.getCreatureStat()["FO"] - 1);
-		foe.setCreatureIntelligence(foe.getCreatureStat()["INT"] - 1);
-		foe.setCreatureCharism(foe.getCreatureStat()["CHA"] - 1);
-		foe.setCreatureDexterity(foe.getCreatureStat()["AD"] - 1);
+		foe.setCreatureCourage(foe.getStat()["COU"] - 1);
+		foe.setCreatureStrengh(foe.getStat()["FO"] - 1);
+		foe.setCreatureIntelligence(foe.getStat()["INT"] - 1);
+		foe.setCreatureCharism(foe.getStat()["CHA"] - 1);
+		foe.setCreatureDexterity(foe.getStat()["AD"] - 1);
 		return selfStat;
 	}
 	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
@@ -37,7 +37,7 @@ protected:
 		int proba = (50 - damage)*2;
 		int alea = rand() % 100;
 		if (alea <= proba)
-			foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
+			foe.setCreatureHealth(foe.getStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

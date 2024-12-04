@@ -27,7 +27,7 @@ protected :
 		int damage = 30;
 		int proba = 100;
 		creatureStat.insert({ "HP", 0 });
-		ennemy.setHeroHealth(ennemy.getHeroStat()["HP"] - damage);
+		ennemy.setHeroHealth(ennemy.getStat()["HP"] - damage);
 		return creatureStat;
 	}
 	void basicAttack(Heroes& ennemy, map<string, int> creatureStat) override {
@@ -35,7 +35,7 @@ protected :
 		int proba = 50 - creatureStat["FO"];
 		int alea = rand() % 100;
 		if (alea <= proba)
-			ennemy.setHeroHealth(ennemy.getHeroStat()["HP"] - damage);
+			ennemy.setHeroHealth(ennemy.getStat()["HP"] - damage);
 	}
 
 	string getSpellName() override {

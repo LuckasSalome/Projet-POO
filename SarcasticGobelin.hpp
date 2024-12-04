@@ -33,7 +33,7 @@ protected:
 		int proba = (50 - creatureStat["FO"])*2;
 		int alea = rand() % 100;
 		if (alea<=proba)
-			ennemy.setHeroHealth(ennemy.getHeroStat()["HP"] - damage);
+			ennemy.setHeroHealth(ennemy.getStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

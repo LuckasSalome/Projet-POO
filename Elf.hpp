@@ -36,7 +36,7 @@ protected:
 		int proba = (50 - selfStat["INT"])*2;
 		int alea = rand() % 100;
 		if (alea <= proba)
-			foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
+			foe.setCreatureHealth(foe.getStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

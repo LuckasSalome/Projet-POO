@@ -2,10 +2,11 @@
 
 #include <string>
 #include <map>
+#include "Entity.hpp"
 #include "Common.hpp"
 #include "Boss.hpp"
 
-class Creatures {
+class Creatures : public Entity{
 private:
     std::string creatureName;
     std::string creatureDesc;
@@ -45,19 +46,19 @@ public:
     }
 
     // Getters
-    std::string getName() {
+    std::string getName() override {
         return this->creatureName;
     }
 
-    std::string getDesc() {
+    std::string getDesc() override {
         return this->creatureDesc;
     }
 
-    std::map<std::string, int> getStat() {
+    std::map<std::string, int> getStat() override {
         return this->creatureStat;
     }
 
-    bool getAlive() const {
+    bool getAlive()  override {
         return this->isAlive;
     }
 
@@ -96,7 +97,7 @@ public:
         return "Impossible, " + this->creatureName + " est Mort(e).";
     }
 
-    std::string getBasicAttack(Common& mob, Heroes& ennemy) {
+    std::string getBasicAttack(Common& mob, Heroes& ennemy) const {
         if (isAlive) {
             mob.basicAttack(ennemy, this->creatureStat);
             return "Attaque Basique";
@@ -106,7 +107,7 @@ public:
 
     std::string getBossSpell1(Boss& mob, Heroes& ennemy) {
         if (isAlive) {
-            if (getCreatureStat()["HP"] <= 50)
+            if (getStat()["HP"] <= 50)
                 this->cond = true;
             mob.bossSpell1(ennemy, this->creatureStat, cond);
             return mob.getSpellName1(cond);
@@ -116,7 +117,7 @@ public:
 
     std::string getBossSpell2(Boss& mob, Heroes& ennemy) {
         if (isAlive) {
-            if (getCreatureStat()["HP"] <= 50)
+            if (getStat()["HP"] <= 50)
                 this->cond = true;
             mob.bossSpell2(ennemy, this->creatureStat, cond);
             return mob.getSpellName2(cond);

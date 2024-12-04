@@ -11,16 +11,15 @@
 #include "Elf.hpp"
 #include "Human.hpp"
 
-using namespace std;
 
-class Heroes {													//class hero observer des class race et job pour savoir avec le polymorphisme la classe et la race du personnage
+class Heroes : public Entity {													//class hero observer des class race et job pour savoir avec le polymorphisme la classe et la race du personnage
 private  :
-	string heroName;
-	string heroDesc;
-	string heroRace;
-	string heroJob;
-	map<string, int> heroStat;
-	const map<string, int> heroStatPerma;
+	std::string heroName;
+	std::string heroDesc;
+	std::string heroRace;
+	std::string heroJob;
+	std::map<std::string, int> heroStat;
+	const std::map<std::string, int> heroStatPerma;
 	bool possible = false;
 	bool isAlive = true;
 	int heroLevel = 1;
@@ -28,10 +27,10 @@ private  :
 	int expMax = 30; 
 
 public :
-	Heroes(string Name) : heroName(Name) {};
+	Heroes(std::string Name) : heroName(Name) {};
 
 	void StatComparison(Race& race, Jobs& job) {																//comparaison des stats de race et requises pour un metrier
-		string statistics[5] = { "COU", "CHA", "INT", "FO", "AD" };
+		std::string statistics[5] = { "COU", "CHA", "INT", "FO", "AD" };
 		for (int i = 0; i < 5; i++) {
 			if (race.getStat()[statistics[i]] < job.getStatRequiredJob()[statistics[i]])
 				this->possible = false;
@@ -54,7 +53,7 @@ public :
 			return this->heroDesc;
 	}
 
-	virtual map<string, int> initHeroStat(Race& race, Jobs& job) {											//init les stats du hero
+	virtual std::map<std::string, int> initHeroStat(Race& race, Jobs& job) {											//init les stats du hero
 		if (this->possible)
 			this->heroStat = race.getStat();
 			return this->heroStat;
@@ -63,23 +62,23 @@ public :
 
 	// getter
 
-	string getName() {																	
+	std::string getName() override {
 		return (this->heroName);
 
 	}
 
-	string getDesc() {																	
+	std::string getDesc() override {
 		return this->heroDesc;
 	}
 
-	virtual map<string, int> getHeroStat() {											
+	std::map<std::string, int> getStat() override {
 		return this->heroStat;
 	}
 
 	int getHeroLevel() const {
 		return this->heroLevel;
 	}
-	bool getHeroAlive() const {
+	bool getAlive()  override {
 		return this->isAlive;
 	}
 
@@ -119,7 +118,7 @@ public :
 	string getRaceSpell(Race& race, Creatures& foe) {
 		if (isAlive)
 		{
-			map <string, int> result = race.raceSpell(foe, this->heroStat);
+			std::map <std::string, int> result = race.raceSpell(foe, this->heroStat);
 			if (result["HP"] != this->heroStat["HP"])
 				this->setHeroHealth(result["HP"]);
 			return race.getSpellName();
