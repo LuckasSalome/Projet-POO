@@ -2,6 +2,8 @@
 #include "Wall.h"
 #include "Sol.h"
 #include <iostream>
+#include <thread>
+#include <SFML/Graphics.hpp>
 
 Coffre::Coffre(sf::Vector2f size, sf::Vector2f position, sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
     : animation(texture, imageCount, switchTime), isOpen(false), eKeyPressed(false), showMessage(false), dumbness(0) // Initialisation de showMessage à false
@@ -19,12 +21,36 @@ void Coffre::ouvrir() {
         showMessage = true; // Marquer le message comme devant être affiché
     }
     else {
-        std::cout << "Le coffre est deja vide..." << std::endl;
+        std::cout << "Le coffre est déjà vide..." << std::endl;
     }
 }
 
 void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& walls, const std::vector<Sol>& sols, const Player& player) const
 {
+    if (!isOpen) {
+        sf::Texture* transitionTexture = new sf::Texture();
+        if (!transitionTexture->loadFromFile("transition.png")) {
+            std::cerr << "Erreur lors du chargement de la texture de transition" << std::endl;
+            return;
+        }
+        const_cast<sf::RectangleShape&>(body).setTexture(transitionTexture);
+
+        window.draw(body);
+        window.display();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+        sf::Texture* openTexture = new sf::Texture();
+        if (!openTexture->loadFromFile("open_full.png")) {
+            std::cerr << "Erreur lors du chargement de la texture du coffre ouvert" << std::endl;
+            return;
+        }
+        const_cast<sf::RectangleShape&>(body).setTexture(openTexture);
+
+        window.draw(body);
+        window.display();
+    }
+
     std::string fullMessage;
     if (!isOpen) {
         fullMessage = "Le coffre contient :";
@@ -34,41 +60,41 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
     }
     else {
         switch (dumbness) {
-            case 0:
-                fullMessage = "Le coffre est déjà vide...";
-                break;
-            case 1:
-                fullMessage = "Je t'ai dit, il est vide.";
-                break;
-            case 2:
-                fullMessage = "Toujours vide...";
-                break;
-            case 3:
-                fullMessage = "Pourquoi tu continues à vérifier ?";
-                break;
-            case 4:
-                fullMessage = "Tu n'as rien de mieux à faire ? ...";
-                break;
-            case 5:
-				fullMessage = "Je commence à me lasser...";
-                break;
-			case 6:
-				fullMessage = "Tu es vraiment têtu...";
-				break;
-			case 7:
-				fullMessage = "Je ne te le dirai plus...";
-				break;
-			case 8:
-				fullMessage = "...";
-				break;
-            default:
-                fullMessage = "Le coffre est toujours vide.";
-                break;
-            }
-        if (dumbness < 8) {
-            const_cast<Coffre*>(this)->dumbness++;
+        case 0:
+            fullMessage = "Le coffre est déjà vide...";
+            break;
+        case 1:
+            fullMessage = "Je t'ai dit, il est vide.";
+            break;
+        case 2:
+            fullMessage = "Toujours vide...";
+            break;
+        case 3:
+            fullMessage = "Pourquoi tu continues à vérifier ?";
+            break;
+        case 4:
+            fullMessage = "Tu n'as rien de mieux à faire ? ...";
+            break;
+        case 5:
+            fullMessage = "Je commence à me lasser...";
+            break;
+        case 6:
+            fullMessage = "Tu es vraiment têtu...";
+            break;
+        case 7:
+            fullMessage = "Je ne te le dirai plus...";
+            break;
+        case 8:
+            fullMessage = "...";
+            break;
+        default:
+            fullMessage = "Le coffre est toujours vide.";
+            break;
         }
-       }
+        if (dumbness < 8) {
+            const_cast<int&>(dumbness)++;
+        }
+    }
 
     sf::Font font;
     if (!font.loadFromFile("arial.ttf")) {
@@ -84,10 +110,10 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
     text.setStyle(sf::Text::Bold);
 
     sf::FloatRect textBounds = text.getLocalBounds();
-    sf::RectangleShape background(sf::Vector2f(textBounds.width + 30, textBounds.height + 100));
+    sf::RectangleShape background(sf::Vector2f(textBounds.width + 30.0f, textBounds.height + 250.0f));
     background.setFillColor(sf::Color::Black);
-    background.setPosition(body.getPosition().x - textBounds.width / 2 - 10, body.getPosition().y - body.getSize().y / 2 - textBounds.height - 30);
-    text.setPosition(background.getPosition().x + 10, background.getPosition().y + 12);
+    background.setPosition(body.getPosition().x - textBounds.width / 2.0f - 10.0f, body.getPosition().y - body.getSize().y / 1.5f - textBounds.height - 30.0f);
+    text.setPosition(background.getPosition().x + 10.0f, background.getPosition().y + 5.0f);
 
     while (true) {
         sf::Event event;
@@ -98,13 +124,13 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
             }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
                 // Utiliser const_cast pour contourner la constance et modifier les membres
-                const_cast<Coffre*>(this)->isOpen = true; // Marquer le coffre comme ouvert après que le message a été affiché
+                const_cast<bool&>(isOpen) = true; // Marquer le coffre comme ouvert après que le message a été affiché
                 sf::Texture* openTexture = new sf::Texture();
                 if (!openTexture->loadFromFile("open_empty.png")) {
                     std::cerr << "Erreur lors du chargement de la texture du coffre ouvert" << std::endl;
                 }
                 const_cast<Coffre*>(this)->setTexture(openTexture); // Changer la texture du coffre
-                const_cast<Coffre*>(this)->showMessage = false; // Réinitialiser l'état du message
+                const_cast<bool&>(showMessage) = false; // Réinitialiser l'état du message
                 return;
             }
         }
@@ -116,13 +142,9 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
     }
 }
 
-
-
-
 bool Coffre::shouldShowMessage() const {
     return showMessage;
 }
-
 
 void Coffre::draw(sf::RenderWindow& window) const {
     window.draw(body);

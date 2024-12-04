@@ -42,6 +42,7 @@ int main() {
     sf::Texture solTexture;
     sf::Texture teleporteurTexture;
     sf::Texture ChestTexture;
+    sf::Texture FightZoneTexture;
 
     sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(1212.0f, 712.0f));
 
@@ -70,6 +71,28 @@ int main() {
         return -1;
     }
 
+	if (!FightZoneTexture.loadFromFile("FightScene.png")) {
+		cerr << "Erreur lors du chargement de la texture de la zone de combat" << endl;
+		return -1;
+	}
+
+
+
+
+    //création du background de la zone de combat
+	sf::RectangleShape fightZone(sf::Vector2f(3500.0f, 2500.0f));
+	fightZone.setTexture(&FightZoneTexture);
+	fightZone.setPosition(-50000.0f, -50000.0f);
+
+
+
+
+
+
+
+
+
+
     std::vector<Teleporteur*> teleporteurs;
     teleporteurs.push_back(new SpecialTeleporteur(1800.0f, 1000.0f, 2500.0f, 990.0f, &teleporteurTexture)); //position(x;y) = (1800;965) et position d'arrive(x;y) = (2500;990)
     teleporteurs.push_back(new Teleporteur2(5200.0f, 875.0f, 5750.0f, 1000.0f, &teleporteurTexture));
@@ -80,14 +103,21 @@ int main() {
     // Créer un vecteur de pointeurs vers des objets de type Coffre
     std::vector<Coffre*> chests;
     // Créer deux coffres
-    Coffre* chest1 = new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(3780.0f, 500.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f); // Coffre dans la salle 3
-    chest1->addObjet("Potion de prout");
-    chest1->addObjet("Lame en caoutchouc");
+    Coffre* chest1 = new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(2000.0f, 120.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f); // Coffre dans la salle 3
+    chest1->addObjet("Piege a corde");    
+    chest1->addObjet("Potion d'intelligence discutable");  //c'est le coffre du couloir je me suis trumpé
     chests.push_back(chest1);
 
-    Coffre* chest2 = new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(6000.0f, 990.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f); // Coffre dans la salle des Trésors
-    chest2->addObjet("Chaussures de discrétion bruyantes");
+    Coffre* chest2 = new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(1700.0f, 120.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f); // Coffre dans la salle des Trésors
+    chest2->addObjet("Potion de Biere");
+	chest2->addObjet("Clef Rouillee");          //c'est le coffre de la première salle
     chests.push_back(chest2);
+
+    Coffre* chest3 = new Coffre(sf::Vector2f(200.0f, 200.0f), sf::Vector2f(9000.0f, 990.0f), &ChestTexture, sf::Vector2u(4, 1), 0.3f); // Coffre dans la salle des Trésors
+    chest3->addObjet("Potion d'intelligence discutable");
+	chest3->addObjet("Piege a corde");    
+    chests.push_back(chest2);
+
 
     Player player(&playerTexture, sf::Vector2u(4, 5), 0.3f, 350.0f);
 
@@ -97,6 +127,8 @@ int main() {
     // Créer une instance de la classe Salle
     Salle salle(largeurSalle, hauteurSalle, &solTexture, &wallTexture, sf::Vector2f(0.0f, 0.0f));
     salle.generateRoom(); // Générer les murs et les sols de la salle
+
+
 
     // Créer une instance de la classe Salle pour le couloir
     int largeurCouloir = 15;
@@ -225,6 +257,7 @@ int main() {
             chest->draw(window); // Dessiner les coffres
         }
 
+		window.draw(fightZone);
         player.Draw(window);
 
         window.display();

@@ -38,6 +38,3 @@ public:
     sf::Vector2f GetPosition() const;
     sf::FloatRect GetBounds() const;
 };
-
-
-

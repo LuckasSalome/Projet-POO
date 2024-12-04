@@ -4,6 +4,7 @@
 #include "Coffre.h"
 #include <chrono>
 #include <thread>
+#include <SFML/Audio.hpp>
 
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -42,6 +43,43 @@ void Player::Update(float deltaTime, const std::vector<Wall>& walls, const std::
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
         movement.y -= speed * deltaTime;
     }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1)) {
+        body.setPosition(-48709.0f, -48363.2f);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2)) {
+        // Charger et jouer le son
+        static sf::SoundBuffer buffer;
+        static sf::Sound sound;
+        if (!buffer.loadFromFile("Duck_Quack.mp3")) {
+            std::cerr << "Erreur lors du chargement du fichier audio" << std::endl;
+        }
+        else {
+            sound.setBuffer(buffer);
+            sound.play();
+        }
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4)) {
+        // Mettre la musique en pause
+        static sf::Sound sound;
+        if (sound.getStatus() == sf::Sound::Playing) {
+            sound.pause();
+        }
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2)) {
+        // Charger et jouer le son
+        static sf::SoundBuffer buffer;
+        static sf::Sound sound;
+        if (!buffer.loadFromFile("Duck_Quack.mp3")) {
+            std::cerr << "Erreur lors du chargement du fichier audio" << std::endl;
+        }
+        else {
+            sound.setBuffer(buffer);
+            sound.play();
+        }
+    }
+
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         if (!mousePressed) {
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
@@ -142,6 +180,7 @@ void Player::CheckChestCollision(const std::vector<Coffre*>& Chests, sf::RenderW
             {
                 if (!chest->isEKeyPressed()) {
                     chest->ouvrir();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Attendre 0.5 secondes avant d'afficher le message
                     chest->setEKeyPressed(true); // Marquer la touche E comme enfoncée
                     showMessage = true; // Afficher le message
                     currentChest = chest; // Mettre à jour le coffre actuel
@@ -159,10 +198,6 @@ void Player::CheckChestCollision(const std::vector<Coffre*>& Chests, sf::RenderW
         showMessage = false; // Réinitialiser l'état du message après affichage
     }
 }
-
-
-
-
 
 void Player::PrintPosition() const {
     std::cout << "Position du joueur: (" << body.getPosition().x << ", " << body.getPosition().y << ")" << std::endl;
