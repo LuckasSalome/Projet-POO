@@ -69,16 +69,45 @@ void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
             data.selectionRect.setSize(Vector2f(bounds.width + 20, bounds.height + 10));
             data.selectionRect.setPosition(bounds.left - 10, bounds.top - 5);
         }
+        // Gestion des clics de souris
+        else if (event.type == Event::MouseButtonPressed) {
+            if (event.mouseButton.button == Mouse::Left) {
+                for (int i = 0; i < 3; ++i) {
+                    FloatRect bounds = data.menuItems[i].getGlobalBounds();
+                    if (bounds.contains(data.window.mapPixelToCoords(Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
+                        data.currentSelection = i;  // Sélectionner l'élément cliqué
+                        // Exécuter l'action associée
+                        switch (data.currentSelection) {
+                        case 0: std::cout << "New Game selected" << std::endl; break;
+                        case 1: inOptionsMenu = true; break;
+                        case 2: data.window.close(); break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+
 
 void renderMainMenu(GameData& data) {
     data.window.clear();
     data.window.draw(data.background);
     data.window.draw(data.menuRect);
+
+    // Création du titre "Donjon & Dragon"
+    Text title("Donjon & Dragon", data.font, 70);
+    title.setFillColor(Color::White);
+    title.setPosition((data.window.getSize().x - title.getLocalBounds().width) / 2, 70);
+    data.window.draw(title);
+
+    // Affichage des éléments du menu
     for (const auto& item : data.menuItems) {
         data.window.draw(item);
     }
+
+    // Dessiner le rectangle de sélection
     data.window.draw(data.selectionRect);
     data.window.display();
 }
+
