@@ -43,6 +43,7 @@ int main() {
     sf::Texture teleporteurTexture;
     sf::Texture ChestTexture;
     sf::Texture FightZoneTexture;
+    sf::Texture WariorTexture;
 
     sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(1212.0f, 712.0f));
 
@@ -50,6 +51,11 @@ int main() {
         cerr << "Erreur lors du chargement de la texture du joueur" << endl;
         return -1;
     }
+
+	if (!WariorTexture.loadFromFile("WSS.png")) {
+		cerr << "Erreur lors du chargement de la texture du Warior" << endl;
+		return -1;
+	}
 
     if (!wallTexture.loadFromFile("Mur.png")) {
         cerr << "Erreur lors du chargement de la texture du mur" << endl;
@@ -119,7 +125,7 @@ int main() {
     chests.push_back(chest2);
 
 
-    Player player(&playerTexture, sf::Vector2u(4, 5), 0.3f, 350.0f);
+    Player player(&WariorTexture, sf::Vector2u(4, 5), 0.3f, 350.0f);
 
     int largeurSalle = 10;
     int hauteurSalle = 10;

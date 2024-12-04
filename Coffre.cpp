@@ -88,7 +88,7 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
             fullMessage = "...";
             break;
         case 9:
-            fullMessage = "La plrochaine fois je ferme le jeu!";
+            fullMessage = "La prochaine fois je ferme le jeu!";
             break;
         case 10:
             window.close();
