@@ -21,6 +21,8 @@ private:
     int mapSize;
 
 ///////////////////////////Chargez vos textures ici\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
     void loadTextures() {
         
             Texture grassTex;
