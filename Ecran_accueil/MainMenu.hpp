@@ -23,7 +23,7 @@ void initMainMenu(GameData& data) {
     for (int i = 0; i < 3; ++i) {
         data.menuItems[i].setFont(data.font);
         data.menuItems[i].setString(items[i]);
-        data.menuItems[i].setCharacterSize(24);
+        data.menuItems[i].setCharacterSize(35);
         data.menuItems[i].setFillColor(Color::White);
 
         FloatRect textBounds = data.menuItems[i].getLocalBounds();
@@ -51,17 +51,23 @@ void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
             data.window.close();
         }
         else if (event.type == Event::KeyPressed) {
-            if (event.key.code == data.upKey) {
-                data.currentSelection = (data.currentSelection - 1 + 3) % 3;  // Gestion circulaire
+            if (event.key.code == Keyboard::Up) {
+                data.currentSelection = (data.currentSelection - 1 + 3) % 3;  // Gestion circulaire vers le haut
             }
-            else if (event.key.code == data.downKey) {
-                data.currentSelection = (data.currentSelection + 1) % 3;  // Gestion circulaire
+            else if (event.key.code == Keyboard::Down) {
+                data.currentSelection = (data.currentSelection + 1) % 3;  // Gestion circulaire vers le bas
             }
-            else if (event.key.code == data.actionKey) {
+            else if (event.key.code == Keyboard::Enter) {
                 switch (data.currentSelection) {
-                case 0: std::cout << "New Game selected" << std::endl; break;
-                case 1: inOptionsMenu = true; break;
-                case 2: data.window.close(); break;
+                case 0:
+                    std::cout << "New Game selected" << std::endl;
+                    break;
+                case 1:
+                    inOptionsMenu = true;
+                    break;
+                case 2:
+                    data.window.close();
+                    break;
                 }
             }
             // Mettre à jour le rectangle de sélection
