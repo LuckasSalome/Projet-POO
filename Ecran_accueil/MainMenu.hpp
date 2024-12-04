@@ -1,5 +1,5 @@
-#pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>  // Ajout de l'include pour la gestion de la musique
 #include <iostream>
 #include "GameData.hpp"
 
@@ -42,6 +42,15 @@ void initMainMenu(GameData& data) {
         firstTextBounds.left - 10,
         firstTextBounds.top - 5
     );
+
+    // Charger la musique de fond
+    if (!data.backgroundMusic.openFromFile("musique/mainsound.ogg")) {
+        std::cerr << "Erreur de chargement de la musique de fond" << std::endl;
+    }
+    else {
+        data.backgroundMusic.setLoop(true);  // Faire boucler la musique
+        data.backgroundMusic.play();         // Démarrer la musique
+    }
 }
 
 void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
@@ -95,7 +104,6 @@ void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
     }
 }
 
-
 void renderMainMenu(GameData& data) {
     data.window.clear();
     data.window.draw(data.background);
@@ -116,4 +124,3 @@ void renderMainMenu(GameData& data) {
     data.window.draw(data.selectionRect);
     data.window.display();
 }
-

@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>  // Ajout de l'include pour la gestion de la musique
 #include <string>
 
 using namespace sf;
@@ -15,13 +16,16 @@ struct GameData {
     Text menuItems[3];
     int currentSelection = 0;
 
+    // Ajout de la musique
+    Music backgroundMusic;  // Ajout de l'objet Music
+
     // Paramètres configurables
-    Keyboard::Key upKey = Keyboard::Up;      // Touche pour monter
-    Keyboard::Key downKey = Keyboard::Down;  // Touche pour descendre
-    Keyboard::Key actionKey = Keyboard::Enter; // Touche pour confirmer l'action
-    Keyboard::Key cancelKey = Keyboard::Escape; // Touche pour annuler
-    Keyboard::Key leftKey = Keyboard::Left;    // Touche pour aller à gauche
-    Keyboard::Key rightKey = Keyboard::Right;  // Touche pour aller à droite
+    Keyboard::Key upKey = Keyboard::Up;
+    Keyboard::Key downKey = Keyboard::Down;
+    Keyboard::Key actionKey = Keyboard::Enter;
+    Keyboard::Key cancelKey = Keyboard::Escape;
+    Keyboard::Key leftKey = Keyboard::Left;
+    Keyboard::Key rightKey = Keyboard::Right;
 
     int windowWidth = 1400;
     int windowHeight = 800;
