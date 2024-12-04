@@ -26,32 +26,48 @@ void handleOptionsMenu(GameData& data, bool& inOptionsMenu) {
         data.window.clear();
 
         // Titre de l'option
-        Text title("Options Menu", data.font, 30);
-        title.setPosition(100, 50);
+        Text title("Options Menu", data.font, 60);
+        FloatRect titleBounds = title.getLocalBounds();
+        title.setPosition((data.window.getSize().x - titleBounds.width) / 2, 30); // Centrage horizontal
+        data.window.draw(title);
 
         // Affichage des configurations des touches
         Text upKeyText("Up Key: " + data.keyToString(data.upKey), data.font, 24);
-        upKeyText.setPosition(100, 150);
+        FloatRect upKeyTextBounds = upKeyText.getLocalBounds();
+        upKeyText.setPosition((data.window.getSize().x - upKeyTextBounds.width) / 2, 150); // Centrage horizontal
+        data.window.draw(upKeyText);
 
         Text downKeyText("Down Key: " + data.keyToString(data.downKey), data.font, 24);
-        downKeyText.setPosition(100, 200);
+        FloatRect downKeyTextBounds = downKeyText.getLocalBounds();
+        downKeyText.setPosition((data.window.getSize().x - downKeyTextBounds.width) / 2, 225); // Centrage horizontal
+        data.window.draw(downKeyText);
 
         Text leftKeyText("Left Key: " + data.keyToString(data.leftKey), data.font, 24);
-        leftKeyText.setPosition(100, 250);
+        FloatRect leftKeyTextBounds = leftKeyText.getLocalBounds();
+        leftKeyText.setPosition((data.window.getSize().x - leftKeyTextBounds.width) / 2, 300); // Centrage horizontal
+        data.window.draw(leftKeyText);
 
         Text rightKeyText("Right Key: " + data.keyToString(data.rightKey), data.font, 24);
-        rightKeyText.setPosition(100, 300);
+        FloatRect rightKeyTextBounds = rightKeyText.getLocalBounds();
+        rightKeyText.setPosition((data.window.getSize().x - rightKeyTextBounds.width) / 2, 375); // Centrage horizontal
+        data.window.draw(rightKeyText);
 
         Text resizeText("Resize Window (Width x Height): " + to_string(data.windowWidth) + "x" + to_string(data.windowHeight), data.font, 24);
-        resizeText.setPosition(100, 350);
+        FloatRect resizeTextBounds = resizeText.getLocalBounds();
+        resizeText.setPosition((data.window.getSize().x - resizeTextBounds.width) / 2, 450); // Centrage horizontal
+        data.window.draw(resizeText);
 
         // Affichage de l'option Sound On/Off
         string soundText = data.soundEnabled ? "Sound: On" : "Sound: Off";
         Text soundTextOption(soundText, data.font, 24);
-        soundTextOption.setPosition(100, 400);
+        FloatRect soundTextOptionBounds = soundTextOption.getLocalBounds();
+        soundTextOption.setPosition((data.window.getSize().x - soundTextOptionBounds.width) / 2, 525); // Centrage horizontal
+        data.window.draw(soundTextOption);
 
         Text backText("Back to Main Menu", data.font, 24);  // Option retour
-        backText.setPosition(100, 450);
+        FloatRect backTextBounds = backText.getLocalBounds();
+        backText.setPosition((data.window.getSize().x - backTextBounds.width) / 2, 600); // Centrage horizontal
+        data.window.draw(backText);
 
         // Ajouter tous les éléments au dessin
         data.window.draw(title);

@@ -128,3 +128,4 @@ void renderMainMenu(GameData& data) {
     data.window.draw(data.selectionRect);
     data.window.display();
 }
+
