@@ -34,9 +34,9 @@ protected:
 	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
 		int damage = selfStat["FO"];
 		int proba = (50 - selfStat["FO"])*2;
-		//dice roll()
-		//if (diceRoll())
-		//	foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
+		int alea = rand() % 100;
+		if (alea <= proba)
+			foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

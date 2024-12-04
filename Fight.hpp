@@ -11,10 +11,12 @@ class Fight {
 private:
     std::vector<Heroes*> hParty;
     std::vector<Creatures*> mGroup;
+    Group& heroes;
+    Group& monsters;
 
 public:
     Fight(Group& heroesGroup, Group& monstersGroup)
-        : hParty(heroesGroup.getParty()), mGroup(monstersGroup.getGroup()) {}
+        : hParty(heroesGroup.getParty()), mGroup(monstersGroup.getGroup()), heroes(heroesGroup), monsters(monstersGroup) {}
 
     std::queue<std::string> fightOrder() {
         std::priority_queue<int> OrderPrio;
@@ -55,4 +57,17 @@ public:
 
         return finalOrder;
     }
+
+    void roundCheck() {
+        for (Heroes* hero : this->hParty) {
+            if (hero->isHeroAlive())
+                heroes.removeParty(hero);
+        }
+        for (Creatures* mob : this->mGroup) {
+            if (mob->isCreatureAlive())
+                monsters.removeGroup(mob);
+        }
+    }
+
+
 };

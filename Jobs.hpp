@@ -13,7 +13,4 @@ public:
 	virtual string getSpellName() = 0;
 	virtual string jobSpell(Creatures& foe, map<string, int> selfStat) = 0;
 	virtual map<string, int> getStatRequiredJob() = 0;
-	//virtual string jobSpell(Creatures& foe1, Creatures& foe2, Heroes& self ) = 0;
-	//virtual string jobSpell(Creatures& foe1, Creatures& foe2, Creatures& foe3, Heroes& self ) = 0;
-	//virtual string jobSpell(Creatures& foe1, Creatures& foe2, Creatures& foe3, Creatures& foe4, Heroes& self) = 0;
 };

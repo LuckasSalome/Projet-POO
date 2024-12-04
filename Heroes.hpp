@@ -20,6 +20,7 @@ private  :
 	string heroRace;
 	string heroJob;
 	map<string, int> heroStat;
+	const map<string, int> heroStatPerma;
 	bool possible = false;
 	bool isAlive = true;
 	int heroLevel = 1;
@@ -106,6 +107,13 @@ public :
 			this->heroLevel++;
 			this->exp -= this->expMax;
 			this->expMax += 5;
+			this->heroStat = this->heroStatPerma;
+			setHeroHealth(this->heroStat["HP"] + heroLevel);
+			setHeroCourage(this->heroStat["COU"] + heroLevel);
+			setHeroCharism(this->heroStat["CHA"] + heroLevel);
+			setHeroStrengh(this->heroStat["FO"] + heroLevel);
+			setHeroIntelligence(this->heroStat["INT"] + heroLevel);
+			setHeroDexterity(this->heroStat["AD"] + heroLevel);
 		}
 	}
 	string getRaceSpell(Race& race, Creatures& foe) {
@@ -134,15 +142,6 @@ public :
 		}
 
     }
-	//virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2) {
-	//	job.jobSpell(foe1, foe2, *this);
-	//}
-	//virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2, Creatures& foe3) {
-	//	job.jobSpell(foe1, foe2, foe3, *this);
-	//}
-	//virtual void getJobSpell(Jobs& job, Creatures& foe1, Creatures& foe2, Creatures& foe3, Creatures& foe4) {
-	//	job.jobSpell(foe1, foe2, foe3, foe4, *this);
-	//}
 
 	bool isHeroAlive() {
 		if (this->heroStat["HP"] <= 0)

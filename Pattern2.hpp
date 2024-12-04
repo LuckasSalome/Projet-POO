@@ -1,28 +1,21 @@
-#pragma once 
-
-#include "Pattern1.hpp"
-
-using namespace std;
-
 #pragma once
 
-#include "ProgramLich.hpp"
+#include <string>
+#include <map>
+#include "Boss.hpp"
 
-class Pattern2 : public ProgramLich {
-public:
-    Pattern2(const string& name, const string& desc, int maxHp)
-        : ProgramLich(name, desc, maxHp) {}
+class Pattern2 : public Boss {
+private :
+        std::string name = "Liche Programmatrice";
+        std::string desc = "Va te corriger";
 
-    map<string, int> Ability1() const override {
-        return { {"Name", "MemoryLeak"}, {"Damage", 40};
+protected :
+
+    virtual std::string getBossName() override {
+        return this->name;
+    }
+    virtual std::string getBossDesc() override {
+        return this->desc;
     }
 
-    map<string, int> Ability2() const override {
-        return { {"Name", "SegmentationFault"}, {"Damage", 60};
-    }
-
-    map<string, int> Ability3() const override {
-        return { {"Name", "RaceCondition"}, {"Damage", 100};
-    }
 };
-

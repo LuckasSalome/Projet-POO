@@ -9,7 +9,7 @@ using namespace std;
 class Elf : public Race {
 private :
 	string name = " Elfe";
-	string spellName = "Jeu De Jambes";
+	string spellName = "Palais Mental";
 	string desc = " Ne se melange pas avec la plebe, cette aventure ne l'emballe guere par ailleur.";
 	map<string, int> stat{ {"COU", 3}, {"CHA", 11}, {"INT", 12}, {"FO",2 }, {"AD", 12}, {"HP", 25} };
 
@@ -24,16 +24,19 @@ protected:
 		return this->stat;
 	}
 	map<string, int> raceSpell(Creatures& foe, map<string, int> selfStat) override {
-		//if (rand()%2 == 1)
-			//=======================  remplacer dans le systeme de combat par faire esquiver une attaque
+		if (rand() % 2 == 1)
+		{
+			selfStat.insert({ "CHA", selfStat["CHA"] + 3 });
+			selfStat.insert({ "INT", selfStat["INT"] + 3 });
+		}
 		return selfStat;
 	}
 	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
 		int damage = selfStat["INT"];
 		int proba = (50 - selfStat["INT"])*2;
-		//dice roll()
-		//if (diceRoll())
-		//	foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
+		int alea = rand() % 100;
+		if (alea <= proba)
+			foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

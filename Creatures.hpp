@@ -45,19 +45,19 @@ public:
     }
 
     // Getters
-    std::string getCreatureName() {
+    std::string getName() {
         return this->creatureName;
     }
 
-    std::string getCreatureDesc() {
+    std::string getDesc() {
         return this->creatureDesc;
     }
 
-    std::map<std::string, int> getCreatureStat() {
+    std::map<std::string, int> getStat() {
         return this->creatureStat;
     }
 
-    bool getCreatureAlive() const {
+    bool getAlive() const {
         return this->isAlive;
     }
 
@@ -93,7 +93,7 @@ public:
                 this->setCreatureHealth(result["HP"]);
             return mob.getSpellName();
         }
-        return "Impossible, " + getCreatureName() + " est Mort(e).";
+        return "Impossible, " + this->creatureName + " est Mort(e).";
     }
 
     std::string getBasicAttack(Common& mob, Heroes& ennemy) {
@@ -101,7 +101,7 @@ public:
             mob.basicAttack(ennemy, this->creatureStat);
             return "Attaque Basique";
         }
-        return "Impossible, " + getCreatureName() + " est Mort(e).";
+        return "Impossible, " + this->creatureName + " est Mort(e).";
     }
 
     std::string getBossSpell1(Boss& mob, Heroes& ennemy) {
@@ -111,7 +111,7 @@ public:
             mob.bossSpell1(ennemy, this->creatureStat, cond);
             return mob.getSpellName1(cond);
         }
-        return "Impossible, " + getCreatureName() + " est Mort(e).";
+        return "Impossible, " + this->creatureName + " est Mort(e).";
     }
 
     std::string getBossSpell2(Boss& mob, Heroes& ennemy) {
@@ -121,12 +121,13 @@ public:
             mob.bossSpell2(ennemy, this->creatureStat, cond);
             return mob.getSpellName2(cond);
         }
-        return "Impossible, " + getCreatureName() + " est Mort(e).";
+        return "Impossible, " + this->creatureName + " est Mort(e).";
     }
 
 
-    void isCreatureAlive() {
+    bool isCreatureAlive() {
         if (this->creatureStat["HP"] <= 0)
             isAlive = false;
+        return this->isAlive;
     }
 };

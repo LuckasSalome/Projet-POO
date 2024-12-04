@@ -98,7 +98,7 @@ int main()
     Boss->initBossDesc(*lich);
     Boss->initBossStat(*lich);
 
-    Heros->addParty(Character1)
+    Heros->addParty(Character1);
     Monstres->addGroup(Mob1);
 
     Heros->removeParty(Character1);
