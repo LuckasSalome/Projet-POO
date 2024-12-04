@@ -87,11 +87,17 @@ void Coffre::drawMessage(sf::RenderWindow& window, const std::vector<Wall>& wall
         case 8:
             fullMessage = "...";
             break;
+        case 9:
+            fullMessage = "La plrochaine fois je ferme le jeu!";
+            break;
+        case 10:
+            window.close();
+            break;
         default:
             fullMessage = "Le coffre est toujours vide.";
             break;
         }
-        if (dumbness < 8) {
+        if (dumbness < 10) {
             const_cast<int&>(dumbness)++;
         }
     }
