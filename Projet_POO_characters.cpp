@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 
 #include "Heroes.hpp"
 #include "Creatures.hpp"
@@ -6,6 +7,7 @@
 #include "RhetoricianTroll.hpp"
 #include "SarcasticGobelin.hpp"
 #include "ProgramLich.hpp"
+#include "Fight.hpp"
 
 
 using namespace std;
@@ -75,6 +77,9 @@ int main()
     Heroes* Character1 = new Heroes("Michel");
     Creatures* Mob1 = new Creatures();
     Creatures* Boss = new Creatures();
+    Group* Heros = new Group();
+    Group* Monstres = new Group();
+
 
      //hero numero 1
     Character1->StatComparison(*race, *job);
@@ -92,6 +97,18 @@ int main()
     Boss->initBossName(*lich);
     Boss->initBossDesc(*lich);
     Boss->initBossStat(*lich);
+
+    Heros->addParty(Character1)
+    Monstres->addGroup(Mob1);
+
+    Heros->removeParty(Character1);
+
+    Fight* combat = new Fight(*Heros, *Monstres);
+
+    queue<string> Ordre = combat->fightOrder();
+    while (!Ordre.empty()) {
+        cout << Ordre.front() << endl; Ordre.pop();
+    }
 
 
     //affiche le hero et le monstre
