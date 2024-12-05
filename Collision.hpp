@@ -6,7 +6,6 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
-#include "Map.hpp"
 #include "mapManager.hpp"
 #include "Player.hpp"
 
