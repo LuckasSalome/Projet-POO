@@ -61,6 +61,11 @@ public:
 	
 	};
 
+	void setSwitchTime(float switchTime) {
+		this->SwitchTime = switchTime;
+	};
+
+
 private:
 	sf::Vector2u imageCount;
 	sf::Vector2u currentImage;
