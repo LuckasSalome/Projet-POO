@@ -6,32 +6,35 @@
 
 class Group {
 private:
-    std::vector<Heroes*> heroParty;
+    std::vector<Entity*> group;
     std::vector<int>::iterator it;
-    std::vector<Creatures*> monsterGroup;
+    bool isEmpty = false;
 
 public:
-    std::vector<Heroes*> getParty() {
-        return this->heroParty;
-    }
-    std::vector<Creatures*> getGroup() {
-        return this->monsterGroup;
+    std::vector<Entity*> getGroup() {
+        return this->group;
     }
 
-    void addParty(Heroes* hero) {
-        this->heroParty.push_back(hero);
+    void addParty(Entity* chara) {
+        this->group.push_back(chara);
     }
-    void addGroup(Creatures* mob) {
-        this->monsterGroup.push_back(mob);
+    void addGroup(Entity* chara) {
+        this->group.push_back(chara);
     }
-    void removeParty(Heroes* hero) {
-        for (int i=0; i<this->heroParty.size(); i++)
-            if (this->heroParty[i] == hero)
-                this->heroParty.erase(this->heroParty.begin() + i);
+    void removeParty(Entity* chara) {
+        for (int i=0; i<this->group.size(); i++)
+            if (this->group[i] == chara)
+                this->group.erase(this->group.begin() + i);
     }
-    void removeGroup(Creatures* creature) {
-        for (int i = 0; i < this->monsterGroup.size(); i++)
-            if (this->monsterGroup[i] == creature)
-                this->monsterGroup.erase(this->monsterGroup.begin() + i);
+    void removeGroup(Entity* creature) {
+        for (int i = 0; i < this->group.size(); i++)
+            if (this->group[i] == creature)
+                this->group.erase(this->group.begin() + i);
+    }
+
+    bool isGroupEmpty() {
+        if (this->group.size() == 0)
+            this->isEmpty == true;
+        return this->isEmpty;
     }
 };

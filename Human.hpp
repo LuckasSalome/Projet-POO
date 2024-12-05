@@ -45,7 +45,7 @@ protected:
 			alea = rand() % 100;
 		}
 		if (alea <= proba)
-			foe.setCreatureHealth(foe.getCreatureStat()["HP"] - damage);
+			foe.setCreatureHealth(foe.getStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

@@ -5,45 +5,45 @@
 #include <queue>
 #include <stack>
 #include <random>
-#include "Group.hpp"0
+#include "Group.hpp"
 
 class Fight {
 private:
-    std::vector<Heroes*> hParty;
-    std::vector<Creatures*> mGroup;
+    std::vector<Entity*> group1;
+    std::vector<Entity*> group2;
     Group& heroes;
     Group& monsters;
 
 public:
     Fight(Group& heroesGroup, Group& monstersGroup)
-        : hParty(heroesGroup.getParty()), mGroup(monstersGroup.getGroup()), heroes(heroesGroup), monsters(monstersGroup) {}
+        : group1(heroesGroup.getGroup()), group2(monstersGroup.getGroup()), heroes(heroesGroup), monsters(monstersGroup) {}
 
-    std::queue<std::string> fightOrder() {
+    std::queue<Entity*> fightOrder() {
         std::priority_queue<int> OrderPrio;
-        std::stack<std::string> Order;
-        std::queue<std::string> finalOrder;
+        std::stack<Entity*> Order;
+        std::queue<Entity*> finalOrder;
 
         // Remplir la priorité des héros
-        for (int i = 0; i < this->hParty.size(); i++) {
-            OrderPrio.push(this->hParty[i]->getHeroStat()["COU"] + this->hParty[i]->getHeroStat()["AD"]);
+        for (int i = 0; i < this->group1.size(); i++) {
+            OrderPrio.push(this->group1[i]->getStat()["COU"] + this->group1[i]->getStat()["AD"]);      //regarde le courage et l'adresse
         }
 
         // Remplir la priorité des monstres
-        for (int j = 0; j < this->mGroup.size(); j++) {
-            OrderPrio.push(this->mGroup[j]->getCreatureStat()["COU"] + this->mGroup[j]->getCreatureStat()["AD"]);
+        for (int j = 0; j < this->group2.size(); j++) {
+            OrderPrio.push(this->group2[j]->getStat()["COU"] + this->group2[j]->getStat()["AD"]);
         }
 
         // Déterminer l'ordre de combat
         while (!OrderPrio.empty()) {
-            for (int i = 0; i < this->hParty.size(); i++) {
-                if (this->hParty[i]->getHeroStat()["COU"] + this->hParty[i]->getHeroStat()["AD"] == OrderPrio.top()) {
-                    Order.push(this->hParty[i]->getName());
+            for (int i = 0; i < this->group1.size(); i++) {
+                if (this->group1[i]->getStat()["COU"] + this->group1[i]->getStat()["AD"] == OrderPrio.top()) {
+                    Order.push(this->group1[i]);
                     OrderPrio.pop();
                 }
             }
-            for (int i = 0; i < this->mGroup.size(); i++) {
-                if (this->mGroup[i]->getCreatureStat()["COU"] + this->mGroup[i]->getCreatureStat()["AD"] == OrderPrio.top()) {
-                    Order.push(this->mGroup[i]->getCreatureName());
+            for (int i = 0; i < this->group2.size(); i++) {
+                if (this->group2[i]->getStat()["COU"] + this->group2[i]->getStat()["AD"] == OrderPrio.top()) {
+                    Order.push(this->group2[i]);
                     OrderPrio.pop();
                 }
             }
@@ -59,15 +59,29 @@ public:
     }
 
     void roundCheck() {
-        for (Heroes* hero : this->hParty) {
-            if (hero->isHeroAlive())
+        for (Entity* hero : this->group1) {
+            if (hero->getAlive())
                 heroes.removeParty(hero);
         }
-        for (Creatures* mob : this->mGroup) {
-            if (mob->isCreatureAlive())
+        for (Entity* mob : this->group2) {
+            if (mob->getAlive())
                 monsters.removeGroup(mob);
         }
     }
 
+    void fighting() {
+        while (heroes.isGroupEmpty() == false || monsters.isGroupEmpty() == false)
+        {
+            queue<Entity*> Ordre = fightOrder();
+            while (!Ordre.empty()) {
+                
+                if (Ordre.front()->getHeroType())
+                    cout << Ordre.front() << endl; Ordre.pop();
+                
+            }
+            roundCheck();
+            
+        }
+    }
 
 };

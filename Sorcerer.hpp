@@ -25,7 +25,7 @@ protected :
 	}
 	string jobSpell(Creatures& foe1, map<string, int> selfStat) override {				
 		int damage = selfStat["INT"] / 2;
-		foe1.setCreatureHealth(foe1.getCreatureStat()["HP"] - damage);
+		foe1.setCreatureHealth(foe1.getStat()["HP"] - damage);
 		return this->spellName;
 	}
 	string getSpellName() override {

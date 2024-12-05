@@ -26,7 +26,7 @@ protected:
 	string jobSpell(Creatures& foe, map<string, int> selfStat) override {						//le fait attaquer en premier de 5 degats
 		int damage = 5;
 		//le met en premier en attaque
-		foe.setCreatureHealth(foe.getCreatureStat()["HP"]-damage);
+		foe.setCreatureHealth(foe.getStat()["HP"]-damage);
 		return this->spellName;
 	}
 	string getSpellName() override {
