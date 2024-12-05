@@ -19,12 +19,12 @@ private:
     map<int, Texture> textures;
     float gridSize;
     int mapSize;
+    const int COLLISION_TRIGGER = 2;
 
-///////////////////////////Chargez vos textures ici\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
+///////////////////////////Ajoutez vos textures ici\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     void loadTextures() {
-        
+
             Texture grassTex;
             if (!grassTex.loadFromFile("Assets/grass00.png"))
                 throw std::runtime_error("Cannot load Assets/grass00.png");
@@ -75,9 +75,83 @@ private:
                 throw std::runtime_error("Cannot load Assets/MurV2.png");
             textures[9] = MurV2;
 
-    };
+            Texture Black;
+            if (!Black.loadFromFile("Assets/black.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[10] = Black;
 
-//Methode pour creer le grid, ça va lire le fichier verif les textures et assigner ça aux positions de la grid (qui n'est nul autre qu'une matrice)
+            Texture grass01;
+            if (!grass01.loadFromFile("Assets/grass01.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[11] = grass01;
+
+            Texture grass02;
+            if (!grass02.loadFromFile("Assets/grass02.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[12] = grass02;
+
+            Texture grass03;
+            if (!grass03.loadFromFile("Assets/grass03.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[13] = grass03;
+
+            Texture hill1;
+            if (!hill1.loadFromFile("Assets/hill1.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[14] = hill1;
+
+            Texture hill2;
+            if (!hill2.loadFromFile("Assets/hill2.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[15] = hill2;
+
+            Texture hill3;
+            if (!hill3.loadFromFile("Assets/hill3.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[16] = hill3;
+
+            Texture hill4;
+            if (!hill4.loadFromFile("Assets/hill4.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[17] = hill4;
+
+            Texture entree2;
+            if (!entree2.loadFromFile("Assets/entree2.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[18] = entree2;
+
+            Texture stairs1;
+            if (!stairs1.loadFromFile("Assets/stairs1.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[19] = stairs1;
+
+            Texture stairs2;
+            if (!stairs2.loadFromFile("Assets/stairs2.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[20] = stairs2;
+
+            Texture mur2;
+            if (!mur2.loadFromFile("Assets/mur2.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[21] = mur2;
+
+            Texture sol3;
+            if (!sol3.loadFromFile("Assets/sol3.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[22] = sol3;
+
+            Texture sol4;
+            if (!sol4.loadFromFile("Assets/sol4.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[23] = sol4;
+
+            Texture sol5;
+            if (!sol5.loadFromFile("Assets/sol5.png"))
+                throw std::runtime_error("Cannot load Assets/MurV2.png");
+            textures[24] = sol5;
+        };
+
+
     void initTileMap() {
             tileMap.resize(mapSize, vector<RectangleShape>(mapSize));
 
@@ -98,7 +172,7 @@ private:
         
     };
  
-//ça regarde le fichier avec les textures
+
     void loadTileTypes(const string& filename) {
         ifstream file(filename);
         if (!file.is_open()) {
@@ -114,7 +188,7 @@ private:
 
         file.close();
     }
-//ça regarde le fichier avec les collisions, a rappeler parce qu'il ne fait que look il ne creer pas de collision
+
     void loadCollisionMap(const string& filename) {
         ifstream file(filename);
         if (!file.is_open()) {
@@ -151,4 +225,45 @@ public:
     float getGridSize() {
         return this->gridSize;
     }
+
+    void loadNewMap(const string& newTileTypesFile, const string& newCollisionMapFile) {
+        vector<vector<int>> newTileTypes(mapSize, vector<int>(mapSize));
+        vector<vector<int>> newCollisionMap(mapSize, vector<int>(mapSize));
+
+        ifstream tileTypesFile(newTileTypesFile);
+        if (!tileTypesFile.is_open()) {
+            throw "cant open tile types file";
+        }
+        for (int x = 0; x < mapSize; ++x) {
+            for (int y = 0; y < mapSize; ++y) {
+                tileTypesFile >> newTileTypes[x][y];
+            }
+        }
+        tileTypesFile.close();
+
+        ifstream collisionMapFile(newCollisionMapFile);
+        if (!collisionMapFile.is_open()) {
+            throw "cant open collision map file";
+        }
+        for (int x = 0; x < mapSize; ++x) {
+            for (int y = 0; y < mapSize; ++y) {
+                collisionMapFile >> newCollisionMap[x][y];
+            }
+        }
+        collisionMapFile.close();
+
+        setTileTypes(newTileTypes);
+        setCollisionMap(newCollisionMap);
+    }
+
+
+    void setTileTypes(const vector<vector<int>>& newTileTypes) {
+        tileTypes = newTileTypes;
+        initTileMap();
+    }
+
+    void setCollisionMap(const vector<vector<int>>& newCollisionMap) {
+        collisionMap = newCollisionMap;
+    }
+
 };
