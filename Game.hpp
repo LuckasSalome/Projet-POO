@@ -7,6 +7,7 @@
 #include "Collision.hpp"
 #include "Player.hpp"
 #include "MapManager.hpp"
+#include "LookForNewMap.hpp"
 
 using namespace sf;
 using namespace std;
@@ -45,9 +46,10 @@ public:
     // Constructeur
     Game() {
         this->initWindow();
-        this->mapManager = new MapManager(75.f, 20, "Config/tileTypes.txt", "Config/collisionMap.txt");
-        this->player = new Player(mapManager);
-        this->wall = new Collision(mapManager, player, this->window->getSize().x, this->window->getSize().y);
+        this->mapManager = new MapManager(75.f, 20, "Config/tileTypes1.txt", "Config/collisionMap1.txt");
+        this->player = new Player(mapManager, [this](string newTileMap, string newCollisionMap) {
+            this->onMapChange(newTileMap, newCollisionMap);}); //en gros ah carré tu change de map bah dcp appelle cette fonction stp
+        this->wall = new Collision(mapManager, player, (this->window->getSize().x),(this->window->getSize().y));
     };
 
     // Destructeur
@@ -76,7 +78,7 @@ public:
     // Update les events
     void update() {
         this->updateSFMLEvents();
-        this->player->playerMovement(this->dt, this->wall->getWalls());
+        this->player->playerMovement(this->dt, this->wall->getWalls(), *this->mapManager);
         this->viewOnPlayer();
 
         //Voir collisions
@@ -121,11 +123,9 @@ public:
         this->playerView.setCenter(player->getPositionPlayer());
     };
 
-    float getPlayerViewCenterX() {
-        return this->playerView.getCenter().x;
-    };
+    void onMapChange(string NewTileMap, string NewCollisionMap) {
+        this-> mapManager->loadNewMap(NewTileMap, NewCollisionMap);
+        this-> wall->resetCollisions();
+    }
 
-    float getPlayerViewCenterY() {
-        return this->playerView.getCenter().y;
-    };
 };
