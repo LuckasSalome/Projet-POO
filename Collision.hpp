@@ -51,5 +51,11 @@ public:
         for (auto& wall : walls) {
             wall.setFillColor(color);
         }
+    } 
+
+    void resetCollisions() {
+        walls.clear();
+        collisionInit();
     }
+
 };
