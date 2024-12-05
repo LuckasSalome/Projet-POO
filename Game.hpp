@@ -12,7 +12,6 @@
 #include "BeerPotion.hpp"
 #include "RustyKey.hpp"
 #include "RopeTrap.hpp"
-#include "BeerPotion.hpp"
 #include "BookOfLostRules.hpp"
 #include "ScepterSintactic.hpp"
 #include "KeyCorridor.hpp"
@@ -83,74 +82,45 @@ private:
     }
 
     void populateInventory() {
-        PotionIntelligence* potionIntelligence = new PotionIntelligence();
-        RustyKey* rustyKey = new RustyKey();
-        RopeTrap* ropeTrap = new RopeTrap();
-        BeerPotion* beerPotion = new BeerPotion();
-        BookOfLostRules* bookOfLostRules = new BookOfLostRules();
-        ScepterSyntactic* scepterSyntactic = new ScepterSyntactic();
-        KeyCorridor* keyCorridor = new KeyCorridor();
-        DiscretionShoesNoisy* discretionShoesNoisy = new DiscretionShoesNoisy();
-        BluntSword* bluntSword = new BluntSword();
-        MajorHealingPotion* majorHealingPotion = new MajorHealingPotion();
-        Sword* sword = new Sword();
-        Bow* bow = new Bow();
-        SorcererStick* sorcererStick = new SorcererStick();
-        Dagger* dagger = new Dagger();
-        StealBoots* stealBoots = new StealBoots();
-        LeatherBoots* leatherBoots = new LeatherBoots();
-        DarkBoots* darkBoots = new DarkBoots();
-        SorcererBoots* sorcererBoots = new SorcererBoots();
-        ChainMail* chainMail = new ChainMail();
-        LeatherChest* leatherChest = new LeatherChest();
-        DarkCape* darkCape = new DarkCape();
-        SorcererCape* sorcererCape = new SorcererCape();
-        
-
-
-        inventory->addItem(0, 0, potionIntelligence);
-        inventory->addItem(0, 1, rustyKey);
-        inventory->addItem(0, 2, ropeTrap);
-        inventory->addItem(0, 3, beerPotion);
-        inventory->addItem(0, 4, bookOfLostRules);
-        inventory->addItem(1, 0, scepterSyntactic);
-        inventory->addItem(1, 1, keyCorridor);
-        inventory->addItem(1, 2, discretionShoesNoisy);
-        inventory->addItem(1, 3, bluntSword);
-        inventory->addItem(1, 4, majorHealingPotion);
-        inventory->addItem(2, 0, sword);
-        inventory->addItem(2, 1, bow);
-        inventory->addItem(2, 2, sorcererStick);
-        inventory->addItem(2, 3, dagger);
-        inventory->addItem(2, 4, stealBoots);
-        inventory->addItem(3, 0, leatherBoots);
-        inventory->addItem(3, 1, darkBoots);
-        inventory->addItem(3, 2, sorcererBoots);
-        inventory->addItem(3, 3, chainMail);
-        inventory->addItem(3, 4, leatherChest);
-        inventory->addItem(4, 0, darkCape);
-        inventory->addItem(4, 1, sorcererCape);
-
-        
-        
+        inventory->addItem(0, 0, new PotionIntelligence());
+        inventory->addItem(0, 1, new RustyKey());
+        inventory->addItem(0, 2, new RopeTrap());
+        inventory->addItem(0, 3, new BeerPotion());
+        inventory->addItem(0, 4, new BookOfLostRules());
+        inventory->addItem(1, 0, new ScepterSyntactic());
+        inventory->addItem(1, 1, new KeyCorridor());
+        inventory->addItem(1, 2, new DiscretionShoesNoisy());
+        inventory->addItem(1, 3, new BluntSword());
+        inventory->addItem(1, 4, new MajorHealingPotion());
+        inventory->addItem(2, 0, new Sword());
+        inventory->addItem(2, 1, new Bow());
+        inventory->addItem(2, 2, new SorcererStick());
+        inventory->addItem(2, 3, new Dagger());
+        inventory->addItem(2, 4, new StealBoots());
+        inventory->addItem(3, 0, new LeatherBoots());
+        inventory->addItem(3, 1, new DarkBoots());
+        inventory->addItem(3, 2, new SorcererBoots());
+        inventory->addItem(3, 3, new ChainMail());
+        inventory->addItem(3, 4, new LeatherChest());
+        inventory->addItem(4, 0, new DarkCape());
+        inventory->addItem(4, 1, new SorcererCape());
     }
-
-
 
 public:
     Game() {
         this->initWindow();
         this->initFont();
-        this->mapManager = new MapManager(75.f, 20, "Config/tileTypes.txt", "Config/collisionMap.txt");
-        this->player = new Player(mapManager);
+        this->mapManager = new MapManager(75.f, 20, "Config/tileTypes1.txt", "Config/collisionMap1.txt");
+        this->player = new Player(mapManager, [this](string newTileMap, string newCollisionMap) {
+            this->onMapChange(newTileMap, newCollisionMap);
+            });
         this->wall = new Collision(mapManager, player, this->window->getSize().x, this->window->getSize().y);
         this->inventory = new Inventory(5, 5, font);
 
         this->populateInventory();
         this->chest = new Chest(500.f, 500.f, 3, 3, font, "images/Chest.png");
-        this->chest->getInventory()->addItem(0, 0, new BeerPotion());  
+        this->chest->getInventory()->addItem(0, 0, new BeerPotion());
         this->chest->getInventory()->addItem(1, 1, new BluntSword());
-
     };
 
     ~Game() {
@@ -216,7 +186,7 @@ public:
         this->updateSFMLEvents();
 
         if (!this->inventory->getIsOpen()) {
-            this->player->playerMovement(this->dt, this->wall->getWalls());
+            this->player->playerMovement(this->dt, this->wall->getWalls(), *this->mapManager);
             this->viewOnPlayer();
         }
 
@@ -230,11 +200,8 @@ public:
 
     void render() {
         this->window->clear();
-
-        // Set view to follow player
         this->window->setView(playerView);
 
-        // Draw world elements
         for (const auto& row : this->mapManager->getTileMap()) {
             for (const auto& tile : row) {
                 this->window->draw(tile);
@@ -245,16 +212,11 @@ public:
             this->window->draw(wall);
         }
 
-        // Draw chest at its fixed position
-        this->window->draw(this->chest->getSprite());  // You might need to add a getSprite() method to Chest class
-
+        this->window->draw(this->chest->getSprite());
         this->window->draw(this->player->getPlayer());
 
-        // Set back to UI view for UI elements
         this->window->setView(uiView);
-
         this->inventory->draw(*this->window);
-        
 
         this->window->display();
     }
@@ -270,4 +232,9 @@ public:
     void viewOnPlayer() {
         this->playerView.setCenter(player->getPositionPlayer());
     };
-};  
+
+    void onMapChange(string NewTileMap, string NewCollisionMap) {
+        this->mapManager->loadNewMap(NewTileMap, NewCollisionMap);
+        this->wall->resetCollisions();
+    }
+};
