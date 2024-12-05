@@ -13,6 +13,6 @@ public:
 	virtual std::string getSpellName1(bool midlife) = 0;
 	virtual std::string getSpellName2(bool midlife) = 0;
 	virtual std::map<std::string, int> getBossStat() = 0;
-	virtual std::map<std::string, int> bossSpell1(Heroes& ennemy, std::map<std::string, int> creatureStat, bool midlife) = 0;
-	virtual std::map<std::string, int> bossSpell2(Heroes& ennemy, std::map<std::string, int> creatureStat, bool midlife) = 0;
+	virtual std::map<std::string, int> bossSpell1(Entity& ennemy, std::map<std::string, int> creatureStat, bool midlife) = 0;
+	virtual std::map<std::string, int> bossSpell2(Entity& ennemy, std::map<std::string, int> creatureStat, bool midlife) = 0;
 };

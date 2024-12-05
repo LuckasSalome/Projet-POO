@@ -61,6 +61,13 @@ static Common* createMob(const string& type) {
     }
 }
 
+static Entity* createEntity(const string& type, const string name) {
+    if (type == "Hero")
+        return new Heroes(name);
+    else if (type == "Monstre")
+        return new Creatures();
+}
+
 
 int main()
 {
@@ -74,9 +81,9 @@ int main()
     Common* mob = createMob(mobType);
     Boss* lich = new ProgramLich();
 
-    Heroes* Character1 = new Heroes("Michel");
-    Creatures* Mob1 = new Creatures();
-    Creatures* Boss = new Creatures();
+    Entity* Character1 = createEntity("Hero", "Michel");
+    Entity* Mob1 = createEntity("Monstre", "");
+    Entity* Boss = createEntity("Monstre", "");
     Group* Heros = new Group();
     Group* Monstres = new Group();
 
@@ -154,7 +161,7 @@ int main()
     for (int i = 0; i < 6; i++)
         cout << Character1->getStat()[statistics[i]] << endl;
 
-    Boss->setCreatureHealth(45);
+    Boss->setHealth(45);
     //affiche boss
     cout << Boss->getName() << endl;
     cout << Boss->getDesc() << endl;

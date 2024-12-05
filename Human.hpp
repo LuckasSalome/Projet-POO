@@ -23,11 +23,11 @@ protected:
 	map<string, int> getStat() override {
 		return this->stat;
 	}
-	map<string, int> raceSpell(Creatures& foe, map<string, int> selfStat) override {
+	map<string, int> raceSpell(Entity& foe, map<string, int> selfStat) override {
 		selfStat.insert({ "HP", selfStat["HP"] + 5 });
 		return selfStat;
 	}
-	void basicAttack(Creatures& foe, map<string, int> selfStat) override {
+	void basicAttack(Entity& foe, map<string, int> selfStat) override {
 		int damage;
 		int proba;
 		int alea;
@@ -45,7 +45,7 @@ protected:
 			alea = rand() % 100;
 		}
 		if (alea <= proba)
-			foe.setCreatureHealth(foe.getStat()["HP"] - damage);
+			foe.setHealth(foe.getStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

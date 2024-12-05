@@ -23,9 +23,9 @@ protected :
 	map<string, int> getStatRequiredJob() override {
 		return this->requiredStat;
 	}
-	string jobSpell(Creatures& foe1, map<string, int> selfStat) override {				
+	string jobSpell(Entity& foe1, map<string, int> selfStat) override {
 		int damage = selfStat["INT"] / 2;
-		foe1.setCreatureHealth(foe1.getStat()["HP"] - damage);
+		foe1.setHealth(foe1.getStat()["HP"] - damage);
 		return this->spellName;
 	}
 	string getSpellName() override {

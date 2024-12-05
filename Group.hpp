@@ -34,7 +34,7 @@ public:
 
     bool isGroupEmpty() {
         if (this->group.size() == 0)
-            this->isEmpty == true;
+            this->isEmpty = true;
         return this->isEmpty;
     }
 };

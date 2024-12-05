@@ -23,8 +23,8 @@ protected:
 	map<string, int> getStatRequiredJob() override {
 		return this->requiredStat;
 	}
-	string jobSpell(Creatures& foe, map<string, int> selfStat) override {						//debuff l'ennemi de 4 de courage
-		foe.setCreatureCourage(foe.getStat()["COU"] - 5);
+	string jobSpell(Entity& foe, map<string, int> selfStat) override {						//debuff l'ennemi de 4 de courage
+		foe.setCourage(foe.getStat()["COU"] - 5);
 		return this->spellName;
 	}
 	string getSpellName() override {

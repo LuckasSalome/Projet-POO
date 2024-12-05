@@ -23,9 +23,9 @@ protected:
 	map<string, int> getStatRequiredJob() override {
 		return this->requiredStat;
 	}
-	string jobSpell(Creatures& foe, map<string, int> selfStat) override {			//attaque inratable qui inflige la moitie de l'adresse du hero
+	string jobSpell(Entity& foe, map<string, int> selfStat) override {			//attaque inratable qui inflige la moitie de l'adresse du hero
 		int damage = selfStat["AD"] / 2;
-		foe.setCreatureHealth(foe.getStat()["HP"] - damage);
+		foe.setHealth(foe.getStat()["HP"] - damage);
 		return spellName;
 	}
 	string getSpellName() override {

@@ -2,10 +2,13 @@
 
 #include <string>
 #include <map>
+#include "Entity.hpp"
 #include "Common.hpp"
 #include "Boss.hpp"
 
-class Creatures {
+class Entity;
+
+class Creatures : public Entity{
 private:
     std::string creatureName;
     std::string creatureDesc;
@@ -14,89 +17,89 @@ private:
     bool cond = false;
 
 public:
-    std::string initCreatureName(Common& mob) {
+    std::string initCreatureName(Common& mob) override {
         this->creatureName = mob.getName();
         return this->creatureName;
     }
 
-    std::string initCreatureDesc(Common& mob) {
+    std::string initCreatureDesc(Common& mob) override {
         this->creatureDesc = mob.getDesc();
         return this->creatureDesc;
     }
 
-    std::map<std::string, int> initCreatureStat(Common& mob) {
+    std::map<std::string, int> initCreatureStat(Common& mob) override {
         this->creatureStat = mob.getStat();
         return this->creatureStat;
     }
 
-    std::string initBossName(Boss& mob) {
+    std::string initBossName(Boss& mob) override {
         this->creatureName = mob.getBossName();
         return this->creatureName;
     }
 
-    std::string initBossDesc(Boss& mob) {
+    std::string initBossDesc(Boss& mob) override {
         this->creatureDesc = mob.getBossDesc();
         return this->creatureDesc;
     }
 
-    std::map<std::string, int> initBossStat(Boss& mob) {
+    std::map<std::string, int> initBossStat(Boss& mob) override {
         this->creatureStat = mob.getBossStat();
         return this->creatureStat;
     }
 
     // Getters
-    std::string getName() {
+    std::string getName() override {
         return this->creatureName;
     }
 
-    std::string getDesc() {
+    std::string getDesc() override {
         return this->creatureDesc;
     }
 
-    std::map<std::string, int> getStat() {
+    std::map<std::string, int> getStat() override {
         return this->creatureStat;
     }
 
-    bool getAlive() const {
+    bool getAlive()  override {
         return this->isAlive;
     }
 
     // Setters
-    void setCreatureHealth(int set) {
+    void setHealth(int set) override {
         this->creatureStat["HP"] = set;
     }
 
-    void setCreatureCourage(int set) {
+    void setCourage(int set) override {
         this->creatureStat["COU"] = set;
     }
 
-    void setCreatureStrengh(int set) {
+    void setStrengh(int set) override {
         this->creatureStat["FO"] = set;
     }
 
-    void setCreatureIntelligence(int set) {
+    void setIntelligence(int set) override {
         this->creatureStat["INT"] = set;
     }
 
-    void setCreatureDexterity(int set) {
+    void setDexterity(int set) override {
         this->creatureStat["AD"] = set;
     }
 
-    void setCreatureCharism(int set) {
+    void setCharism(int set) override {
         this->creatureStat["CHA"] = set;
     }
 
-    std::string getMonsterSpell(Common& mob, Heroes& ennemy) {
+    std::string getMonsterSpell(Common& mob, Entity& ennemy) override {
         if (isAlive) {
             std::map<std::string, int> result = mob.monsterSpell(ennemy, this->creatureStat);
             if (result["HP"] != this->creatureStat["HP"])
-                this->setCreatureHealth(result["HP"]);
+                this->setHealth(result["HP"]);
             return mob.getSpellName();
         }
         return "Impossible, " + this->creatureName + " est Mort(e).";
     }
 
-    std::string getBasicAttack(Common& mob, Heroes& ennemy) {
+    std::string getBasicAttack(Common& mob, Entity& ennemy) override {
         if (isAlive) {
             mob.basicAttack(ennemy, this->creatureStat);
             return "Attaque Basique";
@@ -104,9 +107,9 @@ public:
         return "Impossible, " + this->creatureName + " est Mort(e).";
     }
 
-    std::string getBossSpell1(Boss& mob, Heroes& ennemy) {
+    std::string getBossSpell1(Boss& mob, Entity& ennemy) override {
         if (isAlive) {
-            if (getCreatureStat()["HP"] <= 50)
+            if (getStat()["HP"] <= 50)
                 this->cond = true;
             mob.bossSpell1(ennemy, this->creatureStat, cond);
             return mob.getSpellName1(cond);
@@ -114,9 +117,9 @@ public:
         return "Impossible, " + this->creatureName + " est Mort(e).";
     }
 
-    std::string getBossSpell2(Boss& mob, Heroes& ennemy) {
+    std::string getBossSpell2(Boss& mob, Entity& ennemy) override {
         if (isAlive) {
-            if (getCreatureStat()["HP"] <= 50)
+            if (getStat()["HP"] <= 50)
                 this->cond = true;
             mob.bossSpell2(ennemy, this->creatureStat, cond);
             return mob.getSpellName2(cond);
@@ -129,5 +132,9 @@ public:
         if (this->creatureStat["HP"] <= 0)
             isAlive = false;
         return this->isAlive;
+    }
+
+    bool getHeroType() override {
+        return false;
     }
 };
