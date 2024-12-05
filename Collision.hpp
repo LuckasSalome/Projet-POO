@@ -6,7 +6,7 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
-#include "MapManager.hpp"
+#include "mapManager.hpp"
 #include "Player.hpp"
 
 using namespace sf;
@@ -51,4 +51,10 @@ public:
             wall.setFillColor(color);
         }
     }
+
+    void resetCollisions() {
+        walls.clear();
+        collisionInit();
+    }
+
 };
