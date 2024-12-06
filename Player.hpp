@@ -27,7 +27,7 @@ private:
     FloatRect nextPos;
     Vector2f direction;
     Animation* animation;
-    function<void(string, string)> mapChangeCallback; //callback : peux se vulgariser par un guetteur a la citÃ©, il guette quand quelque chose se passe il crie pour qu'une action dÃ©marre.
+    function<void(string, string)> mapChangeCallback; //callback : peux se vulgariser par un guetteur a la cité, il guette quand quelque chose se passe il crie pour qu'une action démarre.
     float animationSpeed = 0.2f;
     bool faceRight;
     const int COLLISION_TRIGGER = 2;
@@ -54,8 +54,8 @@ public:
     }
 
     void playerMovement(float dt, const std::vector<RectangleShape>& walls, MapManager& mapManager) {
-        sf::Vector2f movement(0.0f, 0.0f); // initialise le vecteur de mouvement Ã  0,0
-        int row = 4; // Ligne par dÃ©faut pour l'animation Idle avant
+        sf::Vector2f movement(0.0f, 0.0f); // initialise le vecteur de mouvement à 0,0
+        int row = 4; // Ligne par défaut pour l'animation Idle avant
 
         if (Keyboard::isKeyPressed(Keyboard::Q)) {
             movement.x -= movementSpeed * dt;
@@ -65,7 +65,7 @@ public:
         if (Keyboard::isKeyPressed(Keyboard::D)) {
             movement.x += movementSpeed * dt;
             this->faceRight = true;
-            row = 3; // Ligne pour la marche droite // je sais pas pourquoi Ã§a marche comme Ã§a
+            row = 3; // Ligne pour la marche droite // je sais pas pourquoi ça marche comme ça
         }
         if (Keyboard::isKeyPressed(Keyboard::S)) {
             movement.y += movementSpeed * dt;
@@ -73,7 +73,7 @@ public:
         }
         if (Keyboard::isKeyPressed(Keyboard::Z)) {
             movement.y -= movementSpeed * dt;
-            row = 1; // Ligne pour l'Idle arriÃ¨re
+            row = 1; // Ligne pour l'Idle arrière
         }
 
         // Ajuster la vitesse en diagonale
@@ -115,7 +115,7 @@ public:
             }
         }
 
-        // DÃ©tecter les collisions avec les triggers
+        // Détecter les collisions avec les triggers
         const auto& collisionMap = mapManager.getCollisionMap();
         int gridX = static_cast<int>(newPosition.x / mapManager.getGridSize());
         int gridY = static_cast<int>(newPosition.y / mapManager.getGridSize());
@@ -127,7 +127,7 @@ public:
                 string collisionMapFile = "Config/collisionMap" + to_string(mapIteration) + ".txt";
                 mapChangeCallback(tileTypesFile, collisionMapFile);
                 this->playerInit(2,9);
-                this->mapIteration++; // IncrÃ©mente l'itÃ©ration pour la prochaine collision
+                this->mapIteration++; // Incrémente l'itération pour la prochaine collision
             }
         }
          if (collisionMap[gridX][gridY] == COLLISION_TRIGGER_BACK) {
@@ -135,10 +135,10 @@ public:
         }
 
         player.move(movement);
-        // Mettre Ã  jour l'animation
+        // Mettre à jour l'animation
         if (movement.x == 0.0f && movement.y == 0.0f) {
             row = 4; // Ligne pour l'Idle avant
-            animationSpeed = 0.2f; // RÃ©initialiser la vitesse de l'animation
+            animationSpeed = 0.2f; // Réinitialiser la vitesse de l'animation
         }
         this->animation->setSwitchTime(animationSpeed); // vitesse de l'animation par rapport a la vitesse du joueur (hilarant)
         this->animation->update(row, dt, this->faceRight);
@@ -165,17 +165,17 @@ public:
     };
 
     void loadPreviousMap() {
-        if (this->mapIteration > 1) { 
-            cout << "Avant dÃ©crÃ©mentation : " << mapIteration << endl;
+        if (this->mapIteration > 1) { // Empêche de descendre en dessous de 1
+            cout << "Avant décrémentation : " << mapIteration << endl;
             this->mapIteration--;
-            cout << "AprÃ¨s dÃ©crÃ©mentation : " << mapIteration << endl;
-            string tileTypesFile = "Config/tileTypes" + to_string(mapIteration-1) + ".txt";  //ObligÃ© de faire -1 sinon il faut appuyer 2 fois pour revenir a la map d'avant
+            cout << "Après décrémentation : " << mapIteration << endl;
+            string tileTypesFile = "Config/tileTypes" + to_string(mapIteration-1) + ".txt";
             string collisionMapFile = "Config/collisionMap" + to_string(mapIteration-1) + ".txt";
             mapChangeCallback(tileTypesFile, collisionMapFile);
             this->playerInit(17,9);
         }
         else {
-            cout << "DÃ©jÃ  Ã  la premiÃ¨re map, impossible de reculer." << endl;
+            cout << "Déjà à la première map, impossible de reculer." << endl;
         }
     }
 
