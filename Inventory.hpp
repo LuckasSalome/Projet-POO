@@ -13,11 +13,14 @@ private:
     size_t rows, cols;
     size_t slotSize;
     vector<vector<Items*>> inventoryGrid;
+    vector<vector<Items*>> secondaryGrid;  
+    size_t secondaryRows, secondaryCols;
     Items* selectedItem = nullptr;
     Font& font;
     RectangleShape infoPanel;
     Text infoText;
     bool isOpen = false;
+    bool isSecondaryGridVisible = false;
 
     Items* weaponSlot = nullptr;
     Items* chestSlot = nullptr;
@@ -32,6 +35,9 @@ public:
         : rows(rows), cols(cols), font(font) {
         slotSize = 64;
         inventoryGrid.resize(rows, vector<Items*>(cols, nullptr));
+        secondaryRows = 3;
+        secondaryCols = 3;
+        secondaryGrid.resize(secondaryRows, vector<Items*>(secondaryCols, nullptr));
         infoPanel.setSize(Vector2f(900, 150));
         infoPanel.setFillColor(Color(50, 50, 50, 200));
         infoPanel.setPosition(500, 100);
@@ -50,6 +56,18 @@ public:
 
     bool getIsOpen() const {
         return isOpen;
+    }
+
+    void toggleSecondaryGrid() {
+
+        if (isOpen) return;
+
+        isSecondaryGridVisible = !isSecondaryGridVisible;
+    }
+
+
+    bool getIsSecondaryGridVisible() const {
+        return isSecondaryGridVisible;
     }
 
     void addItem(size_t row, size_t col, Items* item) {
@@ -101,8 +119,8 @@ public:
 
         if (mousePos.x >= bootsSlotPos.x && mousePos.x <= bootsSlotPos.x + slotSize &&
             mousePos.y >= bootsSlotPos.y && mousePos.y <= bootsSlotPos.y + slotSize) {
-            if (selectedItem && selectedItem->isBoots()) { 
-                if (bootsSlot == nullptr) { 
+            if (selectedItem && selectedItem->isBoots()) {
+                if (bootsSlot == nullptr) {
                     bootsSlot = selectedItem;
                     for (size_t r = 0; r < rows; ++r) {
                         for (size_t c = 0; c < cols; ++c) {
@@ -123,15 +141,30 @@ public:
         size_t col = mousePos.x / slotSize;
         if (row < rows && col < cols) {
             if (selectedItem) {
-                std::swap(inventoryGrid[row][col], selectedItem);
+                swap(inventoryGrid[row][col], selectedItem);
             }
             else if (inventoryGrid[row][col]) {
                 selectedItem = inventoryGrid[row][col];
                 inventoryGrid[row][col] = nullptr;
             }
+            return;
+        }
+        Vector2f secondaryGridOffset(cols * slotSize + 20,
+            weaponSlotPos.y + slotSize * 4);
+        row = (mousePos.y - secondaryGridOffset.y) / slotSize;
+        col = (mousePos.x - secondaryGridOffset.x) / slotSize;
+
+        if (row < secondaryRows && col < secondaryCols) {
+            if (selectedItem) {
+                swap(secondaryGrid[row][col], selectedItem);
+            }
+            else if (secondaryGrid[row][col]) {
+                selectedItem = secondaryGrid[row][col];
+                secondaryGrid[row][col] = nullptr;
+            }
         }
     }
-    void unequipItem(const std::string& slotType) {
+    void unequipItem(const string& slotType) {
         if (!isOpen) return;
 
         Items* itemToUnequip = nullptr;
@@ -162,7 +195,7 @@ public:
 
         selectedItem = itemToUnequip;
     }
-    // Draw equipment slots like weapon, chest, boots with checks
+
     void drawEquipmentSlot(RenderWindow& window, Vector2f position, Items* item, const string& label) {
         RectangleShape slot(Vector2f(slotSize - 5, slotSize - 5));
         slot.setPosition(position);
@@ -177,7 +210,6 @@ public:
             window.draw(sprite);
         }
 
-        // Draw label
         Text text;
         text.setFont(font);
         text.setCharacterSize(12);
@@ -186,8 +218,44 @@ public:
         text.setPosition(position.x, position.y - 15);
         window.draw(text);
     }
+    void addSecondaryItem(size_t row, size_t col, Items* item) {
+        if (row < secondaryRows && col < secondaryCols) {
+            secondaryGrid[row][col] = item;
+        }
+    }
 
-    // Draw the entire inventory
+    void drawSecondaryGrid(RenderWindow& window) {
+        Vector2f secondaryGridOffset(cols * slotSize + 20,
+            weaponSlotPos.y + slotSize * 4);
+
+        for (size_t row = 0; row < secondaryRows; ++row) {
+            for (size_t col = 0; col < secondaryCols; ++col) {
+                RectangleShape slot(Vector2f(slotSize - 5, slotSize - 5));
+                slot.setPosition(secondaryGridOffset.x + col * slotSize,
+                    secondaryGridOffset.y + row * slotSize);
+                slot.setFillColor(Color(90, 100, 69)); 
+                slot.setOutlineColor(Color::Black);
+                slot.setOutlineThickness(2);
+                window.draw(slot);
+
+                if (secondaryGrid[row][col]) {
+                    Sprite sprite = secondaryGrid[row][col]->getSprite();
+                    sprite.setPosition(secondaryGridOffset.x + col * slotSize,
+                        secondaryGridOffset.y + row * slotSize);
+                    window.draw(sprite);
+                }
+            }
+        }
+
+        Text gridLabel;
+        gridLabel.setFont(font);
+        gridLabel.setCharacterSize(12);
+        gridLabel.setFillColor(Color::White);
+        gridLabel.setString("Secondary Grid");
+        gridLabel.setPosition(secondaryGridOffset.x, secondaryGridOffset.y - 15);
+        window.draw(gridLabel);
+    }
+
     void draw(RenderWindow& window) {
         if (!isOpen) return;
 
@@ -206,6 +274,7 @@ public:
                 }
             }
         }
+
         drawEquipmentSlot(window, weaponSlotPos, weaponSlot, "Weapon");
         drawEquipmentSlot(window, chestSlotPos, chestSlot, "ChestArmor");
         drawEquipmentSlot(window, bootsSlotPos, bootsSlot, "Boots");
@@ -216,7 +285,8 @@ public:
             window.draw(sprite);
         }
 
-        // Show item info
+        drawSecondaryGrid(window);
+    
         Vector2i mousePos = Mouse::getPosition(window);
         size_t row = mousePos.y / slotSize;
         size_t col = mousePos.x / slotSize;
