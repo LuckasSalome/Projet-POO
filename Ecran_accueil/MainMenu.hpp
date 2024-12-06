@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>  // Ajout de l'include pour la gestion de la musique
 #include <iostream>
 #include "GameData.hpp"
+#include "ChoixPerso.hpp"
 
 using namespace sf;
 using namespace std;
@@ -43,17 +44,20 @@ void initMainMenu(GameData& data) {
         firstTextBounds.top - 5
     );
 
-    // Charger la musique de fond
-    if (!data.backgroundMusic.openFromFile("musique/mainsound.ogg")) {
-        std::cerr << "Erreur de chargement de la musique de fond" << std::endl;
-    }
-    else {
-        data.backgroundMusic.setLoop(true);  // Faire boucler la musique
-        data.backgroundMusic.play();         // Démarrer la musique
+    // Charger la musique de fond si le son est activé
+    if (data.soundEnabled) {
+        if (!data.backgroundMusic.openFromFile("musique/matuidi.ogg")) {
+            cerr << "Erreur de chargement de la musique de fond" << endl;
+        }
+        else {
+            data.backgroundMusic.setLoop(true);  // Faire boucler la musique
+            data.backgroundMusic.play();         // Démarrer la musique
+        }
     }
 }
 
-void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
+
+void handleMainMenuEvents(GameData& data, bool& inOptionsMenu, bool& inCharacterSelection) {
     Event event;
     while (data.window.pollEvent(event)) {
         if (event.type == Event::Closed) {
@@ -69,7 +73,8 @@ void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
             else if (event.key.code == Keyboard::Enter) {
                 switch (data.currentSelection) {
                 case 0:
-                    std::cout << "New Game selected" << std::endl;
+                    cout << "New Game selected" << endl;
+                    inCharacterSelection = true;
                     break;
                 case 1:
                     inOptionsMenu = true;
@@ -93,9 +98,13 @@ void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
                         data.currentSelection = i;  // Sélectionner l'élément cliqué
                         // Exécuter l'action associée
                         switch (data.currentSelection) {
-                        case 0: std::cout << "New Game selected" << std::endl; break;
-                        case 1: inOptionsMenu = true; break;
-                        case 2: data.window.close(); break;
+                        case 0: cout << "New Game selected" << endl;
+                            inCharacterSelection = true;
+                            break;
+                        case 1: inOptionsMenu = true;
+                            break;
+                        case 2: data.window.close();
+                            break;
                         }
                     }
                 }
@@ -110,9 +119,10 @@ void renderMainMenu(GameData& data) {
     data.window.draw(data.menuRect);
 
     // Création du titre "Donjon & Dragon"
-    Text title("Donjon & Dragon", data.font, 70);
+    Text title("CESI & Dragons", data.font, 70);
     title.setFillColor(Color::White);
     title.setPosition((data.window.getSize().x - title.getLocalBounds().width) / 2, 70);
+    title.setStyle(Text::Bold);  // Gras 
     data.window.draw(title);
 
     // Affichage des éléments du menu
@@ -124,3 +134,4 @@ void renderMainMenu(GameData& data) {
     data.window.draw(data.selectionRect);
     data.window.display();
 }
+

@@ -1,7 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>  // Ajout de l'include pour la gestion de la musique
+#include <SFML/Audio.hpp>
 #include <string>
+#include "Heroes.hpp"
+#include "Creatures.hpp"
 
 using namespace sf;
 using namespace std;
@@ -15,11 +17,13 @@ struct GameData {
     RectangleShape selectionRect;
     Text menuItems[3];
     int currentSelection = 0;
+    Heroes* currentCharacter = nullptr;
 
     // Ajout de la musique
     Music backgroundMusic;  // Ajout de l'objet Music
 
     // Paramètres configurables
+    bool soundEnabled = true;  // Paramètre pour savoir si le son est activé
     Keyboard::Key upKey = Keyboard::Up;
     Keyboard::Key downKey = Keyboard::Down;
     Keyboard::Key actionKey = Keyboard::Enter;
@@ -70,6 +74,12 @@ struct GameData {
         case Keyboard::Num8: return "8";
         case Keyboard::Num9: return "9";
         default: return "Unknown";
+        }
+    }
+
+    ~GameData() {
+        if (currentCharacter != nullptr) {
+            delete currentCharacter;
         }
     }
 };
