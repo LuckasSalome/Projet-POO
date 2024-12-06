@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>  // Ajout de l'include pour la gestion de la musique
 #include <iostream>
 #include "GameData.hpp"
+#include "ChoixPerso.hpp"
 
 using namespace sf;
 using namespace std;
@@ -45,7 +46,7 @@ void initMainMenu(GameData& data) {
 
     // Charger la musique de fond si le son est activé
     if (data.soundEnabled) {
-        if (!data.backgroundMusic.openFromFile("musique/mainsound.ogg")) {
+        if (!data.backgroundMusic.openFromFile("musique/matuidi.ogg")) {
             std::cerr << "Erreur de chargement de la musique de fond" << std::endl;
         }
         else {
@@ -56,7 +57,7 @@ void initMainMenu(GameData& data) {
 }
 
 
-void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
+void handleMainMenuEvents(GameData& data, bool& inOptionsMenu, bool& inCharacterSelection) {
     Event event;
     while (data.window.pollEvent(event)) {
         if (event.type == Event::Closed) {
@@ -73,6 +74,7 @@ void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
                 switch (data.currentSelection) {
                 case 0:
                     std::cout << "New Game selected" << std::endl;
+                    inCharacterSelection = true;
                     break;
                 case 1:
                     inOptionsMenu = true;
@@ -96,9 +98,13 @@ void handleMainMenuEvents(GameData& data, bool& inOptionsMenu) {
                         data.currentSelection = i;  // Sélectionner l'élément cliqué
                         // Exécuter l'action associée
                         switch (data.currentSelection) {
-                        case 0: std::cout << "New Game selected" << std::endl; break;
-                        case 1: inOptionsMenu = true; break;
-                        case 2: data.window.close(); break;
+                        case 0: std::cout << "New Game selected" << std::endl;
+                            inCharacterSelection = true;
+                            break;
+                        case 1: inOptionsMenu = true;
+                            break;
+                        case 2: data.window.close();
+                            break;
                         }
                     }
                 }

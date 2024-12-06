@@ -2,6 +2,7 @@
 #include "GameData.hpp"
 #include "MainMenu.hpp"
 #include "OptionsMenu.hpp"
+#include "ChoixPerso.hpp"
 
 class Game {
 public:
@@ -22,9 +23,19 @@ public:
         initMainMenu(data);
 
         bool inOptionsMenu = false;
+        bool inCharacterSelection = false;  // Ajoutez cette ligne
         while (data.window.isOpen()) {
-            inOptionsMenu ? handleOptionsMenu(data, inOptionsMenu)
-                : (handleMainMenuEvents(data, inOptionsMenu), renderMainMenu(data));
+            Event event;
+            if (inOptionsMenu) {
+                handleOptionsMenu(data, inOptionsMenu);
+            }
+            else if (inCharacterSelection) {
+                handleCharacterSelection(data, inCharacterSelection, event);
+            }
+            else {
+                handleMainMenuEvents(data, inOptionsMenu, inCharacterSelection);
+                renderMainMenu(data);
+            }
         }
     }
 };
