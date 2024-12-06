@@ -1,25 +1,62 @@
 ``` mermaid
- classDiagram
+classDiagram
+
+    class Entity {
+        <<abstract>>
+        virtual getName() string
+        virtual getDesc() string
+        virtual getStat() map: string, int 
+        virtual getAlive() bool
+        virtual getHeroType() bool
+        virtual getIsBoss() bool
+        virtual setHealth(int) void
+        virtual setCourage(int) void
+        virtual setStrengh(int) void
+        virtual setIntelligence(int) void
+        virtual setDexterity(int) void
+        virtual setCharism(int) void
+        virtual initHeroStat(Race& , Jobs& )  map: string, int
+        virtual initDesc(Race& , Jobs& ) string
+        virtual initName(Race& , Jobs& ) string 
+        virtual StatComparison(Race& race, Jobs& job) void 
+        virtual initCreatureName(Common& mob) string 
+        virtual initCreatureDesc(Common& mob)  string 
+        virtual initCreatureStat(Common& mob) map :string, int 
+        virtual initBossName(Boss& mob) string 
+        virtual initBossDesc(Boss& mob) string 
+        virtual initBossStat(Boss& mob) map:string, int
+        virtual getJobSpell(Jobs& job, std::shared_ptr<Entity> foe) string 
+        virtual getRaceSpell(Race& race, std::shared_ptr<Entity> foe) string 
+        virtual getBasicAttack(Race& race, std::shared_ptr<Entity> foe) string 
+        virtual getMonsterSpell(Common& mob, std::shared_ptr<Entity> ennemy) string 
+        virtual getBasicAttack(Common& mob, std::shared_ptr<Entity> ennemy) string 
+        virtual getBossSpell1(Boss& mob, std::shared_ptr<Entity> ennemy) string 
+        virtual getBossSpell2(Boss& mob, std::shared_ptr<Entity> ennemy) string 
+    }
+
     class Hero {
-        - string heroName;
-        - string heroDesc;
-        - string heroRace;
-        - string heroJob;
-        - map  heroStat:string, int;
-        - bool possible;
-        - bool isAlive = true;
-        - int heroLevel = 1;
-        - int exp = 0;
-        - int expMax = 30;
+        -  heroName string
+        - heroDesc string
+        - heroRace string
+        - heroJob string
+        - heroStat map: string, int
+        - heroStatPerma const map : string, int
+        - possible bool
+        - isAlive bool
+        - heroLevel int
+        - exp int
+        - expMax int
 
         + Heroes (string)
         + StatCoparison(Race& , Jobs& ) void
         + initName(Race& , Jobs& ) string 
         + initDesc(Race& , Jobs& ) string
-        + virtual initHeroStat(Race& , Jobs& ) map :string, int 
+        + initHeroStat(Race& , Jobs& ) map :string, int 
         + getName() string
         + getDesc() string
         + getStat() map : string, int
+        + getHeroLevel()cosnt int
+        + getAlive() bool 
         + setHeroHealth(int) void
         + setHeroCourage(int) void
         + setHeroCharsim(int) void
@@ -27,28 +64,30 @@
         + setHeroIntelligence(int) void
         + setHeroDexterity(int) void
         + transiLevel() void
-        + const getHeroLevel() int
-        + const getHeroAlive() bool
-        + const getRaceSpell(Race& , Creatures& ) string
-        + const getJobSpell(Jobs& , Creatures& ) string
+        + getHeroLevel() int
+        + getHeroAlive() bool
+        + getRaceSpell(Race& , shared_ptr(Entity) ) string
+        + getJobSpell(Jobs& , shared_ptr(Entity) ) string
         + isHeroAlive() bool
 
     }
 
-    class Party {
-        -HeroParty vector
-        -CreatureParty vector
-        +getHeroParty() vector
-        +getcreatureParty() vector
+    class Group {
+        - vector : shared_ptr(Entity)
+
+        + addParty(shared_ptr(Entity)) void 
+        + removeParty(shared_ptr(Entity)) void 
+        + getGroup() vector : shared_ptr(Entity) 
+        + isGroupEmpty() bool
     }
 
     class Jobs {
-        <<abstract>>
-        + virtual  getNameJob() string
-        + virtual  getDescJob() string
-        + virtual  getSpellName() string
-        + virtual  jobSpell(Creatures& , map : string, int) string
-        + virtual  getStatRequiredJob() map : string, int
+        <<virtual>>
+        + virtual getNameJob() string
+        + virtual getDescJob() string
+        + virtual getSpellName() string
+        + virtual jobSpell(shared_ptr(Entity) , map : string, int) string
+        + virtual getStatRequiredJob() map : string, int
     }
 
     class Warrior {
@@ -60,9 +99,9 @@
         # getNameJob() string
         # getDescJob() string
         # getSpellName() string
-        # getBasicAttack(Creatures&, map : string, int) string
+        # getBasicAttack(shared_ptr(Entity), map : string, int) string
         # getStatJob() map: string, int
-        # jobSpell(Creatures&, map : string, int) map : string, int
+        # jobSpell(shared_ptr(Entity), map : string, int) map : string, int
     }
 
     class Ranger {
@@ -74,9 +113,9 @@
         # getNameJob() string
         # getDescJob() string
         # getSpellName() string
-        # getBasicAttack(Creatures&, map : string, int) string
+        # getBasicAttack(shared_ptr(Entity), map : string, int) string
         # getStatJob() map: string, int
-        # jobSpell(Creatures&, map : string, int) map : string, int
+        # jobSpell(shared_ptr(Entity), map : string, int) map : string, int
     }
 
     class Sorcerer{
@@ -88,9 +127,9 @@
         # getNameJob() string
         # getDescJob() string
         # getSpellName() string
-        # getBasicAttack(Creatures&, map : string, int) string
+        # getBasicAttack(shared_ptr(Entity), map : string, int) string
         # getStatJob() map: string, int
-        # jobSpell(Creatures&, map : string, int) map : string, int
+        # jobSpell(shared_ptr(Entity), map : string, int) map : string, int
     }
 
     class Thief {
@@ -102,9 +141,9 @@
         # getNameJob() string
         # getDescJob() string
         # getSpellName() string
-        # getBasicAttack(Creatures&, map : string, int) string
+        # getBasicAttack(shared_ptr(Entity), map : string, int) string
         # getStatJob() map: string, int
-        # jobSpell(Creatures&, map : string, int) map : string, int
+        # jobSpell(shared_ptr(Entity), map : string, int) map : string, int
     }
 
     class Race {
@@ -112,9 +151,9 @@
         + virtual  getNameRace() string
         + virtual  getDescRace() string
         + virtual  getSpellName() string
-        + virtual  basicAttack(Creatures& , map: string, int ) string
+        + virtual  basicAttack(shared_ptr(Entity) , map: string, int ) string
         + virtual  getStat() map : string, int
-        + virtual  raceSpell(Creatures& , map : string, int>) map : string, int
+        + virtual  raceSpell(shared_ptr(Entity) , map : string, int>) map : string, int
     }
 
     class Elf {
@@ -126,8 +165,8 @@
         # getNameJob() string
         # getDescJob() string
         # getSpellName () string
-        # basicAttack (Creatures&, map : string, int) string
-        # raceSpell (Creatures&, map : string , int) string 
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # raceSpell (shared_ptr(Entity), map : string , int) string 
         # getStat() map(string, int)
     }
 
@@ -140,8 +179,8 @@
         # getNameJob() string
         # getDescJob() string
         # getSpellName () string
-        # basicAttack (Creatures&, map : string, int) string
-        # raceSpell (Creatures&, map : string , int) string 
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # raceSpell (shared_ptr(Entity), map : string , int) string 
         # getStat() map(string, int)
     }
 
@@ -154,8 +193,8 @@
         # getNameJob() string
         # getDescJob() string
         # getSpellName () string
-        # basicAttack (Creatures&, map : string, int) string
-        # raceSpell (Creatures&, map : string , int) string 
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # raceSpell (shared_ptr(Entity), map : string , int) string 
         # getStat() map(string, int)
     }
 
@@ -168,86 +207,82 @@
         # getNameJob() string
         # getDescJob() string
         # getSpellName () string
-        # basicAttack (Creatures&, map : string, int) string
-        # raceSpell (Creatures&, map : string , int) string 
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # raceSpell (shared_ptr(Entity), map : string , int) string 
         # getStat() map(string, int)
     }
 
     class Creature {
         - creatureName string
         - creatureDesc string
-        - isAlive bool
         - creatureStat map : string, int
+        - isAlive bool
+        - cond bool
+        - isBoss bool
 
         + initCreatureName(Common&) string
         + initCreatureDesc (Common&) string
         + initCreatureStat (Common&) map : string, int
-        + getCreatureName () string
-        + getCreatureDesc() string
-        + getCreatureStat () map : string, int
-        + getCreatureAlive () bool
-        + setCreatureHealth (int) void
-        + setCreatureCourage (int) void
-        + setCreatureCharism (int) void
-        + setCreatureStrengh (int) void
-        + setCreatureIntelligence (int) void
-        + setCreatureDexterity (int) void
-        + isCreatureAlive () void
-        + getMonsterSpell (Common&, Heroes&) string
-        + const getBasicAttack (Common&, Heroes&) string
+        + initBossName(Common&) string
+        + initBossDesc (Common&) string
+        + initBossStat (Common&) map : string, int
+        + getName () string
+        + getDesc() string
+        + getStat () map : string, int
+        + getIsAlive () bool
+        + getIsBoss () bool
+        + heroType () bool
+        + setHealth (int) void
+        + setCourage (int) void
+        + setCharism (int) void
+        + setStrengh (int) void
+        + setIntelligence (int) void
+        + setDexterity (int) void
+        + getMonsterSpell (Common&, shared_ptr(Entity)) string
+        + const getBasicAttack (Common&, shared_ptr(Entity)) string
+        + getBossSpell1 (Boss&, shared_ptr(Entity)) string
+        + getBossSpell2 (Boss&, shared_ptr(Entity)) string
      }
 
     class Boss {
-        <<abstract>>
-        + virtual getNameCreature() string
-        + virtual getStatCreature() map(string, int)
-        + virtual getDescCreature() string
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
+        <<virtual>>
+        + virtual getBossName() string
+        + virtual getBossDesc() string
+        + virtual getSpellName1(bool) string
+	    + virtual getSpellName2(bool) string
+	    + virtual getBossStat() map: string, int 
+	    + virtual bossSpell1(shared_ptr(Entity) , map<string, int> , bool ) map: string, int
+	    + virtual bossSpell2(shared_ptr(Entity) , map<string, int> , bool ) map: string, int
     }
 
     class ProgramLich{
         - name string
         - desc string
-        + getNameCreature() string
-        + getDescCreature() string
-        # virtual getStatCreature() map(string, int)
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
+        - spellName1P1 string
+        - spellName1P2 string
+        - spellName2P1 string
+        - spellName2P2 string
+
+        # getBossName() string
+        # getBossDesc() string
+        # getSpellName1(bool) string
+        # getSpellName2(bool) 
+        # getBossStat()  map :string, int
+        # bossSpell1(shared_ptr(Entity) , map:string, int , bool )  map :string, int
+        # bossSpell2(shared_ptr(Entity) , map:string, int , bool )  map :string, int
+    
     }
 
-        class Pattern1 {
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        + get getStat() map (string, int)
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
-    }
 
-    class Pattern2 {
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        + get getStat() map (string, int)
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
-    }
 
     class Common {
-        <<abstract>>
-        + virtual getName() string
-        + virtual getDesc() string
-        + virtual getSpellName() string 
-        + virtual basicAttack (Heroes&, map : string, int)
-        + virtual getStat() map(string, int)
-        + virtual monsterSpell(Heroes&, map : string , int) map : string, int
+        <<virtual>>
+            + virtual string getName() 
+            + virtual string getDesc() 
+            + virtual string getSpellName() 
+            + virtual void basicAttack(shared_ptr(Entity) , map:string, int ) 
+            + virtual getStat() map:string, int
+            + virtual monsterSpell(shared_ptr(Entity) , map<string, int> ) map:string, int
     }
 
     class SarcasticGobelin{
@@ -259,8 +294,8 @@
         # getName() string
         # getDesc() string 
         # getSpellName() string
-        # basicAttack (Heroes&, map : string, int) string
-        # monsterSpell (Heroes&, map : string, int) map : string, int
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # monsterSpell (shared_ptr(Entity), map : string, int) map : string, int
         # getStat () map : string, int
     }
 
@@ -273,8 +308,8 @@
         # getName() string
         # getDesc() string 
         # getSpellName() string
-        # basicAttack (Heroes&, map : string, int) string
-        # monsterSpell (Heroes&, map : string, int) map : string, int
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # monsterSpell (shared_ptr(Entity), map : string, int) map : string, int
         # getStat () map : string, int
     }
 
@@ -287,8 +322,8 @@
         # getName() string
         # getDesc() string 
         # getSpellName() string
-        # basicAttack (Heroes&, map : string, int) string
-        # monsterSpell (Heroes&, map : string, int) map : string, int
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # monsterSpell (shared_ptr(Entity), map : string, int) map : string, int
         # getStat () map : string, int
     }
 
@@ -353,10 +388,6 @@
     }
 
     class Map{
-
-    }
-
-    class Ability {
 
     }
 
@@ -506,7 +537,8 @@
         +SorcererCape()
     }
 
-
+    Entity --o Hero
+    Entity --o Creature
 
     Hero --o Race
     Hero --o Jobs
@@ -519,7 +551,7 @@
     Jobs <-- Sorcerer
     Jobs <-- Thief
 
-    Hero o-- Party
+    Hero o-- Group
 
     Creature <-- Common
     Common <-- RhetoricianTroll
@@ -527,8 +559,6 @@
     Common <-- ExplosiveDuck
     Creature <-- Boss
     Boss <-- ProgramLich
-    ProgramLich <-- Pattern1
-    Pattern1 <-- Pattern2
     
     System <-- Camera
     System <-- Audio
