@@ -61,11 +61,11 @@ static Common* createMob(const string& type) {
     }
 }
 
-static Entity* createEntity(const string& type, const string name) {
+static std::shared_ptr<Entity> createEntity(const string& type, const string name) {
     if (type == "Hero")
-        return new Heroes(name);
+        return make_shared<Heroes>(name);
     else if (type == "Monstre")
-        return new Creatures();
+        return make_shared<Creatures>();
 }
 
 
@@ -81,9 +81,10 @@ int main()
     Common* mob = createMob(mobType);
     Boss* lich = new ProgramLich();
 
-    Entity* Character1 = createEntity("Hero", "Michel");
-    Entity* Mob1 = createEntity("Monstre", "");
-    Entity* Boss = createEntity("Monstre", "");
+    std::shared_ptr<Entity> Character1 = createEntity("Hero", "Michel");
+    std::shared_ptr<Entity> Character2 = createEntity("Hero", "Pierre");
+    std::shared_ptr<Entity> Mob1 = createEntity("Monstre", "");
+    std::shared_ptr<Entity> Boss = createEntity("Monstre", "");
     Group* Heros = new Group();
     Group* Monstres = new Group();
 
@@ -93,6 +94,12 @@ int main()
     Character1->initDesc(*race, *job);
     Character1->initName(*race, *job);
     Character1->initHeroStat(*race, *job);
+
+    //hero numero 2
+    Character2->StatComparison(*race, *job);
+    Character2->initDesc(*race, *job);
+    Character2->initName(*race, *job);
+    Character2->initHeroStat(*race, *job);
 
 
     //monstre numero 1
@@ -105,15 +112,21 @@ int main()
     Boss->initBossDesc(*lich);
     Boss->initBossStat(*lich);
 
+    Monstres->addParty(Mob1);
+    Heros->addParty(Character2);
     Heros->addParty(Character1);
-    Monstres->addGroup(Mob1);
 
-    Heros->removeParty(Character1);
-    Heros->addParty(Character1);
+    //Heros->removeParty(Character1);
 
     Fight* combat = new Fight(*Heros, *Monstres);
+    // Affichage de l'ordre de combat 
+    auto ordre = combat->fightOrder(); 
+    while (!ordre.empty()) { 
+        std::cout << ordre.front()->getName() << std::endl;
+        ordre.pop();
+    }
 
-    combat->fighting();
+    combat->fighting(*mob, *lich, *race, *job);
 
     //affiche le hero et le monstre
     cout << Character1->getName() << endl;
@@ -129,9 +142,9 @@ int main()
 
 
     //attaque du hero
-    cout << Character1->getRaceSpell(*race, *Mob1) << endl;
-    cout << Character1->getJobSpell(*job, *Mob1) <<endl;
-    cout << Character1->getBasicAttack(*race, *Mob1) << endl;
+    cout << Character1->getRaceSpell(*race, Mob1) << endl;
+    cout << Character1->getJobSpell(*job, Mob1) <<endl;
+    cout << Character1->getBasicAttack(*race, Mob1) << endl;
 
     //stats retours monstre
     cout << Mob1->getName() << endl;
@@ -140,8 +153,8 @@ int main()
         cout << Mob1->getStat()[statistics[i]] << endl;
 
     //attaque du monstre 
-    cout << Mob1->getMonsterSpell(*mob, *Character1) << endl;
-    cout << Mob1->getBasicAttack(*mob, *Character1) << endl;
+    cout << Mob1->getMonsterSpell(*mob, Character1) << endl;
+    cout << Mob1->getBasicAttack(*mob, Character1) << endl;
 
     //affiche boss
     cout << Boss->getName() << endl;
@@ -151,8 +164,8 @@ int main()
 
 
     //attaque p1 boss
-    cout << Boss->getBossSpell1(*lich, *Character1) << endl;
-    cout << Boss->getBossSpell2(*lich, *Character1) << endl;
+    cout << Boss->getBossSpell1(*lich, Character1) << endl;
+    cout << Boss->getBossSpell2(*lich, Character1) << endl;
 
 
     //stats retours hero
@@ -169,8 +182,8 @@ int main()
         cout << Boss->getStat()[statistics[i]] << endl;
 
     // attaque p2 bosse
-    cout << Boss->getBossSpell1(*lich, *Character1) << endl;
-    cout << Boss->getBossSpell2(*lich, *Character1) << endl;
+    cout << Boss->getBossSpell1(*lich, Character1) << endl;
+    cout << Boss->getBossSpell2(*lich, Character1) << endl;
 
     //stats retours hero
     cout << Character1->getName() << endl;

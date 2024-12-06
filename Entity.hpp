@@ -18,6 +18,9 @@ public :
     virtual std::map<std::string, int> getStat() = 0;
     virtual bool getAlive() = 0;
     virtual bool getHeroType() = 0;
+    virtual bool getIsBoss() {
+        return false;
+    }
     virtual void setHealth(int set) = 0;
     virtual void setCourage(int set) = 0;
     virtual void setStrengh(int set) = 0;
@@ -54,25 +57,25 @@ public :
     virtual std::map<std::string, int> initBossStat(Boss& mob) {
         return std::map<std::string, int>();
     }
-    virtual std::string getJobSpell(Jobs& job, Entity& foe) {
+    virtual std::string getJobSpell(Jobs& job, std::shared_ptr<Entity> foe) {
         return "";
     }
-    virtual std::string getRaceSpell(Race& race, Entity& foe) {
+    virtual std::string getRaceSpell(Race& race, std::shared_ptr<Entity> foe) {
         return "";
     }
-    virtual std::string getBasicAttack(Race& race, Entity& foe) {
+    virtual std::string getBasicAttack(Race& race, std::shared_ptr<Entity> foe) {
         return "";
     }
-    virtual std::string getMonsterSpell(Common& mob, Entity& ennemy) {
+    virtual std::string getMonsterSpell(Common& mob, std::shared_ptr<Entity> ennemy) {
         return "";
     }
-    virtual std::string getBasicAttack(Common& mob, Entity& ennemy) {
+    virtual std::string getBasicAttack(Common& mob, std::shared_ptr<Entity> ennemy) {
         return "";
     }
-    virtual std::string getBossSpell1(Boss& mob, Entity& ennemy) {
+    virtual std::string getBossSpell1(Boss& mob, std::shared_ptr<Entity> ennemy) {
         return "";
     }
-    virtual std::string getBossSpell2(Boss& mob, Entity& ennemy) {
+    virtual std::string getBossSpell2(Boss& mob, std::shared_ptr<Entity> ennemy) {
         return "";
     }
 };
