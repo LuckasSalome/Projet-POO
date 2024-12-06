@@ -445,7 +445,15 @@ classDiagram
     }
 
     class Fight {
+        - group1 vector:shared_ptr(Entity )
+        - group2 vector:shared_ptr(Entity)
+        - heroes Group& 
+        - monsters Group& 
 
+        + Fight(Group& , Group& )
+        + fightOrder() queue : shared_ptr(Entity)
+        + roundCheck() void
+        + fighting(Common& , Boss& , Race& , Jobs& ) void
     }
 
     class BeerPotion{
