@@ -1,30 +1,13 @@
 #pragma once
 
-#include "Items.hpp"
+#include "Weapon.hpp"
 
-class BluntSword : Items {
-private:
 
-    string name;
-    string description;
-    map <string, int> stats;
-
+class BluntSword : public Weapon {
 public:
-
-    BluntSword() : name("Epee emoussee"), description("Une epee faiblarde qui a besoin d'etre aiguisee ") {
-        stats["ATT"] = 10;
-        stats["Poids"] = 5;
-    }
-
-    string getNameItem() const override {
-        return name;
-    }
-
-    string getDescItem() const override {
-        return description;
-    }
-
-    map<string, int> getStatItem() const override {
-        return stats;
-    }
+    BluntSword()
+        : Weapon("Epee émoussée",
+            "Une épée faiblarde qui à besoin d'être aiguisée",
+            { {"ATT", 10}, {"Poids", 5} },
+            "images/BluntSword.png") {}
 };

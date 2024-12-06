@@ -15,7 +15,7 @@
 class Entity;
 
 class Heroes : public Entity {													//class hero observer des class race et job pour savoir avec le polymorphisme la classe et la race du personnage
-private  :
+private:
 	std::string heroName;
 	std::string heroDesc;
 	std::string heroRace;
@@ -26,9 +26,9 @@ private  :
 	bool isAlive = true;
 	int heroLevel = 1;
 	int exp = 0;
-	int expMax = 30; 
+	int expMax = 30;
 
-public :
+public:
 	Heroes(std::string Name) : heroName(Name) {};
 
 	void StatComparison(Race& race, Jobs& job) override {																//comparaison des stats de race et requises pour un metrier
@@ -52,13 +52,13 @@ public :
 	std::string initDesc(Race& race, Jobs& job) override {																	//fusionne les descriptions de race et de classe
 		if (this->possible)
 			this->heroDesc += (job.getDescJob() + race.getDescRace());
-			return this->heroDesc;
+		return this->heroDesc;
 	}
 
 	std::map<std::string, int> initHeroStat(Race& race, Jobs& job) override {											//init les stats du hero
 		if (this->possible)
 			this->heroStat = race.getStat();
-			return this->heroStat;
+		return this->heroStat;
 	}
 
 
@@ -87,6 +87,9 @@ public :
 	//setter
 	void setHealth(int set) {							//modifie les valleurs de stat, equivalent a un .insrt()
 		this->heroStat["HP"] = set;
+		if (this->heroStat["HP"] <= 0) {
+			isAlive = false;
+		}
 	}
 	void setCourage(int set) {
 		this->heroStat["COU"] = set;
@@ -117,7 +120,7 @@ public :
 			setDexterity(this->heroStat["AD"] + heroLevel);
 		}
 	}
-	string getRaceSpell(Race& race, Entity& foe) override{
+	string getRaceSpell(Race& race, std::shared_ptr<Entity> foe) override {
 		if (isAlive)
 		{
 			std::map <std::string, int> result = race.raceSpell(foe, this->heroStat);
@@ -127,7 +130,7 @@ public :
 		}
 	}
 
-	string getBasicAttack(Race& race, Entity& foe) override {
+	string getBasicAttack(Race& race, std::shared_ptr<Entity> foe) override {
 		if (isAlive)
 		{
 			race.basicAttack(foe, this->heroStat);
@@ -135,18 +138,16 @@ public :
 		}
 	}
 
-    string getJobSpell(Jobs& job, Entity& foe) override {
+	string getJobSpell(Jobs& job, std::shared_ptr<Entity> foe) override {
 		if (isAlive)
 		{
 			job.jobSpell(foe, this->heroStat);
 			return job.getSpellName();
 		}
 
-    }
+	}
 
 	bool isHeroAlive() {
-		if (this->heroStat["HP"] <= 0)
-			isAlive = false;
 		return this->isAlive;
 	}
 

@@ -4,83 +4,113 @@
 #include <vector>
 #include <queue>
 #include <stack>
+#include <memory>
 #include <random>
 #include "Group.hpp"
 
 class Fight {
 private:
-    std::vector<Entity*> group1;
-    std::vector<Entity*> group2;
+    std::vector<std::shared_ptr<Entity>> group1;
+    std::vector<std::shared_ptr<Entity>> group2;
     Group& heroes;
     Group& monsters;
 
 public:
     Fight(Group& heroesGroup, Group& monstersGroup)
-        : group1(heroesGroup.getGroup()), group2(monstersGroup.getGroup()), heroes(heroesGroup), monsters(monstersGroup) {}
+        : heroes(heroesGroup), monsters(monstersGroup) {
+        group1 = heroes.getGroup();
+        group2 = monsters.getGroup();
+    }
 
-    std::queue<Entity*> fightOrder() {
-        std::priority_queue<int> OrderPrio;
-        std::stack<Entity*> Order;
-        std::queue<Entity*> finalOrder;
+    std::queue<std::shared_ptr<Entity>> fightOrder() {
+        std::priority_queue<std::pair<int, std::shared_ptr<Entity>>> orderPrio;
+        std::queue<std::shared_ptr<Entity>> finalOrder;
 
         // Remplir la priorité des héros
         for (int i = 0; i < this->group1.size(); i++) {
-            OrderPrio.push(this->group1[i]->getStat()["COU"] + this->group1[i]->getStat()["AD"]);      //regarde le courage et l'adresse
+            int priority = this->group1[i]->getStat()["COU"] + this->group1[i]->getStat()["AD"];
+            orderPrio.emplace(priority, this->group1[i]);
         }
 
         // Remplir la priorité des monstres
         for (int j = 0; j < this->group2.size(); j++) {
-            OrderPrio.push(this->group2[j]->getStat()["COU"] + this->group2[j]->getStat()["AD"]);
+            int priority = this->group2[j]->getStat()["COU"] + this->group2[j]->getStat()["AD"];
+            orderPrio.emplace(priority, this->group2[j]);
         }
 
         // Déterminer l'ordre de combat
-        while (!OrderPrio.empty()) {
-            for (int i = 0; i < this->group1.size(); i++) {
-                if (this->group1[i]->getStat()["COU"] + this->group1[i]->getStat()["AD"] == OrderPrio.top()) {
-                    Order.push(this->group1[i]);
-                    OrderPrio.pop();
-                }
-            }
-            for (int i = 0; i < this->group2.size(); i++) {
-                if (this->group2[i]->getStat()["COU"] + this->group2[i]->getStat()["AD"] == OrderPrio.top()) {
-                    Order.push(this->group2[i]);
-                    OrderPrio.pop();
-                }
-            }
-        }
-
-        // Transférer de la pile vers la file d'attente
-        while (!Order.empty()) {
-            finalOrder.push(Order.top());
-            Order.pop();
+        while (!orderPrio.empty()) {
+            finalOrder.push(orderPrio.top().second);
+            orderPrio.pop();
         }
 
         return finalOrder;
     }
 
+
     void roundCheck() {
-        for (Entity* hero : this->group1) {
-            if (hero->getAlive())
+        for (auto& hero : this->group1) {
+            if (hero->getAlive() == false)
                 heroes.removeParty(hero);
         }
-        for (Entity* mob : this->group2) {
-            if (mob->getAlive())
-                monsters.removeGroup(mob);
+        for (auto& mob : this->group2) {
+            if (mob->getAlive() == false)
+                monsters.removeParty(mob);
         }
     }
 
-    void fighting() {
-        while (heroes.isGroupEmpty() == false || monsters.isGroupEmpty() == false)
-        {
-            queue<Entity*> Ordre = fightOrder();
+    void fighting(Common& mob, Boss& lich, Race& race, Jobs& job) {
+        int target;
+        int spell;
+        while (!heroes.isGroupEmpty() && !monsters.isGroupEmpty()) {
+            auto Ordre = fightOrder();
             while (!Ordre.empty()) {
-                
-                if (Ordre.front()->getHeroType())
-                    cout << Ordre.front() << endl; Ordre.pop();
-                
+                std::shared_ptr<Entity> currentEntity = Ordre.front();
+                Ordre.pop();
+                std::cout << group1[0]->getStat()["HP"] << endl;
+                std::cout << group1[1]->getStat()["HP"] << endl;
+                std::cout << group2[0]->getStat()["HP"] << endl;
+                if (currentEntity->getHeroType()) {
+                    std::cout << currentEntity->getName() << std::endl;
+                    std::cin >> target;
+                    std::cin >> spell;
+                    if (target >= 0 && target < group2.size()) {
+                        if (spell == 0)
+                            currentEntity->getBasicAttack(race, group2[target]);
+                        else if (spell == 1)
+                            currentEntity->getRaceSpell(race, group2[target]);
+                        else if (spell == 2)
+                            currentEntity->getJobSpell(job, group2[target]);
+                    }
+                    else {
+                        std::cout << "Index de cible invalide !" << std::endl;
+                    }
+                }
+                else if (currentEntity->getIsBoss()) {
+                    std::cout << currentEntity->getName() << std::endl;
+                    spell = rand() % 2;
+                    target = rand() % group1.size();
+                    if (spell == 0) {
+                        currentEntity->getBossSpell1(lich, group1[target]);
+                    }
+                    else {
+                        currentEntity->getBossSpell2(lich, group1[target]);
+                    }
+                }
+                else {
+                    std::cout << currentEntity->getName() << std::endl;
+                    spell = rand() % 2;
+                    target = rand() % group1.size();
+                    if (spell == 0) {
+                        currentEntity->getMonsterSpell(mob, group1[target]);
+                    }
+                    else {
+                        currentEntity->getBasicAttack(mob, group1[target]);
+                    }
+                }
+                roundCheck();
             }
             roundCheck();
-            
         }
     }
 

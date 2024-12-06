@@ -23,10 +23,10 @@ protected:
 	map<string, int> getStatRequiredJob() override {
 		return this->requiredStat;
 	}
-	string jobSpell(Entity& foe, map<string, int> selfStat) override {						//le fait attaquer en premier de 5 degats
+	string jobSpell(std::shared_ptr<Entity> foe, map<string, int> selfStat) override {						//le fait attaquer en premier de 5 degats
 		int damage = 5;
 		//le met en premier en attaque
-		foe.setHealth(foe.getStat()["HP"]-damage);
+		foe->setHealth(foe->getStat()["HP"] - damage);
 		return this->spellName;
 	}
 	string getSpellName() override {

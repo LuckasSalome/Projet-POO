@@ -13,7 +13,7 @@ private:
 	string spellName = "Mur De Feu";
 	map<string, int> requiredStat{ { "COU", 1 }, { "CHA", 1 }, { "INT", 8 }, { "FO", 1 }, { "AD", 1 } };
 
-protected :
+protected:
 	string getNameJob() override {
 		return this->Name;
 	}
@@ -23,9 +23,9 @@ protected :
 	map<string, int> getStatRequiredJob() override {
 		return this->requiredStat;
 	}
-	string jobSpell(Entity& foe1, map<string, int> selfStat) override {
+	string jobSpell(std::shared_ptr<Entity> foe1, map<string, int> selfStat) override {
 		int damage = selfStat["INT"] / 2;
-		foe1.setHealth(foe1.getStat()["HP"] - damage);
+		foe1->setHealth(foe1->getStat()["HP"] - damage);
 		return this->spellName;
 	}
 	string getSpellName() override {

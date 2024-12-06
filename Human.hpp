@@ -11,7 +11,7 @@ private:
 	string name = " Humain";
 	string desc = " Personne pas folle folle, un peu comme toi.";
 	string spellName = "Bon Repas";
-	map<string, int> stat{ { "COU", 8 }, { "CHA", 8 }, { "INT", 8 }, { "FO",8 }, { "AD", 8 }, {"HP", 30 }};
+	map<string, int> stat{ { "COU", 8 }, { "CHA", 8 }, { "INT", 8 }, { "FO",8 }, { "AD", 8 }, {"HP", 30 } };
 
 protected:
 	string getNameRace() override {
@@ -23,29 +23,29 @@ protected:
 	map<string, int> getStat() override {
 		return this->stat;
 	}
-	map<string, int> raceSpell(Entity& foe, map<string, int> selfStat) override {
+	map<string, int> raceSpell(std::shared_ptr<Entity> foe, map<string, int> selfStat) override {
 		selfStat.insert({ "HP", selfStat["HP"] + 5 });
 		return selfStat;
 	}
-	void basicAttack(Entity& foe, map<string, int> selfStat) override {
+	void basicAttack(std::shared_ptr<Entity> foe, map<string, int> selfStat) override {
 		int damage;
 		int proba;
 		int alea;
 		if (selfStat["FO"] < selfStat["INT"])
 		{
 			damage = selfStat["INT"];
-			proba = (50 - selfStat["INT"])*2;
+			proba = selfStat["INT"] * 2;
 			alea = rand() % 100;
-			
+
 		}
 		else
 		{
 			damage = selfStat["FO"];
-			proba = (50 - selfStat["FO"])*2;
+			proba = selfStat["FO"] * 2;
 			alea = rand() % 100;
 		}
 		if (alea <= proba)
-			foe.setHealth(foe.getStat()["HP"] - damage);
+			foe->setHealth(foe->getStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

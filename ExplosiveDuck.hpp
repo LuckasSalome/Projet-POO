@@ -7,13 +7,13 @@
 using namespace std;
 
 class ExplosiveDuck : public Common {
-private : 
+private:
 	string name = "Canard Explosif";
 	string description = "Il aime pas Macron.";
 	string spellName = "AUTODESTRUCTION";
-	map <string, int> stat{ { "COU", 10 }, { "CHA", 5 }, { "INT", 1 }, { "FO", 1 }, { "AD", 10 }, {"HP", 20}};
+	map <string, int> stat{ { "COU", 10 }, { "CHA", 5 }, { "INT", 1 }, { "FO", 1 }, { "AD", 10 }, {"HP", 20} };
 
-protected : 
+protected:
 	string getName() override {
 		return this->name;
 	}
@@ -23,19 +23,19 @@ protected :
 	map<string, int> getStat() override {
 		return this->stat;
 	}
-	map<string, int> monsterSpell(Entity& ennemy, map<string, int> creatureStat) override {
+	map<string, int> monsterSpell(std::shared_ptr<Entity> ennemy, map<string, int> creatureStat) override {
 		int damage = 30;
 		int proba = 100;
 		creatureStat.insert({ "HP", 0 });
-		ennemy.setHealth(ennemy.getStat()["HP"] - damage);
+		ennemy->setHealth(ennemy->getStat()["HP"] - damage);
 		return creatureStat;
 	}
-	void basicAttack(Entity& ennemy, map<string, int> creatureStat) override {
+	void basicAttack(std::shared_ptr<Entity> ennemy, map<string, int> creatureStat) override {
 		int damage = creatureStat["FO"];
 		int proba = 50 - creatureStat["FO"];
 		int alea = rand() % 100;
 		if (alea <= proba)
-			ennemy.setHealth(ennemy.getStat()["HP"] - damage);
+			ennemy->setHealth(ennemy->getStat()["HP"] - damage);
 	}
 
 	string getSpellName() override {

@@ -1,40 +1,28 @@
 #pragma once
 
 #include <vector>
-#include "Heroes.hpp"
-#include "Creatures.hpp"
+#include <memory>
+#include <algorithm>                                            // Pour std::remove sans ca marche po
+#include "Entity.hpp"
 
 class Group {
 private:
-    std::vector<Entity*> group;
-    std::vector<int>::iterator it;
-    bool isEmpty = false;
+    std::vector<std::shared_ptr<Entity>> group;
 
 public:
-    std::vector<Entity*> getGroup() {
-        return this->group;
+    void addParty(std::shared_ptr<Entity> entity) {
+        group.push_back(entity);
     }
 
-    void addParty(Entity* chara) {
-        this->group.push_back(chara);
-    }
-    void addGroup(Entity* chara) {
-        this->group.push_back(chara);
-    }
-    void removeParty(Entity* chara) {
-        for (int i=0; i<this->group.size(); i++)
-            if (this->group[i] == chara)
-                this->group.erase(this->group.begin() + i);
-    }
-    void removeGroup(Entity* creature) {
-        for (int i = 0; i < this->group.size(); i++)
-            if (this->group[i] == creature)
-                this->group.erase(this->group.begin() + i);
+    void removeParty(std::shared_ptr<Entity> entity) {
+        group.erase(std::remove(group.begin(), group.end(), entity), group.end());
     }
 
-    bool isGroupEmpty() {
-        if (this->group.size() == 0)
-            this->isEmpty = true;
-        return this->isEmpty;
+    std::vector<std::shared_ptr<Entity>> getGroup() const {
+        return group;
+    }
+
+    bool isGroupEmpty() const {
+        return group.empty();
     }
 };
