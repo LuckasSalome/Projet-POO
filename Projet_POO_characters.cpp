@@ -1,6 +1,8 @@
 #include <iostream>
 #include <queue>
 
+
+//fichiers a utilisier
 #include "Heroes.hpp"
 #include "Creatures.hpp"
 #include "ExplosiveDuck.hpp"
@@ -12,6 +14,7 @@
 
 using namespace std;
 
+//##########  IMPORTANT   #########  pour creer les objets les fonctions en dessous prennent juste un string et renvoient un objet du type voulu [obligatoire pour init / utiliser]
 static Jobs* createJobs(const string& type) {
     if (type == "Guerrier") {
         return new Warrior();
@@ -68,19 +71,22 @@ static Entity* createEntity(const string& type, const string name) {
         return new Creatures();
 }
 
-
+//############   totallement inutile c juste pour savoir comment utiliser et parce que les comme les fonctions sont virtuelles elle doivent etre crées pour lancer
 int main()
 {
+    //def des string pour le type de race hero, le metier hero, le type de mob
     string jobType = "Sorcier";
     string raceType = "Elfe";
     string mobType = "Gobelin Sarcastique";
-    string statistics[6] = { "COU", "CHA", "INT", "FO", "AD", "HP"};
+    string statistics[6] = { "COU", "CHA", "INT", "FO", "AD", "HP"};  //les stats sont sous ce format pour y acceder utiliser les clés ["COU"] etc. pour modifier utiliser les fonctions set(inser)Stat()
 
+    // crée les classes filles pour instancier les meres
     Jobs* job = createJobs(jobType);
     Race* race = createRace(raceType);
     Common* mob = createMob(mobType);
     Boss* lich = new ProgramLich();
 
+    //crée les héros, boss et monstres 
     Entity* Character1 = createEntity("Hero", "Michel");
     Entity* Mob1 = createEntity("Monstre", "");
     Entity* Boss = createEntity("Monstre", "");
@@ -88,31 +94,32 @@ int main()
     Group* Monstres = new Group();
 
 
-     //hero numero 1
+     //init hero numero 1
     Character1->StatComparison(*race, *job);
     Character1->initDesc(*race, *job);
     Character1->initName(*race, *job);
     Character1->initHeroStat(*race, *job);
 
 
-    //monstre numero 1
+    //init monstre numero 1
     Mob1->initCreatureDesc(*mob);
     Mob1->initCreatureName(*mob);
     Mob1->initCreatureStat(*mob);
 
-    //boss
+    //init boss
     Boss->initBossName(*lich);
     Boss->initBossDesc(*lich);
     Boss->initBossStat(*lich);
 
+    //definition des groupes
     Heros->addParty(Character1);
     Monstres->addGroup(Mob1);
 
     Heros->removeParty(Character1);
     Heros->addParty(Character1);
 
+    //============================================       LIGNEs POUR LANCER COMBAT      =================================================
     Fight* combat = new Fight(*Heros, *Monstres);
-
     combat->fighting();
 
     //affiche le hero et le monstre
