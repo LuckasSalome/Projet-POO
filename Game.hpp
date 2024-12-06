@@ -30,7 +30,6 @@
 #include "LeatherChest.hpp"
 #include "DarkCape.hpp"
 #include "SorcererCape.hpp"
-#include "Chest.hpp"
 
 using namespace sf;
 using namespace std;
@@ -48,7 +47,6 @@ private:
     Clock dtClock;
     float dt;
     Font font;
-    Chest* chest;
 
     void initWindow() {
         ifstream ifs("Config/window.txt");
@@ -91,8 +89,7 @@ private:
         inventory->addItem(1, 1, new KeyCorridor());
         inventory->addItem(1, 2, new DiscretionShoesNoisy());
         inventory->addItem(1, 3, new BluntSword());
-        inventory->addItem(1, 4, new MajorHealingPotion());
-        inventory->addItem(2, 0, new Sword());
+        inventory->addItem(1, 4, new MajorHealingPotion());;
         inventory->addItem(2, 1, new Bow());
         inventory->addItem(2, 2, new SorcererStick());
         inventory->addItem(2, 3, new Dagger());
@@ -106,6 +103,14 @@ private:
         inventory->addItem(4, 1, new SorcererCape());
     }
 
+    void populateSecondaryGrid() {
+        inventory->addSecondaryItem(0, 0, new PotionIntelligence());
+        inventory->addSecondaryItem(0, 1, new RustyKey());
+        inventory->addSecondaryItem(0, 2, new Sword());
+        inventory->addSecondaryItem(1, 0, new BeerPotion());
+        inventory->addSecondaryItem(2, 2, new ChainMail());
+    }
+
 public:
     Game() {
         this->initWindow();
@@ -117,10 +122,11 @@ public:
         this->wall = new Collision(mapManager, player, this->window->getSize().x, this->window->getSize().y);
         this->inventory = new Inventory(5, 5, font);
 
+
         this->populateInventory();
-        this->chest = new Chest(500.f, 500.f, 3, 3, font, "images/Chest.png");
-        this->chest->getInventory()->addItem(0, 0, new BeerPotion());
-        this->chest->getInventory()->addItem(1, 1, new BluntSword());
+
+        this->populateSecondaryGrid();
+        
     };
 
     ~Game() {
@@ -129,7 +135,7 @@ public:
         delete this->mapManager;
         delete this->wall;
         delete this->inventory;
-        delete this->chest;
+       
     };
 
     void updateSFMLEvents() {
@@ -162,20 +168,6 @@ public:
                 }
             }
         }
-        if (this->sfEvent.type == sf::Event::KeyPressed) {
-            if (this->sfEvent.key.code == sf::Keyboard::F) {
-                if (!this->inventory->getIsOpen() && !this->chest->getIsOpen()) {
-                    if (this->player->getPlayer().getGlobalBounds().intersects(this->chest->getBounds())) {
-                        this->chest->toggleChest();
-                    }
-                }
-            }
-            else if (this->sfEvent.key.code == sf::Keyboard::Escape) {
-                if (this->chest->getIsOpen()) {
-                    this->chest->toggleChest();
-                }
-            }
-        }
     };
 
     void updateDT() {
@@ -190,7 +182,7 @@ public:
             this->viewOnPlayer();
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
+        if (Keyboard::isKeyPressed(Keyboard::V)) {
             this->wall->setWallsColor(Color::Red);
         }
         else {
@@ -212,7 +204,6 @@ public:
             this->window->draw(wall);
         }
 
-        this->window->draw(this->chest->getSprite());
         this->window->draw(this->player->getPlayer());
 
         this->window->setView(uiView);
