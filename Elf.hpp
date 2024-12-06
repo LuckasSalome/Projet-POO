@@ -23,7 +23,7 @@ protected:
 	map<string, int> getStat() override {
 		return this->stat;
 	}
-	map<string, int> raceSpell(Entity& foe, map<string, int> selfStat) override {
+	map<string, int> raceSpell(std::shared_ptr<Entity> foe, map<string, int> selfStat) override {
 		if (rand() % 2 == 1)
 		{
 			selfStat.insert({ "CHA", selfStat["CHA"] + 3 });
@@ -31,12 +31,12 @@ protected:
 		}
 		return selfStat;
 	}
-	void basicAttack(Entity& foe, map<string, int> selfStat) override {
+	void basicAttack(std::shared_ptr<Entity> foe, map<string, int> selfStat) override {
 		int damage = selfStat["INT"];
-		int proba = (50 - selfStat["INT"])*2;
+		int proba = selfStat["INT"]*2;
 		int alea = rand() % 100;
 		if (alea <= proba)
-			foe.setHealth(foe.getStat()["HP"] - damage);
+			foe->setHealth(foe->getStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

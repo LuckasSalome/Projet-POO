@@ -23,17 +23,17 @@ protected:
 	map<string, int> getStat() override {
 		return this->stat;
 	}
-	map<string, int> monsterSpell(Entity& ennemy, map<string, int> creatureStat) override {
+	map<string, int> monsterSpell(std::shared_ptr<Entity> ennemy, map<string, int> creatureStat) override {
 		int damage = 15;
 		int proba = (50 - creatureStat["AD"])*2;
 		return creatureStat;
 	}
-	void basicAttack(Entity& ennemy, map<string, int> creatureStat) override {
+	void basicAttack(std::shared_ptr<Entity> ennemy, map<string, int> creatureStat) override {
 		int damage = creatureStat["FO"];
 		int proba = (50 - creatureStat["FO"])*2;
 		int alea = rand() % 100;
 		if (alea<=proba)
-			ennemy.setHealth(ennemy.getStat()["HP"] - damage);
+			ennemy->setHealth(ennemy->getStat()["HP"] - damage);
 	}
 	string getSpellName() override {
 		return this->spellName;

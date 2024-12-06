@@ -87,6 +87,9 @@ public :
 	//setter
 	void setHealth(int set) {							//modifie les valleurs de stat, equivalent a un .insrt()
 		this->heroStat["HP"] = set;
+		if (this->heroStat["HP"] <= 0) {
+			isAlive = false;
+		}
 	}
 	void setCourage(int set) {
 		this->heroStat["COU"] = set;
@@ -117,7 +120,7 @@ public :
 			setDexterity(this->heroStat["AD"] + heroLevel);
 		}
 	}
-	string getRaceSpell(Race& race, Entity& foe) override{
+	string getRaceSpell(Race& race, std::shared_ptr<Entity> foe) override{
 		if (isAlive)
 		{
 			std::map <std::string, int> result = race.raceSpell(foe, this->heroStat);
@@ -127,7 +130,7 @@ public :
 		}
 	}
 
-	string getBasicAttack(Race& race, Entity& foe) override {
+	string getBasicAttack(Race& race, std::shared_ptr<Entity> foe) override {
 		if (isAlive)
 		{
 			race.basicAttack(foe, this->heroStat);
@@ -135,7 +138,7 @@ public :
 		}
 	}
 
-    string getJobSpell(Jobs& job, Entity& foe) override {
+    string getJobSpell(Jobs& job, std::shared_ptr<Entity> foe) override {
 		if (isAlive)
 		{
 			job.jobSpell(foe, this->heroStat);
@@ -145,8 +148,6 @@ public :
     }
 
 	bool isHeroAlive() {
-		if (this->heroStat["HP"] <= 0)
-			isAlive = false;
 		return this->isAlive;
 	}
 
