@@ -10,7 +10,6 @@
 #include "SFML/System.hpp"
 #include "MapManager.hpp"
 #include "Animation.hpp"
-#include "GameData.hpp"
 #include "ChoixPerso.hpp"
 
 using namespace sf;
@@ -35,7 +34,6 @@ private:
     const int COLLISION_TRIGGER = 2;
     const int COLLISION_TRIGGER_BACK = 3;
     int mapIteration = 2; // numero de la prochaine map
-    GameData data;
 
     void playerInit(int colonne, int ligne, string race) {
         this->player.setSize(Vector2f((mapManager->getGridSize() - 10.f), (mapManager->getGridSize() - 10.f)));

@@ -2,33 +2,33 @@
 #include <SFML/Graphics.hpp>
 #include "Inventory.hpp"
 
-class Chest {
+class TrappedChest {
 private:
-    sf::RectangleShape chest;
+    sf::RectangleShape trappedChest;
     sf::Vector2f position;
     bool isOpen;
     sf::FloatRect detectionZone;
     Inventory* inventory;
-    sf::Texture chestTexOpen;
-    sf::Texture chestTexClosed;
+    sf::Texture trappedChestTexOpen;
+    sf::Texture trappedChestTexClosed;
 
 public:
-    Chest(sf::Vector2f pos, Inventory* inv)
+    TrappedChest(sf::Vector2f pos, Inventory* inv)
         : position(pos), isOpen(false), inventory(inv) {
         detectionZone = sf::FloatRect(position.x - 125.f, position.y - 125.f, 250, 250); // Zone de détection autour du coffre
 
         // Initialiser la forme du coffre avec une taille appropriée
-        chest.setSize(sf::Vector2f(50.f, 50.f));
-        chest.setPosition(this->position);
+        trappedChest.setSize(sf::Vector2f(50.f, 50.f));
+        trappedChest.setPosition(this->position);
 
         // Charger les textures
-        if (!chestTexOpen.loadFromFile("Assets/Chest.png"))
+        if (!trappedChestTexOpen.loadFromFile("Assets/Chest.png"))
             throw std::runtime_error("Cannot load Assets/Chest.png");
-        if (!chestTexClosed.loadFromFile("Assets/chestclosed.png"))
+        if (!trappedChestTexClosed.loadFromFile("Assets/chestclosed.png"))
             throw std::runtime_error("Cannot load Assets/closedchest.png");
 
         // Appliquer la texture fermée par défaut
-        chest.setTexture(&chestTexClosed);
+        trappedChest.setTexture(&trappedChestTexClosed);
     }
 
     sf::Vector2f getPosition() const {
@@ -42,12 +42,12 @@ public:
     void toggleOpen() {
         isOpen = !isOpen;
         if (isOpen) {
-            chest.setTexture(&chestTexOpen);
-            inventory->toggleSecondaryGrid();
+            trappedChest.setTexture(&trappedChestTexOpen);
+            
         }
         else {
-            chest.setTexture(&chestTexClosed);
-            inventory->toggleSecondaryGrid(); // Fermer la secondaryGrid si le coffre est fermé
+            trappedChest.setTexture(&trappedChestTexClosed);
+            
         }
     }
 
@@ -57,6 +57,6 @@ public:
     }
 
     void draw(sf::RenderWindow& window) {
-        window.draw(chest);
+        window.draw(trappedChest);
     }
 };

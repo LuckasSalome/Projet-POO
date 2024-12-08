@@ -31,6 +31,29 @@ private:
     Vector2f chestSlotPos;
     Vector2f bootsSlotPos;
 
+    Items* weaponSlot2 = nullptr;
+    Items* chestSlot2 = nullptr;
+    Items* bootsSlot2 = nullptr;
+
+    Vector2f weaponSlot2Pos;
+    Vector2f chestSlot2Pos;
+    Vector2f bootsSlot2Pos;
+
+    Items* weaponSlot3 = nullptr;
+    Items* chestSlot3 = nullptr;
+    Items* bootsSlot3 = nullptr;
+
+    Vector2f weaponSlot3Pos;
+    Vector2f chestSlot3Pos;
+    Vector2f bootsSlot3Pos;
+
+    Items* weaponSlot4 = nullptr;
+    Items* chestSlot4 = nullptr;
+    Items* bootsSlot4 = nullptr;
+
+    Vector2f weaponSlot4Pos;
+    Vector2f chestSlot4Pos;
+    Vector2f bootsSlot4Pos;
 
 public:
 	Inventory(size_t rows, size_t cols, Font& font)                          //constructeur avec les parametres visuels
@@ -47,10 +70,20 @@ public:
         infoText.setCharacterSize(26);
         infoText.setFillColor(Color::White);
         infoText.setPosition(infoPanel.getPosition().x + 10, infoPanel.getPosition().y + 10);
-        weaponSlotPos = Vector2f(cols * slotSize + 20, 20);
+        weaponSlotPos = Vector2f(static_cast<float>(cols * slotSize + 20), 20);
         chestSlotPos = Vector2f(cols * slotSize + 20, weaponSlotPos.y + slotSize + 10);
         bootsSlotPos = Vector2f(cols * slotSize + 20, chestSlotPos.y + slotSize + 10);
+        weaponSlot2Pos = Vector2f(cols * slotSize + 20 + slotSize * 2, 20);
+        chestSlot2Pos = Vector2f(cols * slotSize + 20 + slotSize * 2, weaponSlot2Pos.y + slotSize + 10);
+        bootsSlot2Pos = Vector2f(cols * slotSize + 20 + slotSize * 2, chestSlot2Pos.y + slotSize + 10);
+        weaponSlot3Pos = Vector2f(cols * slotSize + 20 + slotSize * 3, 20);
+        chestSlot3Pos = Vector2f(cols * slotSize + 20 + slotSize * 3, weaponSlot2Pos.y + slotSize + 10);
+        bootsSlot3Pos = Vector2f(cols * slotSize + 20 + slotSize * 3, chestSlot2Pos.y + slotSize + 10);
+        weaponSlot4Pos = Vector2f(cols * slotSize + 20 + slotSize * 4, 20);
+        chestSlot4Pos = Vector2f(cols * slotSize + 20 + slotSize * 4, weaponSlot2Pos.y + slotSize + 10);
+        bootsSlot4Pos = Vector2f(cols * slotSize + 20 + slotSize * 4, chestSlot2Pos.y + slotSize + 10);
     }
+
 
 	void toggleInventory() {            //change l'etat de l'inventaire
         isOpenInv = !isOpenInv;
@@ -141,6 +174,170 @@ public:
                 return;
             }
         }
+        if (mousePos.x >= weaponSlot2Pos.x && mousePos.x <= weaponSlot2Pos.x + slotSize &&
+            mousePos.y >= weaponSlot2Pos.y && mousePos.y <= weaponSlot2Pos.y + slotSize) {
+            if (selectedItem && selectedItem->isWeapon()) {
+                if (weaponSlot2 == nullptr) {
+                    weaponSlot2 = selectedItem;
+                    for (size_t r = 0; r < rows; ++r) {
+                        for (size_t c = 0; c < cols; ++c) {
+                            if (inventoryGrid[r][c] == selectedItem) {
+                                inventoryGrid[r][c] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                    selectedItem = nullptr;
+                }
+                return;
+            }
+        }
+        if (mousePos.x >= chestSlot2Pos.x && mousePos.x <= chestSlot2Pos.x + slotSize &&
+            mousePos.y >= chestSlot2Pos.y && mousePos.y <= chestSlot2Pos.y + slotSize) {
+            if (selectedItem && selectedItem->isChestArmor()) {
+                if (chestSlot2 == nullptr) {
+                    chestSlot2 = selectedItem;
+                    for (size_t r = 0; r < rows; ++r) {
+                        for (size_t c = 0; c < cols; ++c) {
+                            if (inventoryGrid[r][c] == selectedItem) {
+                                inventoryGrid[r][c] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                    selectedItem = nullptr;
+                }
+                return;
+            }
+        }
+        if (mousePos.x >= bootsSlot2Pos.x && mousePos.x <= bootsSlot2Pos.x + slotSize &&
+            mousePos.y >= bootsSlot2Pos.y && mousePos.y <= bootsSlot2Pos.y + slotSize) {
+            if (selectedItem && selectedItem->isBoots()) {
+                if (bootsSlot2 == nullptr) {
+                    bootsSlot2 = selectedItem;
+                    for (size_t r = 0; r < rows; ++r) {
+                        for (size_t c = 0; c < cols; ++c) {
+                            if (inventoryGrid[r][c] == selectedItem) {
+                                inventoryGrid[r][c] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                    selectedItem = nullptr;
+                }
+                return;
+            }
+        }
+
+        if (mousePos.x >= weaponSlot3Pos.x && mousePos.x <= weaponSlot3Pos.x + slotSize &&
+            mousePos.y >= weaponSlot3Pos.y && mousePos.y <= weaponSlot3Pos.y + slotSize) {
+            if (selectedItem && selectedItem->isWeapon()) {
+                if (weaponSlot3 == nullptr) {
+                    weaponSlot3 = selectedItem;
+                    for (size_t r = 0; r < rows; ++r) {
+                        for (size_t c = 0; c < cols; ++c) {
+                            if (inventoryGrid[r][c] == selectedItem) {
+                                inventoryGrid[r][c] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                    selectedItem = nullptr;
+                }
+                return;
+            }
+        }
+        if (mousePos.x >= chestSlot3Pos.x && mousePos.x <= chestSlot3Pos.x + slotSize &&
+            mousePos.y >= chestSlot3Pos.y && mousePos.y <= chestSlot3Pos.y + slotSize) {
+            if (selectedItem && selectedItem->isChestArmor()) {
+                if (chestSlot3 == nullptr) {
+                    chestSlot3 = selectedItem;
+                    for (size_t r = 0; r < rows; ++r) {
+                        for (size_t c = 0; c < cols; ++c) {
+                            if (inventoryGrid[r][c] == selectedItem) {
+                                inventoryGrid[r][c] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                    selectedItem = nullptr;
+                }
+                return;
+            }
+        }
+        if (mousePos.x >= bootsSlot3Pos.x && mousePos.x <= bootsSlot3Pos.x + slotSize &&
+            mousePos.y >= bootsSlot3Pos.y && mousePos.y <= bootsSlot3Pos.y + slotSize) {
+            if (selectedItem && selectedItem->isBoots()) {
+                if (bootsSlot3 == nullptr) {
+                    bootsSlot3 = selectedItem;
+                    for (size_t r = 0; r < rows; ++r) {
+                        for (size_t c = 0; c < cols; ++c) {
+                            if (inventoryGrid[r][c] == selectedItem) {
+                                inventoryGrid[r][c] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                    selectedItem = nullptr;
+                }
+                return;
+            }
+        }
+
+        if (mousePos.x >= weaponSlot4Pos.x && mousePos.x <= weaponSlot4Pos.x + slotSize &&
+            mousePos.y >= weaponSlot4Pos.y && mousePos.y <= weaponSlot4Pos.y + slotSize) {
+            if (selectedItem && selectedItem->isWeapon()) {
+                if (weaponSlot4 == nullptr) {
+                    weaponSlot4 = selectedItem;
+                    for (size_t r = 0; r < rows; ++r) {
+                        for (size_t c = 0; c < cols; ++c) {
+                            if (inventoryGrid[r][c] == selectedItem) {
+                                inventoryGrid[r][c] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                    selectedItem = nullptr;
+                }
+                return;
+            }
+        }
+        if (mousePos.x >= chestSlot4Pos.x && mousePos.x <= chestSlot4Pos.x + slotSize &&
+            mousePos.y >= chestSlot4Pos.y && mousePos.y <= chestSlot4Pos.y + slotSize) {
+            if (selectedItem && selectedItem->isChestArmor()) {
+                if (chestSlot4 == nullptr) {
+                    chestSlot4 = selectedItem;
+                    for (size_t r = 0; r < rows; ++r) {
+                        for (size_t c = 0; c < cols; ++c) {
+                            if (inventoryGrid[r][c] == selectedItem) {
+                                inventoryGrid[r][c] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                    selectedItem = nullptr;
+                }
+                return;
+            }
+        }
+        if (mousePos.x >= bootsSlot4Pos.x && mousePos.x <= bootsSlot4Pos.x + slotSize &&
+            mousePos.y >= bootsSlot4Pos.y && mousePos.y <= bootsSlot4Pos.y + slotSize) {
+            if (selectedItem && selectedItem->isBoots()) {
+                if (bootsSlot4 == nullptr) {
+                    bootsSlot4 = selectedItem;
+                    for (size_t r = 0; r < rows; ++r) {
+                        for (size_t c = 0; c < cols; ++c) {
+                            if (inventoryGrid[r][c] == selectedItem) {
+                                inventoryGrid[r][c] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                    selectedItem = nullptr;
+                }
+                return;
+            }
+        }
 
 		//gère le drag and drop des items entre l'inventaire principal et la grille secondaire
         size_t row = mousePos.y / slotSize;
@@ -188,6 +385,45 @@ public:
         else if (slotType == "Boots" && bootsSlot != nullptr) {
             itemToUnequip = bootsSlot;
             bootsSlot = nullptr;
+        }
+
+        if (slotType == "Weapon 2" && weaponSlot2 != nullptr) {
+            itemToUnequip = weaponSlot2;
+            weaponSlot2 = nullptr;
+        }
+        else if (slotType == "ChestArmor 2" && chestSlot2 != nullptr) {
+            itemToUnequip = chestSlot2;
+            chestSlot2 = nullptr;
+        }
+        else if (slotType == "Boots 2" && bootsSlot2 != nullptr) {
+            itemToUnequip = bootsSlot2;
+            bootsSlot2 = nullptr;
+        }
+
+        if (slotType == "Weapon 3" && weaponSlot3 != nullptr) {
+            itemToUnequip = weaponSlot3;
+            weaponSlot3 = nullptr;
+        }
+        else if (slotType == "ChestArmor 3" && chestSlot3 != nullptr) {
+            itemToUnequip = chestSlot3;
+            chestSlot3 = nullptr;
+        }
+        else if (slotType == "Boots 3" && bootsSlot3 != nullptr) {
+            itemToUnequip = bootsSlot3;
+            bootsSlot3 = nullptr;
+        }
+
+        if (slotType == "Weapon 4" && weaponSlot4 != nullptr) {
+            itemToUnequip = weaponSlot4;
+            weaponSlot4 = nullptr;
+        }
+        else if (slotType == "ChestArmor 4" && chestSlot4 != nullptr) {
+            itemToUnequip = chestSlot4;
+            chestSlot4 = nullptr;
+        }
+        else if (slotType == "Boots 4" && bootsSlot4 != nullptr) {
+            itemToUnequip = bootsSlot4;
+            bootsSlot4 = nullptr;
         }
 
 		if (itemToUnequip == nullptr) return;       //si pas de correspondance on sort
@@ -288,6 +524,16 @@ public:
         drawEquipmentSlot(window, weaponSlotPos, weaponSlot, "Weapon");
         drawEquipmentSlot(window, chestSlotPos, chestSlot, "ChestArmor");
         drawEquipmentSlot(window, bootsSlotPos, bootsSlot, "Boots");
+        drawEquipmentSlot(window, weaponSlot2Pos, weaponSlot2, "Weapon ");
+        drawEquipmentSlot(window, chestSlot2Pos, chestSlot2, "ChestArmor ");
+        drawEquipmentSlot(window, bootsSlot2Pos, bootsSlot2, "Boots ");
+        drawEquipmentSlot(window, weaponSlot3Pos, weaponSlot3, "Weapon ");
+        drawEquipmentSlot(window, chestSlot3Pos, chestSlot3, "ChestArmor ");
+        drawEquipmentSlot(window, bootsSlot3Pos, bootsSlot3, "Boots ");
+        drawEquipmentSlot(window, weaponSlot4Pos, weaponSlot4, "Weapon ");
+        drawEquipmentSlot(window, chestSlot4Pos, chestSlot4, "ChestArmor ");
+        drawEquipmentSlot(window, bootsSlot4Pos, bootsSlot4, "Boots ");
+
 
         if (selectedItem) {
             Sprite sprite = selectedItem->getSprite();

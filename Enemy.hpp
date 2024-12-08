@@ -12,7 +12,6 @@
 #include "Player.hpp"
 #include "Creatures.hpp"
 #include "Fight.hpp"
-#include "Animation.hpp"
 
 using namespace sf;
 using namespace std;
@@ -27,8 +26,6 @@ private:
     MapManager* mapMan;
     bool defeated;
     Creatures* creature;
-    Animation* animation;
-    float deltaTime;
 
     void loadEnemyTexture() {
         Texture trollTex;
@@ -45,12 +42,13 @@ private:
         if (!duckTex.loadFromFile("Assets/DuckSprite.png"))
             throw std::runtime_error("Cannot load Assets/black.png");
         enemyTex[7] = duckTex;
+
     }
 
     void initHitbox() {
         hitbox.setRadius(75.f); // Taille de la hitbox
         hitbox.setFillColor(Color::Transparent);
-        hitbox.setOutlineColor(Color::Transparent);
+        hitbox.setOutlineColor(Color::Red);
         hitbox.setOutlineThickness(1.f);
         hitbox.setPosition(position.x - 25, position.y - 25); //-25 pour recentrer pifometre tkt
     }
@@ -62,18 +60,11 @@ public:
         loadEnemyTexture();
         if (enemyTex.find(textureKey) != enemyTex.end()) {
             enemy.setTexture(&enemyTex[textureKey]);
-            animation = new Animation(&enemyTex[textureKey], Vector2u(4, 1), 0.3f); // 4 images dans la spritesheet, 1 ligne
         }
         else {
             throw std::runtime_error("Texture key not found");
         }
         initHitbox();
-    }
-
-    void update(float deltaTime) {
-        this->deltaTime = deltaTime;
-        animation->update(0, deltaTime, true); // Utiliser la ligne 0 pour l'animation idle
-        enemy.setTextureRect(animation->uvRect);
     }
 
     void drawEnemy(RenderWindow& window) {
@@ -99,9 +90,11 @@ public:
         return defeated;
     }
 
+
     void setDefeated(bool def, const string& entityMapFile) {
         cout << "testdefeated" << endl;
         markEnemyAsDefeated(entityMapFile);
+
     }
 
     static vector<Enemy> reloadEnemies(const string& entityMapFile, MapManager& mapMan) {
@@ -128,6 +121,9 @@ public:
         file.close();
         return enemies;
     }
+
+
+
 
     void updateEntityMapFile(const string& entityMapFile, const vector<Enemy>& enemies) {
         ofstream file(entityMapFile);
@@ -176,6 +172,7 @@ public:
         fileOut.close();
     }
 
+
     static vector<Enemy> createEnemies(const string& entityMapFile, MapManager& mapMan) {
         vector<Enemy> enemies;
         ifstream file(entityMapFile);
@@ -196,6 +193,7 @@ public:
         return enemies;
     }
 
+
     static Enemy* checkCollisions(Player& player, std::vector<Enemy>& enemies) {
         for (auto& enemy : enemies) {
             if (enemy.getHitbox().getGlobalBounds().intersects(player.getPlayerBounds())) {
@@ -204,6 +202,22 @@ public:
             }
         }
         return nullptr;
+    }
+
+    static void saveEnemies(const string& filename, const vector<Enemy>& enemies, MapManager& mapMan) {
+        ofstream file(filename);
+        if (!file.is_open()) {
+            throw std::runtime_error("Cannot open entityMap.txt");
+        }
+
+        for (const auto& enemy : enemies) {
+            file << enemy.getPosition().x / mapMan.getGridSize() << " "
+                << enemy.getPosition().y / mapMan.getGridSize() << " "
+                << enemy.getTextureKey() << " "
+                << enemy.isDefeated() << endl;
+        }
+
+        file.close();
     }
 
     Creatures* getCreature() const {

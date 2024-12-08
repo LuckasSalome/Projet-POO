@@ -45,6 +45,8 @@
 #include "ChoixPerso.hpp"
 #include "Group.hpp"
 #include "Enemy.hpp"
+#include "Chest.hpp"
+#include "trappedChest.hpp"
 
 using namespace sf;
 using namespace std;
@@ -65,10 +67,13 @@ private:
     Heroes* hero;
     Font font;
     GameData data;
-	vector<Enemy> enemies;
+    vector<Enemy> enemies;
+	vector<Chest> chests;
+	vector<TrappedChest> trappedChests;
     bool inRange = false;
     bool inGame = true;
     float dt;
+    int currentMap = 1;
 
     void initGameWindow() {
         ifstream ifs("Config/window.txt");
@@ -139,6 +144,39 @@ private:
         }
     }
 
+    void initializeChests() {
+        if (this->currentMap == 6) {
+            // Position du coffre sur la carte tileMap6
+            vector<sf::Vector2f> chestPositions = {
+                {5 * mapManager->getGridSize(), 6 * mapManager->getGridSize()},
+                {14 * mapManager->getGridSize(), 6 * mapManager->getGridSize()}
+            };
+
+            for (const auto& pos : chestPositions) {
+                chests.emplace_back(pos, inventory);
+            }
+        }
+    }
+    void initializeTrappedChests() {
+        if (this->currentMap == 6) {
+            // Position du coffre sur la carte tileMap6
+            vector<sf::Vector2f> trappedChestPositions = {
+                {2 * mapManager->getGridSize(), 13 * mapManager->getGridSize()},
+                {5 * mapManager->getGridSize(), 13 * mapManager->getGridSize()},
+                {8 * mapManager->getGridSize(), 13 * mapManager->getGridSize()},
+                {11 * mapManager->getGridSize(), 13 * mapManager->getGridSize()},
+                {14 * mapManager->getGridSize(), 13 * mapManager->getGridSize()},
+                {2 * mapManager->getGridSize(), 6 * mapManager->getGridSize()},
+                {8 * mapManager->getGridSize(), 6 * mapManager->getGridSize()},
+                {11 * mapManager->getGridSize(), 6 * mapManager->getGridSize()},
+            };
+
+            for (const auto& pos : trappedChestPositions) {
+                trappedChests.emplace_back(pos, inventory);
+            }
+        }
+    }
+
     void populateInventory() {
         inventory->addItem(0, 0, new PotionIntelligence());
         inventory->addItem(0, 1, new RustyKey());
@@ -178,7 +216,7 @@ public:
         this->initFont();
         this->mapManager = new MapManager(75.f, 20, "Config/tileTypes1.txt", "Config/collisionMap1.txt");
         this->player = new Player(mapManager, [this](string newTileMap, string newCollisionMap) {
-            this->onMapChange(newTileMap, newCollisionMap); }); //en gros ah carré tu change de map bah dcp appelle cette fonction stp
+            this->onMapChange(newTileMap, newCollisionMap); });
 
         this->wall = new Collision(mapManager, player, (this->window->getSize().x), (this->window->getSize().y));
         this->inventory = new Inventory(5, 5, font);
@@ -189,9 +227,9 @@ public:
         this->populateSecondaryGrid();
         Enemy::resetEnemyDefeatedState("Config/entityMap1.txt");
         this->enemies = Enemy::createEnemies("Config/entityMap1.txt", *this->mapManager);
-
-
-    };
+        this->initializeChests(); // initialise les coffres
+        this->initializeTrappedChests(); // initialise les coffres pieges
+    }
 
     // // Destructeur qui supprime la fenêtre, le joueur et la carte
     ~Game() {
@@ -210,34 +248,40 @@ public:
     // Gerer les events
     void handleGameWindow() {
         while (this->window->pollEvent(this->sfEvent)) {
-            if (this->sfEvent.type == Event::Closed)
+            if (this->sfEvent.type == sf::Event::Closed)
                 this->window->close();
 
-            if (this->sfEvent.type == Event::KeyPressed) {
-                if (this->sfEvent.key.code == Keyboard::I) {
+            if (this->sfEvent.type == sf::Event::KeyPressed) {
+                if (this->sfEvent.key.code == sf::Keyboard::I) {
                     this->inventory->toggleInventory();
                 }
 
-                if (this->sfEvent.key.code == Keyboard::U && this->inventory->getIsOpen()) {        //appuyer sur U pour déséquiper tous les objets
+                if (this->sfEvent.key.code == sf::Keyboard::U && this->inventory->getIsOpen()) {
                     this->inventory->unequipItem("Weapon");
                     this->inventory->unequipItem("ChestArmor");
                     this->inventory->unequipItem("Boots");
                 }
-            }
 
-            if (this->sfEvent.type == Event::KeyPressed) {
-                if (this->sfEvent.key.code == Keyboard::E && inRange == true) {
-                    this->inventory->toggleChest();
+                if (this->sfEvent.key.code == sf::Keyboard::E) {
+                    for (auto& chest : chests) {
+                        if (chest.isPlayerInRange(this->player->getPositionPlayer())) 
+                            chest.toggleOpen();
+                    }
+                    for (auto& trappedChest : trappedChests) {
+                        if (trappedChest.isPlayerInRange(this->player->getPositionPlayer()))
+                            trappedChest.toggleOpen();
+                            startFight();
+                    }
                 }
             }
 
-            if (this->sfEvent.type == Event::MouseButtonPressed) {          //action de la souris qaudn on clique
-                if (this->sfEvent.mouseButton.button == Mouse::Left) {
-                    Vector2f mousePos = this->window->mapPixelToCoords(Mouse::getPosition(*this->window));
+            if (this->sfEvent.type == sf::Event::MouseButtonPressed) {
+                if (this->sfEvent.mouseButton.button == sf::Mouse::Left) {
+                    sf::Vector2f mousePos = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 
                     if (this->inventory->getIsOpen()) {
                         this->inventory->handleMouseClick(
-                            Vector2i(mousePos.x, mousePos.y),
+                            sf::Vector2i(mousePos.x, mousePos.y),
                             *this->window
                         );
                         this->inventory->getEquippedStats();
@@ -245,7 +289,20 @@ public:
                 }
             }
         }
-    };
+    }
+
+	void clearChest() {
+		chests.clear();
+	}
+	void clearTrappedChest() {
+		trappedChests.clear();
+	}
+
+    void startFight() {
+        // Initialiser les ExplosiveDuck pour le combat
+		entityInit(getCharaJob(), getCharaRace(), data, "Canard Explosif");
+        
+    }
 
     // Update l'horloge dt en seconde pour voir cbn de temp prend une frame a render
     void updateDT() {
@@ -269,10 +326,6 @@ public:
             this->wall->setWallsColor(Color::Transparent);
         }
 
-        for (auto& enemy : this->enemies) {
-            enemy.update(this->dt);
-        }
-
         Enemy* collidedEnemy = Enemy::checkCollisions(*this->player, this->enemies);
         if (collidedEnemy != nullptr) {
             auto creature = collidedEnemy->getCreature();
@@ -283,7 +336,7 @@ public:
                 cout << "fight vs " << mobName << " at position (" << collidedEnemy->getPosition().x << ", " << collidedEnemy->getPosition().y << ") with texture key " << collidedEnemy->getTextureKey() << endl;
                 //this->initFight(this->heroesGroup, this->monstersGroup);
                 entityInit(getCharaJob(), getCharaRace(), data, mobName);
-				onMapChange("Config/tileTypes1.txt", "Config/collisionMap1.txt");
+                onMapChange("Config/tileTypes1.txt", "Config/collisionMap1.txt");
 
 
             }
@@ -298,27 +351,32 @@ public:
     void render() {
         this->window->clear();
 
-        // Utiliser la vue du joueur pour rendre les éléments du jeu
+        // Utiliser la vue du joueur pour afficher les éléments du jeu
         this->window->setView(playerView);
 
-        // Rendre la carte
+        // la carte
         for (const auto& row : this->mapManager->getTileMap()) {
             for (const auto& tile : row) {
                 this->window->draw(tile);
             }
         }
 
-        // Rendre les murs
+        // les murs
         for (const auto& wall : this->wall->getWalls()) {
             this->window->draw(wall);
         }
 
-        // Rendre le joueur
+        // le joueur
         this->window->draw(this->player->getPlayer());
 
-        // Rendre les ennemis
+        // les ennemis
         for (auto& enemy : this->enemies) {
             enemy.drawEnemy(*this->window);
+        }
+
+        // les coffres
+        for (auto& chest : this->chests) {
+            chest.draw(*this->window);
         }
 
         // Utiliser la vue de l'interface utilisateur pour rendre les éléments de l'interface
@@ -326,8 +384,14 @@ public:
         this->inventory->draw(*this->window);
         this->inventory->drawChest(*this->window);
 
+        // inventaire secondaire si visible
+        if (inventory->getIsSecondaryGridVisible()) {
+            inventory->drawSecondaryGrid(*this->window);
+        }
+
         this->window->display();
     }
+
 
 
     // Methode pour gérer le lancement du jeu
@@ -351,6 +415,20 @@ public:
 
     void onMapChange(string NewTileMap, string NewCollisionMap) {
         this->mapManager->loadNewMap(NewTileMap, NewCollisionMap);
+        if (NewTileMap == "Config/tileTypes6.txt") {
+            this->currentMap = 6;
+            std::cout << currentMap << std::endl;
+            clearChest(); 
+            clearTrappedChest();
+            initializeChests();
+			initializeTrappedChests();
+        }
+        else {
+            clearChest();
+            clearTrappedChest();
+            currentMap++;
+            std::cout << currentMap << std::endl;
+        }
         this->wall->resetCollisions();
         this->enemies = Enemy::createEnemies("Config/entityMap1.txt", *this->mapManager);
     };
@@ -453,7 +531,7 @@ public:
         mainCharacter->initHeroStat(*createRace(getCharaRace()), *createJobs(getCharaJob()));
         std::cout << mainCharacter->getName() << endl;
         std::cout << mainCharacter->getDesc() << endl;
-        for (auto stat : statistics)
+        for (auto& stat : statistics)
             std::cout << mainCharacter->getStat()[stat] << endl;
 
         // hero numero 1
@@ -510,7 +588,7 @@ public:
             std::cout << ordre.front()->getName() << std::endl;
             ordre.pop();
         }
-        
+
         combat->fighting(*mob, *lich, *race, *job);
     }
 
