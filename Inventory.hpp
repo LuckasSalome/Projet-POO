@@ -383,44 +383,44 @@ public:
         }
 
        
-        if (slotType == "Weapon" && weaponSlot2 != nullptr) {
-            itemToUnequip = weaponSlot2;
-            weaponSlot2 = nullptr;
-        }
-        else if (slotType == "ChestArmor" && chestSlot2 != nullptr) {
-            itemToUnequip = chestSlot2;
-            chestSlot2 = nullptr;
-        }
-        else if (slotType == "Boots" && bootsSlot2 != nullptr) {
-            itemToUnequip = bootsSlot2;
-            bootsSlot2 = nullptr;
-        }
+        if (slotType == "Weapon 2" && weaponSlot2 != nullptr) {
+    itemToUnequip = weaponSlot2;
+    weaponSlot2 = nullptr;
+}
+else if (slotType == "ChestArmor 2" && chestSlot2 != nullptr) {
+    itemToUnequip = chestSlot2;
+    chestSlot2 = nullptr;
+}
+else if (slotType == "Boots 2" && bootsSlot2 != nullptr) {
+    itemToUnequip = bootsSlot2;
+    bootsSlot2 = nullptr;
+}
 
-        if (slotType == "Weapon" && weaponSlot3 != nullptr) {
-            itemToUnequip = weaponSlot3;
-            weaponSlot3 = nullptr;
-        }
-        else if (slotType == "ChestArmor" && chestSlot3 != nullptr) {
-            itemToUnequip = chestSlot3;
-            chestSlot3 = nullptr;
-        }
-        else if (slotType == "Boots" && bootsSlot3 != nullptr) {
-            itemToUnequip = bootsSlot3;
-            bootsSlot3 = nullptr;
-        }
+if (slotType == "Weapon 3" && weaponSlot3 != nullptr) {
+    itemToUnequip = weaponSlot3;
+    weaponSlot3 = nullptr;
+}
+else if (slotType == "ChestArmor 3" && chestSlot3 != nullptr) {
+    itemToUnequip = chestSlot3;
+    chestSlot3 = nullptr;
+}
+else if (slotType == "Boots 3" && bootsSlot3 != nullptr) {
+    itemToUnequip = bootsSlot3;
+    bootsSlot3 = nullptr;
+}
 
-        if (slotType == "Weapon" && weaponSlot4 != nullptr) {
-            itemToUnequip = weaponSlot4;
-            weaponSlot4 = nullptr;
-        }
-        else if (slotType == "ChestArmor" && chestSlot4 != nullptr) {
-            itemToUnequip = chestSlot4;
-            chestSlot4 = nullptr;
-        }
-        else if (slotType == "Boots" && bootsSlot4 != nullptr) {
-            itemToUnequip = bootsSlot4;
-            bootsSlot4 = nullptr;
-        }
+if (slotType == "Weapon 4" && weaponSlot4 != nullptr) {
+    itemToUnequip = weaponSlot4;
+    weaponSlot4 = nullptr;
+}
+else if (slotType == "ChestArmor 4" && chestSlot4 != nullptr) {
+    itemToUnequip = chestSlot4;
+    chestSlot4 = nullptr;
+}
+else if (slotType == "Boots 4" && bootsSlot4 != nullptr) {
+    itemToUnequip = bootsSlot4;
+    bootsSlot4 = nullptr;
+}
 
         if (itemToUnequip == nullptr) return;
 
