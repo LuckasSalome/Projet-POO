@@ -10,6 +10,7 @@
 #include "SFML/System.hpp"
 #include "MapManager.hpp"
 #include "Animation.hpp"
+#include "GameData.hpp"
 #include "ChoixPerso.hpp"
 
 using namespace sf;
@@ -28,12 +29,13 @@ private:
     FloatRect nextPos;
     Vector2f direction;
     Animation* animation;
-    function<void(string, string)> mapChangeCallback; //callback : peux se vulgariser par un guetteur a la cité, il guette quand quelque chose se passe il crie pour qu'une action démarre.
+    function<void(string, string, string)> mapChangeCallback; //callback : peux se vulgariser par un guetteur a la cité, il guette quand quelque chose se passe il crie pour qu'une action démarre.
     float animationSpeed = 0.2f;
     bool faceRight;
     const int COLLISION_TRIGGER = 2;
     const int COLLISION_TRIGGER_BACK = 3;
     int mapIteration = 2; // numero de la prochaine map
+    GameData data;
 
     void playerInit(int colonne, int ligne, string race) {
         this->player.setSize(Vector2f((mapManager->getGridSize() - 10.f), (mapManager->getGridSize() - 10.f)));
@@ -52,7 +54,7 @@ private:
     };
 
 public:
-    Player(MapManager* mapManager, function<void(string, string)> mapChangeCallback)
+    Player(MapManager* mapManager, function<void(string, string, string)> mapChangeCallback)
         : mapManager(mapManager), mapChangeCallback(mapChangeCallback) {
         this->playerInit(2,9, getCharaRace());
     }
@@ -133,7 +135,8 @@ public:
                 cout << "MAP" << mapIteration << endl;
                 string tileTypesFile = "Config/tileTypes" + to_string(mapIteration) + ".txt";
                 string collisionMapFile = "Config/collisionMap" + to_string(mapIteration) + ".txt";
-                mapChangeCallback(tileTypesFile, collisionMapFile);
+				string entityMapFile = "Config/entityMap" + to_string(mapIteration) + ".txt";
+                mapChangeCallback(tileTypesFile, collisionMapFile, entityMapFile);
                 this->playerInit(2,9, getCharaRace());
                 this->mapIteration++; // Incrémente l'itération pour la prochaine collision
             }
@@ -198,7 +201,8 @@ public:
             cout << "Après décrémentation : " << mapIteration << endl;
             string tileTypesFile = "Config/tileTypes" + to_string(mapIteration-1) + ".txt";
             string collisionMapFile = "Config/collisionMap" + to_string(mapIteration-1) + ".txt";
-            mapChangeCallback(tileTypesFile, collisionMapFile);
+			string entityMapFile = "Config/entityMap" + to_string(mapIteration - 1) + ".txt";
+            mapChangeCallback(tileTypesFile, collisionMapFile, entityMapFile);
             this->playerInit(17,9, getCharaRace());
         }
         else {
@@ -206,4 +210,7 @@ public:
         }
     }
 
+	int getMapIteration() {
+		return this->mapIteration-1;
+	}  
 };
