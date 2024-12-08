@@ -19,7 +19,8 @@ private:
     Font& font;
     RectangleShape infoPanel;
     Text infoText;
-    bool isOpen = false;
+    bool isOpenInv = false;
+    bool isOpenChest = false;
     bool isSecondaryGridVisible = false;
 
     Items* weaponSlot = nullptr;
@@ -30,9 +31,10 @@ private:
     Vector2f chestSlotPos;
     Vector2f bootsSlotPos;
 
+
 public:
 	Inventory(size_t rows, size_t cols, Font& font)                          //constructeur avec les parametres visuels
-        : rows(rows), cols(cols), font(font) {
+        : rows(rows), cols(cols), font(font), weaponSlot(nullptr), chestSlot(nullptr), bootsSlot(nullptr) {
         slotSize = 64;
         inventoryGrid.resize(rows, vector<Items*>(cols, nullptr));
         secondaryRows = 3;
@@ -51,16 +53,20 @@ public:
     }
 
 	void toggleInventory() {            //change l'etat de l'inventaire
-        isOpen = !isOpen;
+        isOpenInv = !isOpenInv;
+    }
+    
+    void toggleChest() {            //change l'etat de l'inventaire
+        isOpenChest = !isOpenChest;
     }
 
 	bool getIsOpen() const {            //retourne l'etat de l'inventaire
-        return isOpen;
+        return isOpenInv;
     }
 
 	void toggleSecondaryGrid() {        //change l'etat de la grille secondaire
 
-        if (isOpen) return;
+        if (isOpenChest) return;
 
         isSecondaryGridVisible = !isSecondaryGridVisible;
     }
@@ -77,7 +83,7 @@ public:
     }
 
 	void handleMouseClick(Vector2i mousePos, RenderWindow& window) {	    //gere les clics de la souris et le drag and drop des items dans les cases
-        if (!isOpen) return;        //si l'inventaire est ouvert
+        if (!isOpenInv && !isOpenChest) return;        //si l'inventaire est ouvert
 
         //regarde si l'item est dans la case d'arme ou s'il correspond
 		if (mousePos.x >= weaponSlotPos.x && mousePos.x <= weaponSlotPos.x + slotSize && mousePos.y >= weaponSlotPos.y && mousePos.y <= weaponSlotPos.y + slotSize) { 
@@ -167,7 +173,7 @@ public:
 
 
 	void unequipItem(const string& slotType) {		//desequipe un item dans armes, plastron ou bottes
-        if (!isOpen) return;
+        if (!isOpenInv && !isOpenChest) return;
 
         Items* itemToUnequip = nullptr;
 
@@ -199,7 +205,7 @@ public:
         selectedItem = itemToUnequip;
     }
 
-	void drawEquipmentSlot(RenderWindow& window, Vector2f position, Items* item, const string& label) {   //dessine les cases d'equipement
+    void drawEquipmentSlot(RenderWindow& window, Vector2f position, Items* item, const string& label) const {   //dessine les cases d'equipement de personnage
         RectangleShape slot(Vector2f(slotSize - 5, slotSize - 5));
         slot.setPosition(position);
         slot.setFillColor(Color(50, 50, 50));
@@ -211,6 +217,7 @@ public:
             Sprite sprite = item->getSprite();
             sprite.setPosition(position);
             window.draw(sprite);
+
         }
 
         Text text;
@@ -260,7 +267,7 @@ public:
     }
 
     void draw(RenderWindow& window) {
-        if (!isOpen) return;
+        if (!isOpenInv) return;
 
         for (size_t row = 0; row < rows; ++row) {
             for (size_t col = 0; col < cols; ++col) {
@@ -287,9 +294,6 @@ public:
             sprite.setPosition(static_cast<Vector2f>(Mouse::getPosition(window)));
             window.draw(sprite);
         }
-
-        drawSecondaryGrid(window);
-    
         Vector2i mousePos = Mouse::getPosition(window);
         size_t row = mousePos.y / slotSize;
         size_t col = mousePos.x / slotSize;
@@ -304,5 +308,78 @@ public:
             window.draw(infoPanel);
             window.draw(infoText);
         }
+    }
+
+    void drawChest(RenderWindow& window) {
+        if (!isOpenChest) return;
+
+        for (size_t row = 0; row < rows; ++row) {
+            for (size_t col = 0; col < cols; ++col) {
+                RectangleShape slot(Vector2f(slotSize - 5, slotSize - 5));
+                slot.setPosition(col * slotSize, row * slotSize);
+                slot.setFillColor(Color(90, 100, 69));
+                slot.setOutlineColor(Color::Black);
+                slot.setOutlineThickness(2);
+                window.draw(slot);
+                if (inventoryGrid[row][col]) {
+                    Sprite sprite = inventoryGrid[row][col]->getSprite();
+                    sprite.setPosition(col * slotSize, row * slotSize);
+                    window.draw(sprite);
+                }
+            }
+        }
+
+        if (selectedItem) {
+            Sprite sprite = selectedItem->getSprite();
+            sprite.setPosition(static_cast<Vector2f>(Mouse::getPosition(window)));
+            window.draw(sprite);
+        }
+
+        drawSecondaryGrid(window);
+
+        Vector2i mousePos = Mouse::getPosition(window);
+        size_t row = mousePos.y / slotSize;
+        size_t col = mousePos.x / slotSize;
+        if (row < rows && col < cols && inventoryGrid[row][col]) {
+            Items* hoveredItem = inventoryGrid[row][col];
+            string info = "Name: " + hoveredItem->getName() + "\n" +
+                "Description: " + hoveredItem->getDescription() + "\nStats:\n";
+            for (const auto& stat : hoveredItem->getStats()) {
+                info += " - " + stat.first + ": " + to_string(stat.second) + "\n";
+            }
+            infoText.setString(info);
+            window.draw(infoPanel);
+            window.draw(infoText);
+        }
+    }
+
+    std::map<std::string, int> getEquippedStats()  {
+        std::map<std::string, int> equippedStats;
+
+        if (this != nullptr)
+        {
+            // Ajoute les stats de l'arme équipée
+            if (weaponSlot) {
+                for (const auto& stat : weaponSlot->getStats()) {
+                    equippedStats[stat.first] += stat.second;
+                }
+            }
+
+            // Ajoute les stats de l'armure de poitrine équipée
+            if (chestSlot) {
+                for (const auto& stat : chestSlot->getStats()) {
+                    equippedStats[stat.first] += stat.second;
+                }
+            }
+
+            // Ajoute les stats des bottes équipées
+            if (bootsSlot) {
+                for (const auto& stat : bootsSlot->getStats()) {
+                    equippedStats[stat.first] += stat.second;
+                }
+            }
+        }
+
+        return equippedStats;
     }
 };

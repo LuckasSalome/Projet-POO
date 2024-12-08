@@ -7,6 +7,7 @@
 #include <memory>
 #include <random>
 #include "Group.hpp"
+#include "Enemy.hpp"
 
 class Fight {
 private:
@@ -14,6 +15,7 @@ private:
     std::vector<std::shared_ptr<Entity>> group2;
     Group& heroes;
     Group& monsters;
+    Enemy* enemy;
 
 public:
     Fight(Group& heroesGroup, Group& monstersGroup)
@@ -47,15 +49,22 @@ public:
         return finalOrder;
     }
 
-
     void roundCheck() {
         for (auto& hero : this->group1) {
-            if (hero->getAlive() == false)
+            if (!hero->getAlive()) {
                 heroes.removeParty(hero);
+            }
         }
         for (auto& mob : this->group2) {
-            if (mob->getAlive() == false)
+            if (!mob->getAlive()) {
+                for (int i = 0; i < group1.size(); i++) {
+                    group1[i]->setExp(30);
+					cout << "Vous etes niveau :" << group1[i]->getHeroLevel() << endl;
+                }
+                enemy->setDefeated(true,"Config/entityMap1.txt");
                 monsters.removeParty(mob);
+				cout << "Enemy defeated" << endl;
+            }
         }
     }
 
@@ -67,9 +76,9 @@ public:
             while (!Ordre.empty()) {
                 std::shared_ptr<Entity> currentEntity = Ordre.front();
                 Ordre.pop();
-                std::cout << group1[0]->getStat()["HP"] << endl;
-                std::cout << group1[1]->getStat()["HP"] << endl;
-                std::cout << group2[0]->getStat()["HP"] << endl;
+                std::cout << group1[0]->getStat()["HP"] << std::endl;
+                std::cout << group1[1]->getStat()["HP"] << std::endl;
+                std::cout << group2[0]->getStat()["HP"] << std::endl;
                 if (currentEntity->getHeroType()) {
                     std::cout << currentEntity->getName() << std::endl;
                     std::cin >> target;
@@ -113,5 +122,4 @@ public:
             roundCheck();
         }
     }
-
 };

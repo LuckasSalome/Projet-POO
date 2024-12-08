@@ -21,12 +21,16 @@ public:
     virtual bool getIsBoss() {
         return false;
     }
+	virtual int getHeroLevel() const {
+		return 0;
+	}
     virtual void setHealth(int set) = 0;
     virtual void setCourage(int set) = 0;
     virtual void setStrengh(int set) = 0;
     virtual void setIntelligence(int set) = 0;
     virtual void setDexterity(int set) = 0;
     virtual void setCharism(int set) = 0;
+    virtual void setExp(int set) { return; }
     //implementation par defaut
     virtual std::map<std::string, int> initHeroStat(Race& race, Jobs& job) {
         return std::map<std::string, int>();
@@ -37,7 +41,8 @@ public:
     virtual std::string initName(Race& race, Jobs& job) {
         return "";
     }
-    virtual void StatComparison(Race& race, Jobs& job) {
+	virtual bool StatComparison(Race& race, Jobs& job) {
+		return true;
     }
     virtual std::string initCreatureName(Common& mob) {
         return "";

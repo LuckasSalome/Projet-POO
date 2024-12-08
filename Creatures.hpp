@@ -74,6 +74,7 @@ public:
     void setHealth(int set) override {
         this->creatureStat["HP"] = set;
         if (this->creatureStat["HP"] <= 0) {
+            cout << "hihi" << endl;
             isAlive = false;
         }
     }

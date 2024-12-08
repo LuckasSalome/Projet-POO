@@ -1,31 +1,14 @@
 #pragma once
 
-#include "Items.hpp"
+#include "Boots.hpp"
 
-class DiscretionShoesNoisy : Items {
-private:
-
-    string name;
-    string description;
-    map <string, int> stats;
-
+class DiscretionShoesNoisy : public Boots {
+private :
+	std::map<std::string, int> stat = { {"AD", -2}, {"Poids", 2} };
 public:
-
-    DiscretionShoesNoisy() : name("Chausson de discretion bruyant"), description("Des chaussons ressemblant Ã  ceux de votre grand-mÃ¨re, ils sont doux et lÃ©ger avec le dessous de la chaussure recouvert de claque doigts") {
-        stats["AD"] = -2;
-        stats["Poids"] = 2;
-    }
-
-    string getNameItem() const override {
-        return name;
-    }
-
-    string getDescItem() const override {
-        return description;
-    }
-
-    map<string, int> getStatItem() const override {
-        return stats;
-    }
-
+    DiscretionShoesNoisy()
+        : Boots("Chausson de discrétion bruyant",
+            "Des chaussons ressemblant à ceux de votre grand-mère, ils sont doux \net légers avec le dessous de la chaussure recouvert de claque doigts",
+            { {"AD", -2}, {"Poids", 2} },
+            "images/DiscretionShoesNoisy.png") {};
 };

@@ -10,6 +10,8 @@
 #include "SFML/System.hpp"
 #include "MapManager.hpp"
 #include "Animation.hpp"
+#include "GameData.hpp"
+#include "ChoixPerso.hpp"
 
 using namespace sf;
 using namespace std;
@@ -33,11 +35,19 @@ private:
     const int COLLISION_TRIGGER = 2;
     const int COLLISION_TRIGGER_BACK = 3;
     int mapIteration = 2; // numero de la prochaine map
+    GameData data;
 
-    void playerInit(int colonne, int ligne) {
+    void playerInit(int colonne, int ligne, string race) {
         this->player.setSize(Vector2f((mapManager->getGridSize() - 10.f), (mapManager->getGridSize() - 10.f)));
         this->player.setPosition(Vector2f((mapManager->getGridSize() * colonne), (mapManager->getGridSize() * ligne)));
-        this->setPlayerTex();
+        if (race == "Humain")
+          this->setHumanTex();
+		else if (race == "Barbare")
+			this->setBarbarianTex();
+		else if (race == "Nain")
+			this->setDwarfTex();
+		else if (race == "Elfe")
+			this->setElfTex();
         this->player.setTexture(&playerTex);
         this->animation = new Animation(&playerTex, Vector2u(4, 5), animationSpeed); //cbn de ligne, collonne et vitesse de l anim
         this->faceRight = true;
@@ -46,7 +56,7 @@ private:
 public:
     Player(MapManager* mapManager, function<void(string, string)> mapChangeCallback)
         : mapManager(mapManager), mapChangeCallback(mapChangeCallback) {
-        this->playerInit(2,9);
+        this->playerInit(2,9, getCharaRace());
     }
 
     ~Player() {
@@ -126,7 +136,7 @@ public:
                 string tileTypesFile = "Config/tileTypes" + to_string(mapIteration) + ".txt";
                 string collisionMapFile = "Config/collisionMap" + to_string(mapIteration) + ".txt";
                 mapChangeCallback(tileTypesFile, collisionMapFile);
-                this->playerInit(2,9);
+                this->playerInit(2,9, getCharaRace());
                 this->mapIteration++; // Incrémente l'itération pour la prochaine collision
             }
         }
@@ -145,10 +155,29 @@ public:
         this->player.setTextureRect(this->animation->uvRect);
     }
 
-    void setPlayerTex() {
-        if (!playerTex.loadFromFile("Assets/sheetP1.png")) {
-            cerr << "Erreur: Impossible de charger la texture 'Assets/sheet1.png'" << endl;
-            throw "cant load sheet1 png";
+    void setHumanTex() {
+        if (!playerTex.loadFromFile("Assets/HumanSprite.png")) {
+            cerr << "Erreur: Impossible de charger la texture 'Assets/HumanSprite.png'" << endl;
+            throw "cant load HumanSprite png";
+        }
+    };
+    void setBarbarianTex() {
+        if (!playerTex.loadFromFile("Assets/BarbarianSprite.png")) {
+            std::cout << "Barabare" << endl;
+            cerr << "Erreur: Impossible de charger la texture 'Assets/BarbarianSprite.png'" << endl;
+            throw "cant load BarbarianSprite png";
+        }
+    };
+    void setDwarfTex() {
+        if (!playerTex.loadFromFile("Assets/DwarfSprite.png")) {
+            cerr << "Erreur: Impossible de charger la texture 'Assets/DwarfSprite.png'" << endl;
+            throw "cant load DwarfSprite png";
+        }
+    };
+    void setElfTex() {
+        if (!playerTex.loadFromFile("Assets/ElfSprite.png")) {
+            cerr << "Erreur: Impossible de charger la texture 'Assets/ElfSprite.png'" << endl;
+            throw "cant load ElfSprite png";
         }
     };
 
@@ -172,7 +201,7 @@ public:
             string tileTypesFile = "Config/tileTypes" + to_string(mapIteration-1) + ".txt";
             string collisionMapFile = "Config/collisionMap" + to_string(mapIteration-1) + ".txt";
             mapChangeCallback(tileTypesFile, collisionMapFile);
-            this->playerInit(17,9);
+            this->playerInit(17,9, getCharaRace());
         }
         else {
             cout << "Déjà à la première map, impossible de reculer." << endl;

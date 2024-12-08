@@ -11,6 +11,8 @@
 #include "Elf.hpp"
 #include "Human.hpp"
 #include "Entity.hpp"
+#include "Items.hpp"
+#include "Inventory.hpp"
 
 class Entity;
 
@@ -22,42 +24,65 @@ private:
 	std::string heroJob;
 	std::map<std::string, int> heroStat;
 	const std::map<std::string, int> heroStatPerma;
-	bool possible = false;
+	bool possible = true;
 	bool isAlive = true;
 	int heroLevel = 1;
 	int exp = 0;
 	int expMax = 30;
+	Font font;
+	Inventory* inventory;
+	std::map<std::string, int> stats = inventory->getEquippedStats();
+
+	// Attributs pour les items équipés
+	Items* weapon = nullptr;
+	Items* armor = nullptr;
+	Items* boots = nullptr;
 
 public:
-	Heroes(std::string Name) : heroName(Name) {};
-
-	void StatComparison(Race& race, Jobs& job) override {																//comparaison des stats de race et requises pour un metrier
+	bool StatComparison(Race& race, Jobs& job) override {
+		if (&race == nullptr || &job == nullptr) {
+			return false; // Gérer le cas où race ou job est nullptr
+		}
 		std::string statistics[5] = { "COU", "CHA", "INT", "FO", "AD" };
 		for (int i = 0; i < 5; i++) {
 			if (race.getStat()[statistics[i]] < job.getStatRequiredJob()[statistics[i]])
 				this->possible = false;
 		}
-		this->possible = true;
+		return this->possible;
 	}
 
+
 	std::string initName(Race& race, Jobs& job) override {																	//fusionne les noms de race et de classe
+		if (&race == nullptr || &job == nullptr) {
+			return ""; // Gérer le cas où race ou job est nullptr
+		}
 		if (this->possible) {
 			this->heroRace = race.getNameRace();
 			this->heroJob = job.getNameJob();
 			this->heroName += race.getNameRace() + job.getNameJob();
 			return (this->heroName);
 		}
+		return "";
 	}
 
 	std::string initDesc(Race& race, Jobs& job) override {																	//fusionne les descriptions de race et de classe
+		if (&race == nullptr || &job == nullptr) {
+			return ""; // Gérer le cas où race ou job est nullptr
+		}
 		if (this->possible)
 			this->heroDesc += (job.getDescJob() + race.getDescRace());
 		return this->heroDesc;
 	}
 
 	std::map<std::string, int> initHeroStat(Race& race, Jobs& job) override {											//init les stats du hero
+		if (&race == nullptr || &job == nullptr) {
+			return {};		// Gérer le cas où race ou job est nullptr
+		}
 		if (this->possible)
 			this->heroStat = race.getStat();
+		for (const auto& stat : this->stats) {			//parcours la map de stats et les ajoute a la map de stats du hero
+			this->heroStat[stat.first] += stat.second;
+		}
 		return this->heroStat;
 	}
 
@@ -106,6 +131,12 @@ public:
 	void setCharism(int set) {
 		this->heroStat["CHA"] = set;
 	}
+
+	void setExp(int set) {
+		this->exp += set;
+		transiLevel();
+	}
+
 	void transiLevel() {
 		if (this->exp >= this->expMax) {
 			this->heroLevel++;
@@ -118,6 +149,8 @@ public:
 			setStrengh(this->heroStat["FO"] + heroLevel);
 			setIntelligence(this->heroStat["INT"] + heroLevel);
 			setDexterity(this->heroStat["AD"] + heroLevel);
+			std::cout << "Vous avez gagné un niveau !" << std::endl;
+			transiLevel();
 		}
 	}
 	string getRaceSpell(Race& race, std::shared_ptr<Entity> foe) override {
@@ -128,6 +161,7 @@ public:
 				this->setHealth(result["HP"]);
 			return race.getSpellName();
 		}
+		return"";
 	}
 
 	string getBasicAttack(Race& race, std::shared_ptr<Entity> foe) override {
@@ -136,6 +170,7 @@ public:
 			race.basicAttack(foe, this->heroStat);
 			return "Attaque Basique";
 		}
+		return"";
 	}
 
 	string getJobSpell(Jobs& job, std::shared_ptr<Entity> foe) override {
@@ -144,14 +179,15 @@ public:
 			job.jobSpell(foe, this->heroStat);
 			return job.getSpellName();
 		}
-
+		return"";
 	}
 
-	bool isHeroAlive() {
+	bool isHeroAlive() const {
 		return this->isAlive;
 	}
 
 	bool getHeroType() override {
 		return true;
 	}
+
 };

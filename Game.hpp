@@ -23,7 +23,7 @@
 #include "BookOfLostRules.hpp"
 #include "ScepterSintactic.hpp"
 #include "KeyCorridor.hpp"
-#include "DiscrectionShoesNoisy.hpp"
+#include "DiscretionShoesNoisy.hpp"
 #include "BluntSword.hpp"
 #include "PotionIntelligence.hpp"
 #include "MajorHealingPotion.hpp"
@@ -39,7 +39,12 @@
 #include "LeatherChest.hpp"
 #include "DarkCape.hpp"
 #include "SorcererCape.hpp"
-
+#include "GameData.hpp"
+#include "MainMenu.hpp"
+#include "OptionsMenu.hpp"
+#include "ChoixPerso.hpp"
+#include "Group.hpp"
+#include "Enemy.hpp"
 
 using namespace sf;
 using namespace std;
@@ -59,14 +64,18 @@ private:
     Clock dtClock;
     Heroes* hero;
     Font font;
-
+    GameData data;
+	vector<Enemy> enemies;
+    bool inRange = false;
+    bool inGame = true;
     float dt;
+    vector<string> entityMapFiles = { "entityMap1.txt", "entityMap2.txt", "entityMap3.txt" };
 
-    void initWindow() {
+    void initGameWindow() {
         ifstream ifs("Config/window.txt");
 
         // valeurs par défaut si le fichier n'existe pas ou n'est pas disponible
-        string title = "None";
+        string title = "CESI & DRAGONS";
         VideoMode window_bounds(1920, 600);
         unsigned framerate_limit = 120;
 
@@ -85,9 +94,44 @@ private:
         this->playerView.setCenter(window_bounds.width / 2.f, window_bounds.height / 2.f);
 
         this->uiView = this->window->getDefaultView();
+    }
 
+    void initMenuWindow() {
+        data.window.create(VideoMode(data.windowWidth, data.windowHeight), "Main Menu");
+        data.window.setKeyRepeatEnabled(false);
 
-    };
+        if (!data.backgroundTexture.loadFromFile("images/accueil.jpg") || !data.font.loadFromFile("images/poppins.ttf"))
+            return;
+
+        data.background.setTexture(data.backgroundTexture);
+        data.background.setScale(
+            static_cast<float>(data.window.getSize().x) / data.backgroundTexture.getSize().x,
+            static_cast<float>(data.window.getSize().y) / data.backgroundTexture.getSize().y
+        );
+
+        initMainMenu(data);
+
+        bool inOptionsMenu = false;
+        bool inCharacterSelection = false;
+
+        while (data.window.isOpen()) {
+            Event event;
+            if (inOptionsMenu) {
+                handleOptionsMenu(data, inOptionsMenu);
+            }
+            else if (inCharacterSelection) {
+                inGame = handleCharacterSelection(data, inCharacterSelection, event);
+            }
+            else if (inGame == false) {
+                data.window.close();
+                this->initGameWindow(); // Initialiser la fenêtre de jeu après la fermeture de la fenêtre du menu
+            }
+            else {
+                handleMainMenuEvents(data, inOptionsMenu, inCharacterSelection);
+                renderMainMenu(data);
+            }
+        }
+    }
 
     void initFont() {
         if (!font.loadFromFile("images/RobotoBlack.ttf")) {
@@ -131,19 +175,20 @@ private:
 public:
     // Constructeur par défaut qui initialise la fenêtre, le joueur et la carte
     Game() {
-        this->initWindow();
-		this->initFont();
+        this->initMenuWindow();
+        this->initFont();
         this->mapManager = new MapManager(75.f, 20, "Config/tileTypes1.txt", "Config/collisionMap1.txt");
         this->player = new Player(mapManager, [this](string newTileMap, string newCollisionMap) {
             this->onMapChange(newTileMap, newCollisionMap); }); //en gros ah carré tu change de map bah dcp appelle cette fonction stp
 
         this->wall = new Collision(mapManager, player, (this->window->getSize().x), (this->window->getSize().y));
-        this->inventory = new Inventory(5, 5, font); 
+        this->inventory = new Inventory(5, 5, font);
         this->hero = nullptr;
         this->job = nullptr;
         this->race = nullptr;
         this->populateInventory();
         this->populateSecondaryGrid();
+        this->enemies = Enemy::createEnemies("Config/entityMap1.txt", *this->mapManager);
 
     };
 
@@ -162,7 +207,7 @@ public:
     //////////////////Methodes\\\\\\\\\\\\\\\\\\\
 
     // Gerer les events
-    void updateSFMLEvents() {
+    void handleGameWindow() {
         while (this->window->pollEvent(this->sfEvent)) {
             if (this->sfEvent.type == Event::Closed)
                 this->window->close();
@@ -179,6 +224,12 @@ public:
                 }
             }
 
+            if (this->sfEvent.type == Event::KeyPressed) {
+                if (this->sfEvent.key.code == Keyboard::E && inRange == true) {
+                    this->inventory->toggleChest();
+                }
+            }
+
             if (this->sfEvent.type == Event::MouseButtonPressed) {          //action de la souris qaudn on clique
                 if (this->sfEvent.mouseButton.button == Mouse::Left) {
                     Vector2f mousePos = this->window->mapPixelToCoords(Mouse::getPosition(*this->window));
@@ -188,6 +239,7 @@ public:
                             Vector2i(mousePos.x, mousePos.y),
                             *this->window
                         );
+                        this->inventory->getEquippedStats();
                     }
                 }
             }
@@ -201,7 +253,7 @@ public:
 
     // Update les events
     void update() {
-        this->updateSFMLEvents();
+        this->handleGameWindow();
 
         if (!this->inventory->getIsOpen()) {    //deplacement du joueur
             this->player->playerMovement(this->dt, this->wall->getWalls(), *this->mapManager);
@@ -215,41 +267,78 @@ public:
         else {
             this->wall->setWallsColor(Color::Transparent);
         }
+
+        Enemy* collidedEnemy = Enemy::checkCollisions(*this->player, this->enemies);
+        if (collidedEnemy != nullptr) {
+            auto creature = collidedEnemy->getCreature();
+            if (creature != nullptr) {
+
+                // Obtenir le nom du mob
+                std::string mobName = getMobName(collidedEnemy->getTextureKey()); // Assurez-vous que getId() retourne l'identifiant du mob
+                cout << "fight vs " << mobName << " at position (" << collidedEnemy->getPosition().x << ", " << collidedEnemy->getPosition().y << ") with texture key " << collidedEnemy->getTextureKey() << endl;
+                //this->initFight(this->heroesGroup, this->monstersGroup);
+                entityInit(getCharaJob(), getCharaRace(), data, mobName);
+				onMapChange("Config/tileTypes1.txt", "Config/collisionMap1.txt");
+
+
+            }
+            else {
+                cout << "Error: collided enemy's creature is null." << endl;
+            }
+        }
+
     }
 
     // Display
     void render() {
         this->window->clear();
+
+        // Utiliser la vue du joueur pour rendre les éléments du jeu
         this->window->setView(playerView);
 
+        // Rendre la carte
         for (const auto& row : this->mapManager->getTileMap()) {
             for (const auto& tile : row) {
                 this->window->draw(tile);
             }
         }
 
-        //this->window->setView(playerView);
+        // Rendre les murs
         for (const auto& wall : this->wall->getWalls()) {
             this->window->draw(wall);
         }
+
+        // Rendre le joueur
         this->window->draw(this->player->getPlayer());
 
-        // Render Items
+        // Rendre les ennemis
+        for (auto& enemy : this->enemies) {
+            enemy.drawEnemy(*this->window);
+        }
+
+        // Utiliser la vue de l'interface utilisateur pour rendre les éléments de l'interface
         this->window->setView(uiView);
         this->inventory->draw(*this->window);
+        this->inventory->drawChest(*this->window);
 
         this->window->display();
     }
 
+
     // Methode pour gérer le lancement du jeu
     void run() {
-        
+        this->initMenuWindow();
+
+        if (this->window == nullptr) {
+            this->initGameWindow(); // Initialiser la fenêtre de jeu si elle n'est pas déjà initialisée
+        }
+
         while (this->window->isOpen()) {
             this->updateDT();
             this->update();
             this->render();
         }
-    };
+    }
 
     void viewOnPlayer() {
         this->playerView.setCenter(player->getPositionPlayer());
@@ -258,7 +347,7 @@ public:
     void onMapChange(string NewTileMap, string NewCollisionMap) {
         this->mapManager->loadNewMap(NewTileMap, NewCollisionMap);
         this->wall->resetCollisions();
-        this->entityInit("Sorcier", "Elfe");
+        this->enemies = Enemy::createEnemies("Config/entityMap1.txt", *this->mapManager);
     };
 
     static Jobs* createJobs(const string& type) {
@@ -310,62 +399,104 @@ public:
         }
     }
 
-    static std::shared_ptr<Entity> createEntity(const string& type, const string name) {
+    string getMobName(int mobId) {
+        switch (mobId) {
+        case 5:
+            return "Troll Rhetoricien";
+        case 6:
+            return "Gobelin Sarcastique";
+        case 7:
+            return "Canard Explosif";
+
+        default:
+            return "Troll Rhetoricien";
+        }
+    }
+
+    static std::shared_ptr<Entity> createEntity(const string& type) {
         if (type == "Hero")
-            return make_shared<Heroes>(name);
+            return make_shared<Heroes>();
         else if (type == "Monstre")
             return make_shared<Creatures>();
     }
 
 
-    void entityInit(string jobName, string raceName) {
-
-        string jobType = "Sorcier";
-        string raceType = "Elfe";
-        string mobType = "Gobelin Sarcastique";
+    void entityInit(string jobName, string raceName, GameData& data, string mobName) {
+        string mobType = mobName;
         string statistics[6] = { "COU", "CHA", "INT", "FO", "AD", "HP" };
 
-        Jobs* job = createJobs(jobType);
-        Race* race = createRace(raceType);
+        Jobs* job = createJobs(jobName);
+        Race* race = createRace(raceName);
         Common* mob = createMob(mobType);
         Boss* lich = new ProgramLich();
 
-        std::shared_ptr<Entity> Character1 = createEntity("Hero", "Michel");
-        std::shared_ptr<Entity> Character2 = createEntity("Hero", "Pierre");
-        std::shared_ptr<Entity> Mob1 = createEntity("Monstre", "");
-        std::shared_ptr<Entity> Boss = createEntity("Monstre", "");
+        std::shared_ptr<Entity> mainCharacter = createEntity("Hero");
+        std::shared_ptr<Entity> Character1 = createEntity("Hero");
+        std::shared_ptr<Entity> Character2 = createEntity("Hero");
+        std::shared_ptr<Entity> Mob1 = createEntity("Monstre");
+        //std::shared_ptr<Entity> Mob2 = createEntity("Monstre");
+        //std::shared_ptr<Entity> Mob3 = createEntity("Monstre");
+        //std::shared_ptr<Entity> Mob4 = createEntity("Monstre");
+        std::shared_ptr<Entity> Boss = createEntity("Monstre");
         Group* Heros = new Group();
         Group* Monstres = new Group();
 
+        // Utilisation des valeurs de charaRace et charaJob de GameData
+        mainCharacter->StatComparison(*createRace(getCharaRace()), *createJobs(getCharaJob()));
+        mainCharacter->initDesc(*createRace(getCharaRace()), *createJobs(getCharaJob()));
+        mainCharacter->initName(*createRace(getCharaRace()), *createJobs(getCharaJob()));
+        mainCharacter->initHeroStat(*createRace(getCharaRace()), *createJobs(getCharaJob()));
+        std::cout << mainCharacter->getName() << endl;
+        std::cout << mainCharacter->getDesc() << endl;
+        for (auto stat : statistics)
+            std::cout << mainCharacter->getStat()[stat] << endl;
 
-        //hero numero 1
+        // hero numero 1
         Character1->StatComparison(*race, *job);
         Character1->initDesc(*race, *job);
         Character1->initName(*race, *job);
         Character1->initHeroStat(*race, *job);
 
-        //hero numero 2
+        // hero numero 2
         Character2->StatComparison(*race, *job);
         Character2->initDesc(*race, *job);
         Character2->initName(*race, *job);
         Character2->initHeroStat(*race, *job);
 
-
-        //monstre numero 1
+        // monstre numero 1
         Mob1->initCreatureDesc(*mob);
         Mob1->initCreatureName(*mob);
         Mob1->initCreatureStat(*mob);
 
-        //boss
+        //// monstre numero 2
+        //Mob2->initCreatureDesc(*mob);
+        //Mob2->initCreatureName(*mob);
+        //Mob2->initCreatureStat(*mob);
+
+        //// monstre numero 3
+        //Mob3->initCreatureDesc(*mob);
+        //Mob3->initCreatureName(*mob);
+        //Mob3->initCreatureStat(*mob);
+
+        //// monstre numero 4
+        //Mob4->initCreatureDesc(*mob);
+        //Mob4->initCreatureName(*mob);
+        //Mob4->initCreatureStat(*mob);
+
+        // boss
         Boss->initBossName(*lich);
         Boss->initBossDesc(*lich);
         Boss->initBossStat(*lich);
 
         Monstres->addParty(Mob1);
+        //Monstres->addParty(Mob2);
+        //Monstres->addParty(Mob3);
+        //Monstres->addParty(Mob4);
+        Heros->addParty(mainCharacter);
         Heros->addParty(Character2);
         Heros->addParty(Character1);
 
-        //Heros->removeParty(Character1);
+        // Heros->removeParty(Character1);
 
         Fight* combat = new Fight(*Heros, *Monstres);
         // Affichage de l'ordre de combat 
@@ -374,71 +505,8 @@ public:
             std::cout << ordre.front()->getName() << std::endl;
             ordre.pop();
         }
-
+        
         combat->fighting(*mob, *lich, *race, *job);
+    }
 
-        ////affiche le hero et le monstre
-        //cout << Character1->getName() << endl;
-        //cout << Character1->getDesc() << endl;
-        //for (int i = 0; i < 6; i++)
-        //    cout << Character1->getStat()[statistics[i]] << endl;
-
-
-        //cout << Mob1->getName() << endl;
-        //cout << Mob1->getDesc() << endl;
-        //for (int i = 0; i < 6; i++)
-        //    cout << Mob1->getStat()[statistics[i]] << endl;
-
-
-        ////attaque du hero
-        //cout << Character1->getRaceSpell(*race, Mob1) << endl;
-        //cout << Character1->getJobSpell(*job, Mob1) << endl;
-        //cout << Character1->getBasicAttack(*race, Mob1) << endl;
-
-        ////stats retours monstre
-        //cout << Mob1->getName() << endl;
-        //cout << Mob1->getDesc() << endl;
-        //for (int i = 0; i < 6; i++)
-        //    cout << Mob1->getStat()[statistics[i]] << endl;
-
-        ////attaque du monstre 
-        //cout << Mob1->getMonsterSpell(*mob, Character1) << endl;
-        //cout << Mob1->getBasicAttack(*mob, Character1) << endl;
-
-        ////affiche boss
-        //cout << Boss->getName() << endl;
-        //cout << Boss->getDesc() << endl;
-        //for (int i = 0; i < 6; i++)
-        //    cout << Boss->getStat()[statistics[i]] << endl;
-
-
-        ////attaque p1 boss
-        //cout << Boss->getBossSpell1(*lich, Character1) << endl;
-        //cout << Boss->getBossSpell2(*lich, Character1) << endl;
-
-
-        ////stats retours hero
-        //cout << Character1->getName() << endl;
-        //cout << Character1->getDesc() << endl;
-        //for (int i = 0; i < 6; i++)
-        //    cout << Character1->getStat()[statistics[i]] << endl;
-
-        //Boss->setHealth(45);
-        ////affiche boss
-        //cout << Boss->getName() << endl;
-        //cout << Boss->getDesc() << endl;
-        //for (int i = 0; i < 6; i++)
-        //    cout << Boss->getStat()[statistics[i]] << endl;
-
-        //// attaque p2 bosse
-        //cout << Boss->getBossSpell1(*lich, Character1) << endl;
-        //cout << Boss->getBossSpell2(*lich, Character1) << endl;
-
-        ////stats retours hero
-        //cout << Character1->getName() << endl;
-        //cout << Character1->getDesc() << endl;
-        //for (int i = 0; i < 6; i++)
-        //    cout << Character1->getStat()[statistics[i]] << endl;
-
-    };
 };
