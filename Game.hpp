@@ -69,7 +69,6 @@ private:
     bool inRange = false;
     bool inGame = true;
     float dt;
-    vector<string> entityMapFiles = { "entityMap1.txt", "entityMap2.txt", "entityMap3.txt" };
 
     void initGameWindow() {
         ifstream ifs("Config/window.txt");
@@ -188,7 +187,9 @@ public:
         this->race = nullptr;
         this->populateInventory();
         this->populateSecondaryGrid();
+        Enemy::resetEnemyDefeatedState("Config/entityMap1.txt");
         this->enemies = Enemy::createEnemies("Config/entityMap1.txt", *this->mapManager);
+
 
     };
 
@@ -266,6 +267,10 @@ public:
         }
         else {
             this->wall->setWallsColor(Color::Transparent);
+        }
+
+        for (auto& enemy : this->enemies) {
+            enemy.update(this->dt);
         }
 
         Enemy* collidedEnemy = Enemy::checkCollisions(*this->player, this->enemies);
