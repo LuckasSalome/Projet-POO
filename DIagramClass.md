@@ -429,17 +429,6 @@ classDiagram
         + void loadPreviousMap()
     }
 
-    class DiceRolls {
-        -int sides
-        -unsigned long seed
-        -unsigned long random()
-        +DiceRoll(int sides=6, unsigned long initialSeed=1)
-        +int roll()
-        +int getSides() const
-        +void setSides(int newSides)
-        +void setSeed(unsigned long newSeed)
-    }
-
     class Items{
         - string name
         - string description
@@ -688,6 +677,8 @@ classDiagram
     Common <-- ExplosiveDuck
     Creature <-- Boss
     Boss <-- ProgramLich
+    Collision <-- Player
+    Collision <-- MapManager
 
     Inventory <-- Items
     
