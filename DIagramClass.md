@@ -640,6 +640,19 @@ classDiagram
         +static handleCharacterSelection(GameData& data, bool& inCharacterSelection, Event& event) string
     }
 
+    class Collision {
+        -vector~RectangleShape~ walls
+        -MapManager* mapManager
+        -Player* player
+        -float windowWidth
+        -float windowHeight
+        -void collisionInit()
+        +Collision(MapManager* mapManager, Player* player, float windowWidth, float windowHeight)
+        +vector~RectangleShape~ getWalls() const
+        +void setWallsColor(const Color& color)
+        +void resetCollisions()
+    }
+
     Entity --o Hero
     Entity --o Creature
 
@@ -675,11 +688,7 @@ classDiagram
     Common <-- ExplosiveDuck
     Creature <-- Boss
     Boss <-- ProgramLich
-    
-    System <-- Player
-    Player <-- Movement
-    System <-- Fight
-    Fight <-- DiceRolls
+
     Inventory <-- Items
     
     
