@@ -139,36 +139,58 @@ public:
     };
 
     void updateSFMLEvents() {
-        while (this->window->pollEvent(this->sfEvent)) {
-            if (this->sfEvent.type == Event::Closed)
-                this->window->close();
+    while (this->window->pollEvent(this->sfEvent)) {
+        if (this->sfEvent.type == Event::Closed)
+            this->window->close();
 
-            if (this->sfEvent.type == Event::KeyPressed) {
-                if (this->sfEvent.key.code == Keyboard::I) {
-                    this->inventory->toggleInventory();
-                }
-
-                if (this->sfEvent.key.code == Keyboard::U && this->inventory->getIsOpen()) {
-                    this->inventory->unequipItem("Weapon");
-                    this->inventory->unequipItem("ChestArmor");
-                    this->inventory->unequipItem("Boots");
-                }
+        if (this->sfEvent.type == Event::KeyPressed) {
+            if (this->sfEvent.key.code == Keyboard::I) {
+                this->inventory->toggleInventory();
             }
 
-            if (this->sfEvent.type == Event::MouseButtonPressed) {
-                if (this->sfEvent.mouseButton.button == Mouse::Left) {
-                    Vector2f mousePos = this->window->mapPixelToCoords(Mouse::getPosition(*this->window));
+            if (this->sfEvent.key.code == Keyboard::R && this->inventory->getIsOpen()) {
+                this->inventory->unequipItem("Weapon");
+                this->inventory->unequipItem("ChestArmor");
+                this->inventory->unequipItem("Boots");
+               
+            }
 
-                    if (this->inventory->getIsOpen()) {
-                        this->inventory->handleMouseClick(
-                            Vector2i(mousePos.x, mousePos.y),
-                            *this->window
-                        );
-                    }
+            if (this->sfEvent.key.code == Keyboard::T && this->inventory->getIsOpen()) {
+                this->inventory->unequipItem("Weapon 2");
+                this->inventory->unequipItem("ChestArmor 2");
+                this->inventory->unequipItem("Boots 2");
+
+            }
+
+            if (this->sfEvent.key.code == Keyboard::Y && this->inventory->getIsOpen()) {
+                this->inventory->unequipItem("Weapon 3");
+                this->inventory->unequipItem("ChestArmor 3");
+                this->inventory->unequipItem("Boots 3");
+
+            }
+
+            if (this->sfEvent.key.code == Keyboard::U && this->inventory->getIsOpen()) {
+                this->inventory->unequipItem("Weapon 4");
+                this->inventory->unequipItem("ChestArmor 4");
+                this->inventory->unequipItem("Boots 4");
+
+            }
+        }
+
+        if (this->sfEvent.type == Event::MouseButtonPressed) {
+            if (this->sfEvent.mouseButton.button == Mouse::Left) {
+                Vector2f mousePos = this->window->mapPixelToCoords(Mouse::getPosition(*this->window));
+
+                if (this->inventory->getIsOpen()) {
+                    this->inventory->handleMouseClick(
+                        Vector2i(mousePos.x, mousePos.y),
+                        *this->window
+                    );
                 }
             }
         }
-    };
+    }
+};
 
     void updateDT() {
         this->dt = this->dtClock.restart().asSeconds();
