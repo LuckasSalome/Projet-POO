@@ -210,7 +210,7 @@ public:
         }
     }
 
-	int getMapIteration() {
-		return this->mapIteration-1;
-	}  
+    int getMapIteration() {
+        return this->mapIteration - 1;
+    }
 };

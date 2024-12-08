@@ -8,6 +8,7 @@
 #include "Collision.hpp"
 #include "Player.hpp"
 #include "MapManager.hpp"
+//#include "LookForNewMap.hpp"
 #include "Heroes.hpp"
 #include "Creatures.hpp"
 #include "ExplosiveDuck.hpp"
@@ -74,13 +75,16 @@ private:
     bool inGame = true;
     float dt;
     int currentMap = 1;
+    sf::Vector2f lichPosition;
+    sf::Texture lichTexture;
+    sf::Sprite lichSprite;
     vector<string> entityMapFiles = {
-    "Config/entityMap1.txt",
-    "Config/entityMap2.txt",
-    "Config/entityMap3.txt",
-    "Config/entityMap5.txt",
-    "Config/entityMap6.txt",
-    "Config/entityMap7.txt"
+        "Config/entityMap1.txt",
+        "Config/entityMap2.txt",
+        "Config/entityMap3.txt",
+        "Config/entityMap5.txt",
+        "Config/entityMap6.txt",
+        "Config/entityMap7.txt"
     };
 
     void initGameWindow() {
@@ -106,6 +110,16 @@ private:
         this->playerView.setCenter(window_bounds.width / 2.f, window_bounds.height / 2.f);
 
         this->uiView = this->window->getDefaultView();
+
+        if (data.soundEnabled) {
+            if (!data.backgroundMusic.openFromFile("mainsound.ogg")) {
+                std::cerr << "Erreur de chargement de la musique de fond" << std::endl;
+            }
+            else {
+                data.backgroundMusic.setLoop(true);  // Faire boucler la musique
+                data.backgroundMusic.play();         // Démarrer la musique
+            }
+        }
     }
 
     void initMenuWindow() {
@@ -165,7 +179,6 @@ private:
             }
         }
     }
-
     void initializeTrappedChests() {
         if (this->currentMap == 6) {
             // Position du coffre sur la carte tileMap6
@@ -218,6 +231,23 @@ private:
         inventory->addSecondaryItem(2, 2, new ChainMail());
     }
 
+    void checkPlayerPosition() {
+        if (player->getPositionPlayer() == lichPosition) {
+            entityInit(getCharaJob(), getCharaRace(), data, "ProgramLich");
+        }
+    }
+
+    void loadLichTexture() {
+        if (!lichTexture.loadFromFile("Assets/Lich.png")) {
+            throw std::runtime_error("Cannot load Assets/Lich.png");
+        }
+        lichSprite.setTexture(lichTexture);
+    }
+    void initLichSprite() {
+        lichSprite.setTexture(lichTexture);
+        lichSprite.setPosition(lichPosition);
+    }
+
 public:
     // Constructeur par défaut qui initialise la fenêtre, le joueur et la carte
     Game() {
@@ -238,6 +268,10 @@ public:
         this->enemies = Enemy::createEnemies("Config/entityMap1.txt", *this->mapManager);
         this->initializeChests(); // initialise les coffres
         this->initializeTrappedChests(); // initialise les coffres pieges
+        lichPosition = { mapManager->getGridSize() * 15, mapManager->getGridSize() * 15 };
+        // Charger et initialiser le sprite de la Lich
+        this->loadLichTexture();
+        this->initLichSprite();
 
 
     };
@@ -257,6 +291,7 @@ public:
     //////////////////Methodes\\\\\\\\\\\\\\\\\\\
 
     void handleGameWindow() {
+
         while (this->window->pollEvent(this->sfEvent)) {
             if (this->sfEvent.type == sf::Event::Closed)
                 this->window->close();
@@ -279,8 +314,10 @@ public:
                     }
                     for (auto& trappedChest : trappedChests) {
                         if (trappedChest.isPlayerInRange(this->player->getPositionPlayer()))
+                        {
                             trappedChest.toggleOpen();
-                        startFight();
+                            startFight();
+                        }
                     }
                 }
             }
@@ -312,7 +349,6 @@ public:
     void startFight() {
         // Initialiser les ExplosiveDuck pour le combat
         entityInit(getCharaJob(), getCharaRace(), data, "Canard Explosif");
-
     }
 
     // Update l'horloge dt en seconde pour voir cbn de temp prend une frame a render
@@ -343,6 +379,7 @@ public:
             enemy.drawEnemy(*this->window);
         }
 
+
         Enemy* collidedEnemy = Enemy::checkCollisions(*this->player, this->enemies);
         if (collidedEnemy != nullptr) {
             auto creature = collidedEnemy->getCreature();
@@ -353,7 +390,7 @@ public:
                 cout << "fight vs " << mobName << " at position (" << collidedEnemy->getPosition().x << ", " << collidedEnemy->getPosition().y << ") with texture key " << collidedEnemy->getTextureKey() << endl;
                 //this->initFight(this->heroesGroup, this->monstersGroup);
                 entityInit(getCharaJob(), getCharaRace(), data, mobName);
-                onMapChange(getCurrentTile(),getCurrentColli(), getCurrentEntity());
+                onMapChange(getCurrentTile(), getCurrentColli(), getCurrentEntity());
 
 
             }
@@ -368,25 +405,25 @@ public:
     void render() {
         this->window->clear();
 
-        // Utiliser la vue du joueur pour rendre les éléments du jeu
+        // Utiliser la vue du joueur pour afficher les éléments du jeu
         this->window->setView(playerView);
 
-        // Rendre la carte
+        // afficher la carte
         for (const auto& row : this->mapManager->getTileMap()) {
             for (const auto& tile : row) {
                 this->window->draw(tile);
             }
         }
 
-        // Rendre les murs
+        // afficher les murs
         for (const auto& wall : this->wall->getWalls()) {
             this->window->draw(wall);
         }
 
-        // Rendre le joueur
+        // afficher le joueur
         this->window->draw(this->player->getPlayer());
 
-        // Rendre les ennemis
+        // afficher les ennemis
         for (auto& enemy : this->enemies) {
             enemy.drawEnemy(*this->window);
         }
@@ -396,7 +433,12 @@ public:
             chest.draw(*this->window);
         }
 
-        // Utiliser la vue de l'interface utilisateur pour rendre les éléments de l'interface
+		// les coffres pieges
+		for (auto& trappedChest : this->trappedChests) {
+			trappedChest.draw(*this->window);
+		}
+
+        // Utiliser la vue de l'interface utilisateur pour afficher les éléments de l'interface
         this->window->setView(uiView);
         this->inventory->draw(*this->window);
         this->inventory->drawChest(*this->window);
@@ -421,6 +463,7 @@ public:
         }
     }
 
+
     void viewOnPlayer() {
         this->playerView.setCenter(player->getPositionPlayer());
     };
@@ -434,6 +477,21 @@ public:
             clearTrappedChest();
             initializeChests();
             initializeTrappedChests();
+        }
+        else if (NewTileMap == "Config/tileTypes7.txt") {
+            clearChest();
+            clearTrappedChest();
+            loadLichTexture();
+            initLichSprite();
+            if (data.soundEnabled) {
+                if (!data.backgroundMusic.openFromFile("Soul of Cinder.mp3")) {
+                    std::cerr << "Erreur de chargement de la musique de fond" << std::endl;
+                }
+                else {
+                    data.backgroundMusic.setLoop(true);  // Faire boucler la musique
+                    data.backgroundMusic.play();         // Démarrer la musique
+                }
+            }
         }
         else {
             clearChest();
@@ -517,21 +575,21 @@ public:
 
     string getCurrentTile() {
 
-		return "Config/tileTypes" + to_string(player->getMapIteration()) + ".txt";
+        return "Config/tileTypes" + to_string(player->getMapIteration()) + ".txt";
 
     };
-    
+
     string getCurrentColli() {
 
         return "Config/collisionMap" + to_string(player->getMapIteration()) + ".txt";
 
     };
 
-	string getCurrentEntity() {
+    string getCurrentEntity() {
 
-		return "Config/entityMap" + to_string(player->getMapIteration()) + ".txt";
+        return "Config/entityMap" + to_string(player->getMapIteration()) + ".txt";
 
-	};
+    };
 
     void entityInit(string jobName, string raceName, GameData& data, string mobName) {
         string mobType = mobName;
@@ -620,5 +678,5 @@ public:
 
         combat->fighting(*mob, *lich, *race, *job);
     }
-
 };
+

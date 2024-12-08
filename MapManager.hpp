@@ -149,11 +149,6 @@ private:
             if (!sol5.loadFromFile("Assets/sol5.png"))
                 throw std::runtime_error("Cannot load Assets/MurV2.png");
             textures[24] = sol5;
-
-            Texture chest;
-            if (!chest.loadFromFile("Assets/chestclosed.png"))
-                throw std::runtime_error("Cannot load Assets/chestclosed.png");
-            textures[25] = chest;
         };
 
 

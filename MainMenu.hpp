@@ -7,6 +7,7 @@
 using namespace sf;
 using namespace std;
 
+
 void initMainMenu(GameData& data) {
     // Rectangle du menu
     float menuWidth = 900;
@@ -46,7 +47,7 @@ void initMainMenu(GameData& data) {
 
     // Charger la musique de fond si le son est activé
     if (data.soundEnabled) {
-        if (!data.backgroundMusic.openFromFile("mainsound.ogg")) {
+        if (!data.backgroundMusic.openFromFile("matuidi.ogg")) {
             std::cerr << "Erreur de chargement de la musique de fond" << std::endl;
         }
         else {
