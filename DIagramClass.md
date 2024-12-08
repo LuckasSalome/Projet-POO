@@ -1,196 +1,432 @@
 ```mermaid
+
 classDiagram
+
+    class Entity {
+        <<abstract>>
+        virtual getName() string
+        virtual getDesc() string
+        virtual getStat() map: string, int 
+        virtual getAlive() bool
+        virtual getHeroType() bool
+        virtual getIsBoss() bool
+        virtual setHealth(int) void
+        virtual setCourage(int) void
+        virtual setStrengh(int) void
+        virtual setIntelligence(int) void
+        virtual setDexterity(int) void
+        virtual setCharism(int) void
+        virtual initHeroStat(Race& , Jobs& )  map: string, int
+        virtual initDesc(Race& , Jobs& ) string
+        virtual initName(Race& , Jobs& ) string 
+        virtual StatComparison(Race& race, Jobs& job) void 
+        virtual initCreatureName(Common& mob) string 
+        virtual initCreatureDesc(Common& mob)  string 
+        virtual initCreatureStat(Common& mob) map :string, int 
+        virtual initBossName(Boss& mob) string 
+        virtual initBossDesc(Boss& mob) string 
+        virtual initBossStat(Boss& mob) map:string, int
+        virtual getJobSpell(Jobs& job, std::shared_ptr<Entity> foe) string 
+        virtual getRaceSpell(Race& race, std::shared_ptr<Entity> foe) string 
+        virtual getBasicAttack(Race& race, std::shared_ptr<Entity> foe) string 
+        virtual getMonsterSpell(Common& mob, std::shared_ptr<Entity> ennemy) string 
+        virtual getBasicAttack(Common& mob, std::shared_ptr<Entity> ennemy) string 
+        virtual getBossSpell1(Boss& mob, std::shared_ptr<Entity> ennemy) string 
+        virtual getBossSpell2(Boss& mob, std::shared_ptr<Entity> ennemy) string 
+    }
+
     class Hero {
-        -HeroName string
-        - Health int
+        -  heroName string
+        - heroDesc string
+        - heroRace string
+        - heroJob string
+        - heroStat map: string, int
+        - heroStatPerma const map : string, int
+        - possible bool
+        - isAlive bool
+        - heroLevel int
+        - exp int
+        - expMax int
 
         + Heroes (string)
-        + getHeroStat() map(string, int)
-        + getHeroName() string
-        + getHeroDesc() string
-        + getHealth () int
-        + StatComparison () bool
+        + StatCoparison(Race& , Jobs& ) void
+        + initName(Race& , Jobs& ) string 
+        + initDesc(Race& , Jobs& ) string
+        + initHeroStat(Race& , Jobs& ) map :string, int 
+        + getName() string
+        + getDesc() string
+        + getStat() map : string, int
+        + getHeroLevel()cosnt int
+        + getAlive() bool 
+        + setHeroHealth(int) void
+        + setHeroCourage(int) void
+        + setHeroCharsim(int) void
+        + setHeroStrengh(int) void
+        + setHeroIntelligence(int) void
+        + setHeroDexterity(int) void
+        + transiLevel() void
+        + getHeroLevel() int
+        + getHeroAlive() bool
+        + getRaceSpell(Race& , shared_ptr(Entity) ) string
+        + getJobSpell(Jobs& , shared_ptr(Entity) ) string
+        + isHeroAlive() bool
 
     }
 
-    class Creature {
-        <<abstract>>
-        # virtual getNameCreature() string
-        # virtual getStatCreature() map(string, int)
-        # virtual getDescCreature() string
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
-    }
+    class Group {
+        - vector : shared_ptr(Entity)
 
-    class Party {
-        -HeroParty vector
-        -CreatureParty vector
-        +getHeroParty() vector
-        +getcreatureParty() vector
+        + addParty(shared_ptr(Entity)) void 
+        + removeParty(shared_ptr(Entity)) void 
+        + getGroup() vector : shared_ptr(Entity) 
+        + isGroupEmpty() bool
     }
 
     class Jobs {
-        - nda string
-        - map nullMap: string, int
-
+        <<virtual>>
         + virtual getNameJob() string
-        + virtual getStatJob() map(string, int)
         + virtual getDescJob() string
-        + virtual getAbility1(string) map(string,int)
-        + virtual getAbility2(string) map(string,int)
-        + virtual getAbility3(string) map(string,int)
+        + virtual getSpellName() string
+        + virtual jobSpell(shared_ptr(Entity) , map : string, int) string
+        + virtual getStatRequiredJob() map : string, int
+    }
+
+    class Warrior {
+        - name string 
+        - desc string  
+        - spellName string 
+        - requiredStat map : string, int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName() string
+        # getBasicAttack(shared_ptr(Entity), map : string, int) string
+        # getStatJob() map: string, int
+        # jobSpell(shared_ptr(Entity), map : string, int) map : string, int
+    }
+
+    class Ranger {
+        - name string 
+        - desc string  
+        - spellName string 
+        - requiredStat map : string, int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName() string
+        # getBasicAttack(shared_ptr(Entity), map : string, int) string
+        # getStatJob() map: string, int
+        # jobSpell(shared_ptr(Entity), map : string, int) map : string, int
+    }
+
+    class Sorcerer{
+        - name string 
+        - desc string  
+        - spellName string 
+        - requiredStat map : string, int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName() string
+        # getBasicAttack(shared_ptr(Entity), map : string, int) string
+        # getStatJob() map: string, int
+        # jobSpell(shared_ptr(Entity), map : string, int) map : string, int
+    }
+
+    class Thief {
+        - name string 
+        - desc string  
+        - spellName string 
+        - requiredStat map : string, int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName() string
+        # getBasicAttack(shared_ptr(Entity), map : string, int) string
+        # getStatJob() map: string, int
+        # jobSpell(shared_ptr(Entity), map : string, int) map : string, int
     }
 
     class Race {
-        - nda string
-        - map nullMap : string, int
-
-        + virtual getNameRace() string
-        + virtual getStatRace() map<string, int>
-        + virtual getDescRace() string
+        <<abstract>>
+        + virtual  getNameRace() string
+        + virtual  getDescRace() string
+        + virtual  getSpellName() string
+        + virtual  basicAttack(shared_ptr(Entity) , map: string, int ) string
+        + virtual  getStat() map : string, int
+        + virtual  raceSpell(shared_ptr(Entity) , map : string, int>) map : string, int
     }
 
+    class Elf {
+        -name string
+        -desc string 
+        -spellName string
+        -stat map : string , int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName () string
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # raceSpell (shared_ptr(Entity), map : string , int) string 
+        # getStat() map(string, int)
+    }
+
+    class Dwarf {
+        - name string
+        - desc string 
+        - spellName string
+        - stat map : string , int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName () string
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # raceSpell (shared_ptr(Entity), map : string , int) string 
+        # getStat() map(string, int)
+    }
+
+    class Human {
+        - name string
+        - desc string 
+        - spellName string
+        - stat map : string , int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName () string
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # raceSpell (shared_ptr(Entity), map : string , int) string 
+        # getStat() map(string, int)
+    }
+
+    class Barbarian {
+        - name string
+        - desc string 
+        - spellName string
+        - stat map : string , int
+
+        # getNameJob() string
+        # getDescJob() string
+        # getSpellName () string
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # raceSpell (shared_ptr(Entity), map : string , int) string 
+        # getStat() map(string, int)
+    }
+
+    class Creature {
+        - creatureName string
+        - creatureDesc string
+        - creatureStat map : string, int
+        - isAlive bool
+        - cond bool
+        - isBoss bool
+        + initCreatureName(Common&) string
+        + initCreatureDesc (Common&) string
+        + initCreatureStat (Common&) map : string, int
+        + initBossName(Common&) string
+        + initBossDesc (Common&) string
+        + initBossStat (Common&) map : string, int
+        + getName () string
+        + getDesc() string
+        + getStat () map : string, int
+        + getIsAlive () bool
+        + getIsBoss () bool
+        + heroType () bool
+        + setHealth (int) void
+        + setCourage (int) void
+        + setCharism (int) void
+        + setStrengh (int) void
+        + setIntelligence (int) void
+        + setDexterity (int) void
+        + getMonsterSpell (Common&, shared_ptr(Entity)) string
+        + const getBasicAttack (Common&, shared_ptr(Entity)) string
+        + getBossSpell1 (Boss&, shared_ptr(Entity)) string
+        + getBossSpell2 (Boss&, shared_ptr(Entity)) string
+     }
+
     class Boss {
-        <<abstract>>
-        # virtual getNameCreature() string
-        # virtual getStatCreature() map(string, int)
-        # virtual getDescCreature() string
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
+        <<virtual>>
+        + virtual getBossName() string
+        + virtual getBossDesc() string
+        + virtual getSpellName1(bool) string
+	    + virtual getSpellName2(bool) string
+	    + virtual getBossStat() map: string, int 
+	    + virtual bossSpell1(shared_ptr(Entity) , map<string, int> , bool ) map: string, int
+	    + virtual bossSpell2(shared_ptr(Entity) , map<string, int> , bool ) map: string, int
     }
 
     class ProgramLich{
         - name string
         - desc string
-        + getNameCreature() string
-        + getDescCreature() string
-        # virtual getStatCreature() map(string, int)
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
+        - spellName1P1 string
+        - spellName1P2 string
+        - spellName2P1 string
+        - spellName2P2 string
+
+        # getBossName() string
+        # getBossDesc() string
+        # getSpellName1(bool) string
+        # getSpellName2(bool) 
+        # getBossStat()  map :string, int
+        # bossSpell1(shared_ptr(Entity) , map:string, int , bool )  map :string, int
+        # bossSpell2(shared_ptr(Entity) , map:string, int , bool )  map :string, int
+    
     }
 
+
+
     class Common {
-        <<abstract>>
-        # virtual getNameCreature() string
-        # virtual getStatCreature() map(string, int)
-        # virtual getDescCreature() string
-        # virtual getAbility1(string) map(string,int)
-        # virtual getAbility2(string) map(string,int)
-        # virtual getAbility3(string) map(string,int)
+        <<virtual>>
+            + virtual string getName() 
+            + virtual string getDesc() 
+            + virtual string getSpellName() 
+            + virtual void basicAttack(shared_ptr(Entity) , map:string, int ) 
+            + virtual getStat() map:string, int
+            + virtual monsterSpell(shared_ptr(Entity) , map<string, int> ) map:string, int
     }
 
     class SarcasticGobelin{
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        +getNameCreature() string
-        +getStatCreature() map(string, int)
-        +getDescCreature() string
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        - name string 
+        - desc string 
+        - spellName string
+        - stat map: string, int
+
+        # getName() string
+        # getDesc() string 
+        # getSpellName() string
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # monsterSpell (shared_ptr(Entity), map : string, int) map : string, int
+        # getStat () map : string, int
     }
 
     class RhetoricianTroll{
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        +getNameCreature() string
-        +getStatCreature() map(string, int)
-        +getDescCreature() string
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        - name string 
+        - desc string 
+        - spellName string
+        - stat map: string, int
+
+        # getName() string
+        # getDesc() string 
+        # getSpellName() string
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # monsterSpell (shared_ptr(Entity), map : string, int) map : string, int
+        # getStat () map : string, int
     }
 
     class ExplosiveDuck {
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        +getNameCreature() string
-        +getStatCreature() map(string, int)
-        +getDescCreature() string
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+        - name string 
+        - desc string 
+        - spellName string
+        - stat map: string, int
+
+        # getName() string
+        # getDesc() string 
+        # getSpellName() string
+        # basicAttack (shared_ptr(Entity), map : string, int) string
+        # monsterSpell (shared_ptr(Entity), map : string, int) map : string, int
+        # getStat () map : string, int
     }
 
     class Inventory {
+        - size_t rows
+        - size_t cols
+        - size_t slotSize
+        - vector<vector<Items*>> inventoryGrid
+        - Items* selectedItem
+        - Font& font
+        - RectangleShape infoPanel
+        - Text infoText
+        - bool isOpen
+        - Items* weaponSlot
+        - Items* chestSlot
+        - Items* bootsSlot
+        - Vector2f weaponSlotPos
+        - Vector2f chestSlotPos
+        - Vector2f bootsSlotPos
 
+        + Inventory(size_t rows, size_t cols, Font& font)
+        + void toggleInventory()
+        + bool getIsOpen() const
+        + void addItem(size_t row, size_t col, Items* item)
+        + void handleMouseClick(Vector2i mousePos, RenderWindow& window)
+        + void unequipItem(const string& slotType)
+        + void drawEquipmentSlot(RenderWindow& window, Vector2f position, Items* item, const string& label)
+        + void draw(RenderWindow& window)
     }
 
-    class Menus {
+    
 
+    class Animation {
+        -Vector2u imageCount
+        -Vector2u currentImage
+        -float TotalTime
+        -float SwitchTime
+        +IntRect uvRect
+        +Animation(Texture* texture, Vector2u imageCount, float SwitchTime)
+        +~Animation()
+        +void update(int row, float deltaTime, bool faceRight)
+        +void setSwitchTime(float switchTime)
     }
 
-    class Pattern1 {
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        + get getStat() map (string, int)
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
+    class Enemy {
+    
+        -RectangleShape enemy
+        -CircleShape hitbox
+        -Vector2f position
+        -map<int, Texture> enemyTex
+        -Player* player
+        -MapManager* mapMan
+        -bool defeated
+        -Creatures* creature
+        -void loadEnemyTexture()
+        -void initHitbox()
+        +Enemy(Vector2f pos, int textureKey, bool def = false)
+        +void drawEnemy(RenderWindow& window)
+        +CircleShape getHitbox() const
+        +RectangleShape getEnemy()
+        +Vector2f getPosition() const
+        +bool isDefeated() const
+        +void setDefeated(bool def, const string& entityMapFile)
+        +static vector<Enemy> reloadEnemies(const string& entityMapFile, MapManager& mapMan)
+        +void updateEntityMapFile(const string& entityMapFile, const vector<Enemy>& enemies)
+        +void markEnemyAsDefeated(const string& entityMapFile)
+        +static vector<Enemy> createEnemies(const string& entityMapFile, MapManager& mapMan)
+        +static Enemy* checkCollisions(Player& player, vector<Enemy>& enemies)
+        +static void saveEnemies(const string& filename, const vector<Enemy>& enemies, MapManager& mapMan)
+        +Creatures* getCreature() const
+        +int getTextureKey() const
+        +static void resetEnemyDefeatedState(const string& entityMapFile)
     }
-
-    class Pattern2 {
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        + get getStat() map (string, int)
-        + getAbility1(string) map(string,int)
-        + getAbility2(string) map(string,int)
-        + getAbility3(string) map(string,int)
-    }
-
-    class Movement {
-        - speed float
-        - x float
-        - y float
-        + Movement(float initialSpeed)
-        + getSpeed() float
-        + void setSpeed(float newSpeed)
-        + void move(sf::Vector2f &mapOffset)
-        + getX() float
-        + getY() float
-    }
-
-    class Sprites {
-
-    }
-
-    class Camera {
-
-    }
-
-    class Audio {
-
-    }
-
-    class Scene{
-
-    }
-
-    class Map{
-
-    }
-
-    class Ability {
-
+    
+    class Player {
+        - RectangleShape player
+        - Texture playerTex
+        - View playerView
+        - MapManager* mapManager
+        - Vector2f velocity
+        - const float movementSpeed
+        - FloatRect playerBounds
+        - FloatRect nextPos
+        - Vector2f direction
+        - mapChangeCallback : callback(string, string)
+        - Animation* animation
+        - float animationSpeed
+        - bool faceRight
+        - const int COLLISION_TRIGGER
+        - const int COLLISION_TRIGGER_BACK
+        - int mapIteration
+        + Player(MapManager* mapManager, function<void(string, string)> mapChangeCallback)
+        + ~Player()
+        + void playerMovement(float dt, const std::vector<RectangleShape>& walls, MapManager& mapManager)
+        + const RectangleShape& getPlayer() const
+        + Vector2f getPositionPlayer()
+        + FloatRect getPlayerBounds()
+        + void playerInit(int colonne, int ligne, string race)
+        + void setHumanTex()
+        + void setBarbarianTex()
+        + void setDwarfTex()
+        + void setElfTex()
+        + void loadPreviousMap()
     }
 
     class DiceRolls {
@@ -205,219 +441,210 @@ classDiagram
     }
 
     class Items{
-        #virtual getNameItem() string
-        #virtual getDescItem() string
-        #virtual getStatItem() map(string,int)
+        - string name
+        - string description
+        - map<string, int> stats
+        - Texture texture
+        - Sprite sprite
+
+        + Items(const string& name, const string& description, const map<string, int>& stats, const string& spritePath)
+        + ~Items()
+        + bool isChestArmor() const
+        + bool isBoots() const
+        + bool isWeapon() const
+        + const string& getName() const
+        + const string& getDescription() const
+        + const map<string, int>& getStats() const
+        + const Sprite& getSprite() const
     }
 
-    class Elf {
-        -name : string
-        -map stat : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
+    class ChestArmor {
+        + ChestArmor(const string& name, const string& description, const map<string, int>& stats, const string& spritePath)
+        + bool isChestArmor() const
     }
 
-    class Warrior {
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-        # getAbility1(string) map(string,int)
-        # getAbility2(string) map(string,int)
-        # getAbility3(string) map(string,int)
+    class Boots {
+        + Boots(const string& name, const string& description, const map<string, int>& stats, const string& spritePath)
+        + bool isBoots() const
     }
 
-    class Ranger {
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-        # getAbility1(string) map(string,int)
-        # getAbility2(string) map(string,int)
-        # getAbility3(string) map(string,int)
+     class Weapon {
+        + Weapon(const string& name, const string& description, const map<string, int>& stats, const string& spritePath)
+        + bool isWeapon() const
     }
 
-    class Sorcerer{
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-        # getAbility1(string) map(string,int)
-        # getAbility2(string) map(string,int)
-        # getAbility3(string) map(string,int)
+    class MapManager {
+        - vector<vector<int>> tileTypes
+        - vector<vector<int>> collisionMap
+        - vector<vector<RectangleShape>> tileMap
+        - map<int, Texture> textures
+        - float gridSize
+        - int mapSize
+        - const int COLLISION_TRIGGER
+        - void loadTextures()
+        - void initTileMap()
+        - void loadTileTypes(string& filename)
+        - void loadCollisionMap(string& filename)
+        + MapManager(float gridSize, int mapSize, const string& tileTypesFile, const string& collisionMapFile)
+        + const vector<vector<RectangleShape>>& getTileMap() const
+        + const vector<vector<int>>& getCollisionMap() const
+        + float getGridSize()
+        + void loadNewMap(const string& newTileTypesFile, const string& newCollisionMapFile)
+        + void setTileTypes(const vector<vector<int>>& newTileTypes)
+        + void setCollisionMap(const vector<vector<int>>& newCollisionMap)
     }
 
-    class Thief {
-        -name : string
-        -map stat : string , int
-        -map Ability1 : string , int
-        -map Ability2 : string , int
-        -map Ability3 : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-        # getAbility1(string) map(string,int)
-        # getAbility2(string) map(string,int)
-        # getAbility3(string) map(string,int)
-    }
-
-    class Dwarf {
-        -name : string
-        -map stat : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-    }
-
-    class Human {
-        -name : string
-        -map stat : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-    }
-
-    class Barbarian {
-        -name : string
-        -map stat : string , int
-        -desc : string
-        # getNameJob() string
-        # getStatJob() map(string, int)
-        # getDescJob() string
-    }
 
     class System {
         <<Interface>>
     }
 
-    class Player {
-
-    }
 
     class Fight {
+        - group1 vector:shared_ptr(Entity )
+        - group2 vector:shared_ptr(Entity)
+        - heroes Group& 
+        - monsters Group& 
 
+        + Fight(Group& , Group& )
+        + fightOrder() queue : shared_ptr(Entity)
+        + roundCheck() void
+        + fighting(Common& , Boss& , Race& , Jobs& ) void
     }
 
     class BeerPotion{
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int) 
-    }
-
-    class RustyKey {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+        +BeerPotion
     }
 
     class PotionIntelligence {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
-    }
-
-    class RopeTrap {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
-    }
-
-    class KeyCorridor {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
-    }
-
-    class DiscretionShoesNoisy {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
-    }
-
-    class BluntSword {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+        +PotionIntelligence()
     }
 
     class MajorHealingPotion {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+        +MajorHealingPotion
     }
 
-    class ScepterSyntactic {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+    class RustyKey {
+        +RustyKey
+    }
+
+    class KeyCorridor {
+        +KeyCorridor()
+    }
+
+    class RopeTrap {
+        +RopeTrap()
     }
 
     class BookOfLostRules {
-        -name : string
-        -desc : string
-        -map stat : string , int
-        +getNameItem() string
-        +getDescItem() string
-        +getStatItem() map(string,int)
+        +BookOfLostRules()
     }
 
-   
+    
+    class DiscretionShoesNoisy {
+        +DiscretionShoesNoisy()
+    }
+
+    class StealBoots {
+        +StealBoots()
+    }
+
+    class DarkBoots {
+        +DarkBoots()
+    }
+
+    class SorcererBoots {
+        +SorcererBoots()
+    }
+
+    class LeatherBoots {
+        +LeatherBoots()
+    } 
+
+    class BluntSword {
+        +BluntSword()
+    }
+
+    class Bow {
+        +Bow()
+    }
+
+    class Dagger {
+        +Dagger()
+    }
+
+    class Sword {
+        +Sword()
+    }
+
+    class SorcererStick {
+        +SorcererStick()
+    }
+
+    class ScepterSyntactic {
+        +ScepterSyntactic()
+    }
+
+    class DarkCape {
+        +DarkCape()
+    }
+
+    class ChainMail {
+        +ChainMail()
+    }
+
+    class LeatherChest {
+        +LeatherChest()
+    }
+
+    class SorcererCape {
+        +SorcererCape()
+    }
+
+    class GameData {
+        +RenderWindow window
+        +Texture backgroundTexture
+        +Sprite background
+        +Font font
+        +RectangleShape menuRect
+        +RectangleShape selectionRect
+        +Text menuItems[3]
+        +int currentSelection
+        +Hero* currentCharacter
+        +Music backgroundMusic
+        +bool soundEnabled
+        +Keyboard::Key upKey
+        +Keyboard::Key downKey
+        +Keyboard::Key actionKey
+        +Keyboard::Key cancelKey
+        +Keyboard::Key leftKey
+        +Keyboard::Key rightKey
+        +int windowWidth
+        +int windowHeight
+        +string keyToString(Keyboard::Key key)
+        +~GameData()
+    }
+
+    class MainMenu {
+        +static initMainMenu(GameData& data)
+        +static handleMainMenuEvents(GameData& data, bool& inOptionsMenu, bool &inCharacterSelection)
+        +static renderMainMenu(GameData& data)
+    }
+
+    class OptionsMenu {
+        +static listenForKeyPress(RenderWindow& window) Keyboard::Key
+        +static handleOptionsMenu(GameData& data, bool& inOptionsMenu)
+    }
+
+    class ChoixPerso {
+        +static handleCharacterSelection(GameData& data, bool& inCharacterSelection, Event& event) string
+    }
+
+    Entity --o Hero
+    Entity --o Creature
+
     Hero --o Race
     Hero --o Jobs
-   
-    Creature <-- Common
-    Creature <-- Boss
-    Boss <-- ProgramLich
-    ProgramLich <-- Pattern1
-    Pattern1 <-- Pattern2
-    Hero o-- Party
     Jobs <-- Warrior
     Race <-- Elf
     Race <-- Barbarian
@@ -426,36 +653,64 @@ classDiagram
     Jobs <-- Ranger
     Jobs <-- Sorcerer
     Jobs <-- Thief
-    System <-- Camera
-    System <-- Audio
-    System <-- Sprites
-    System <-- Menus
+    Game <-- MapManager
+    Player <-- MapManager
+    Player <-- Animation
+    Player <-- ChoixPerso
+    Enemy <-- MapManager
+    Enemy <-- player
+    Enemy <-- Creature
+    Enemy <-- Fight
+    GameData *-- Hero 
+    MainMenu ..> GameData 
+    OptionsMenu ..> GameData 
+    ChoixPerso ..> GameData
+
+
+    Hero o-- Group
+
+    Creature <-- Common
+    Common <-- RhetoricianTroll
+    Common <-- SarcasticGobelin
+    Common <-- ExplosiveDuck
+    Creature <-- Boss
+    Boss <-- ProgramLich
+    
     System <-- Player
     Player <-- Movement
     System <-- Fight
     Fight <-- DiceRolls
-    System <-- Map
-    Map <-- Scene
-    Warrior --o Ability
-    Ranger --o Ability
-    Sorcerer --o Ability
-    Thief --o Ability
-    RhetoricianTroll --o Ability
-    ExplosiveDuck --o Ability
-    SarcasticGobelin --o Ability
     Inventory <-- Items
-    Player <-- Inventory
-    Common <-- RhetoricianTroll
-    Common <-- SarcasticGobelin
-    Common <-- ExplosiveDuck
-    Items <-- RustyKey
+    
+    
     Items <-- BeerPotion
-    Items <-- PotionIntelligence
-    Items <-- RopeTrap
-    Items <-- KeyCorridor
-    Items <-- DiscretionShoesNoisy
-    Items <-- BluntSword
+    Items <-- PotionIntelligence       
     Items <-- MajorHealingPotion
-    Items <-- ScepterSyntactic
+    Items <-- KeyCorridor
+    Items <-- RustyKey
+    Items <-- RopeTrap
     Items <-- BookOfLostRules
+    Items <-- ChestArmor
+    Items <-- Boots
+    Items <-- Weapon
+
+    ChestArmor <-- ChainMail  
+    ChestArmor <-- LeatherChest
+    ChestArmor <-- DarkCape
+    ChestArmor <-- SorcererCape
+
+    Boots <-- DiscretionShoesNoisy
+    Boots <-- StealBoots
+    Boots <-- LeatherBoots
+    Boots <-- DarkBoots
+    Boots <-- SorcererBoots
+
+    Weapon <-- BluntSword
+    Weapon <-- ScepterSyntactic
+    Weapon <-- Sword
+    Weapon <-- Bow
+    Weapon <-- Dagger
+    Weapon <-- SorcererStick
+```
+
 ```
