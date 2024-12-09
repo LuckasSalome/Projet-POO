@@ -1,6 +1,8 @@
 
 ```mermaid
 
+
+
 classDiagram
 
     class Entity {
@@ -484,6 +486,50 @@ classDiagram
         + void setCollisionMap(const vector<vector<int>>& newCollisionMap)
     }
 
+    class Heroes {
+        - std::string heroName
+        - std::string heroDesc
+        - std::string heroRace
+        - std::string heroJob
+        - std::map<std::string, int> heroStat
+        - const std::map<std::string, int> heroStatPerma
+        - bool possible
+        - bool isAlive
+        - int heroLevel
+        - int exp
+        - int expMax
+        - Font font
+        - Inventory* inventory
+        - std::map<std::string, int> stats
+        - Items* weapon
+        - Items* armor
+        - Items* boots
+
+        + bool StatComparison(Race& race, Jobs& job)
+        + std::string initName(Race& race, Jobs& job)
+        + std::string initDesc(Race& race, Jobs& job)
+        + std::map<std::string, int> initHeroStat(Race& race, Jobs& job)
+        + std::string getName()
+        + std::string getDesc()
+        + std::map<std::string, int> getStat()
+        + int getHeroLevel() const
+        + bool getAlive()
+        + void setHealth(int set)
+        + void setCourage(int set)
+        + void setStrengh(int set)
+        + void setIntelligence(int set)
+        + void setDexterity(int set)
+        + void setCharism(int set)
+        + void setExp(int set)
+        + void transiLevel()
+        + std::string getRaceSpell(Race& race, std::shared_ptr<Entity> foe)
+        + std::string getBasicAttack(Race& race, std::shared_ptr<Entity> foe)
+        + std::string getJobSpell(Jobs& job, std::shared_ptr<Entity> foe)
+        + bool isHeroAlive() const
+        + bool getHeroType()
+    }
+
+
     class Fight {
         - group1 vector:shared_ptr(Entity )
         - group2 vector:shared_ptr(Entity)
@@ -674,6 +720,146 @@ classDiagram
         +void resetCollisions()
     }
 
+    class trappedChest {
+        - std::string chestName
+        - std::string chestDesc
+        - std::map<std::string, int> chestStat
+        - const std::map<std::string, int> chestStatPerma
+        - bool isOpen
+        - bool isTrapped
+        - int chestLevel
+        - int exp
+        - int expMax
+        - Font font
+        - Inventory* inventory
+
+        + std::string initChestName(Common& mob)
+        + std::string initChestDesc(Common& mob)
+        + std::map<std::string, int> initChestStat(Common& mob)
+        + std::string initBossName(Boss& mob)
+        + std::string initBossDesc(Boss& mob)
+        + std::map<std::string, int> initBossStat(Boss& mob)
+        + std::string getName() override
+        + std::string getDesc() override
+        + std::map<std::string, int> getStat() override
+        + bool getAlive() override
+        + bool getIsBoss() override
+        + int getChestLevel() const
+        + void setHealth(int set) override
+        + void setCourage(int set) override
+        + void setStrengh(int set) override
+        + void setIntelligence(int set) override
+        + void setDexterity(int set) override
+        + void setCharism(int set) override
+        + void setExp(int set) override
+        + void transiLevel()
+        + std::string getMonsterSpell(Common& mob, std::shared_ptr<Entity> ennemy) override
+        + std::string getBasicAttack(Common& mob, std::shared_ptr<Entity> ennemy) override
+        + std::string getBossSpell1(Boss& mob, std::shared_ptr<Entity> ennemy) override
+        + std::string getBossSpell2(Boss& mob, std::shared_ptr<Entity> ennemy) override
+        + void triggerTrap()
+    }
+
+
+
+    class Chest {
+        - std::string chestName
+        - std::string chestDesc
+        - std::map<std::string, int> chestStat
+        - const std::map<std::string, int> chestStatPerma
+        - bool isOpen
+        - int chestLevel
+        - int exp
+        - int expMax
+        - Font font
+        - Inventory* inventory
+
+        + std::string initChestName(Common& mob)
+        + std::string initChestDesc(Common& mob)
+        + std::map<std::string, int> initChestStat(Common& mob)
+        + std::string initBossName(Boss& mob)
+        + std::string initBossDesc(Boss& mob)
+        + std::map<std::string, int> initBossStat(Boss& mob)
+        + std::string getName() override
+        + std::string getDesc() override
+        + std::map<std::string, int> getStat() override
+        + bool getAlive() override
+        + bool getIsBoss() override
+        + int getChestLevel() const
+        + void setHealth(int set) override
+        + void setCourage(int set) override
+        + void setStrengh(int set) override
+        + void setIntelligence(int set) override
+        + void setDexterity(int set) override
+        + void setCharism(int set) override
+        + void setExp(int set) override
+        + void transiLevel()
+        + std::string getMonsterSpell(Common& mob, std::shared_ptr<Entity> ennemy) override
+        + std::string getBasicAttack(Common& mob, std::shared_ptr<Entity> ennemy) override
+        + std::string getBossSpell1(Boss& mob, std::shared_ptr<Entity> ennemy) override
+        + std::string getBossSpell2(Boss& mob, std::shared_ptr<Entity> ennemy) override
+    }
+
+
+
+    class ScepterSintactic {
+        - std::string name
+        - std::string description
+        - std::map<std::string, int> stats
+        - Texture texture
+        - Sprite sprite
+
+        + ScepterSintactic(const std::string& name, const std::string& description, const std::map<std::string, int>& stats, const std::string& spritePath)
+        + ~ScepterSintactic()
+        + bool isChestArmor() const override
+        + bool isBoots() const override
+        + bool isWeapon() const override
+        + const std::string& getName() const
+        + const std::string& getDescription() const
+        + const std::map<std::string, int>& getStats() const
+        + const Sprite& getSprite() const
+    }
+
+
+
+    class Creatures {
+        - std::string creatureName
+        - std::string creatureDesc
+        - std::map<std::string, int> creatureStat
+        - const std::map<std::string, int> creatureStatPerma
+        - bool isAlive
+        - int creatureLevel
+        - int exp
+        - int expMax
+        - Font font
+
+        + std::string initCreatureName(Common& mob)
+        + std::string initCreatureDesc(Common& mob)
+        + std::map<std::string, int> initCreatureStat(Common& mob)
+        + std::string initBossName(Boss& mob)
+        + std::string initBossDesc(Boss& mob)
+        + std::map<std::string, int> initBossStat(Boss& mob)
+        + std::string getName() override
+        + std::string getDesc() override
+        + std::map<std::string, int> getStat() override
+        + bool getAlive() override
+        + bool getIsBoss() override
+        + int getCreatureLevel() const
+        + void setHealth(int set) override
+        + void setCourage(int set) override
+        + void setStrengh(int set) override
+        + void setIntelligence(int set) override
+        + void setDexterity(int set) override
+        + void setCharism(int set) override
+        + void setExp(int set) override
+        + void transiLevel()
+        + std::string getMonsterSpell(Common& mob, std::shared_ptr<Entity> ennemy) override
+        + std::string getBasicAttack(Common& mob, std::shared_ptr<Entity> ennemy) override
+        + std::string getBossSpell1(Boss& mob, std::shared_ptr<Entity> ennemy) override
+        + std::string getBossSpell2(Boss& mob, std::shared_ptr<Entity> ennemy) override
+    }
+
+
     Entity --o Hero
     Entity --o Creature
 
@@ -692,7 +878,7 @@ classDiagram
     Player <-- Animation
     Player <-- ChoixPerso
     Enemy <-- MapManager
-    Enemy <-- player
+    Enemy <-- Player
     Enemy <-- Creature
     Enemy <-- Fight
     GameData *-- Hero 
@@ -785,5 +971,6 @@ classDiagram
     Weapon <-- Bow
     Weapon <-- Dagger
     Weapon <-- SorcererStick
+
 
 ```
