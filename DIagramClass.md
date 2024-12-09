@@ -354,10 +354,6 @@ classDiagram
         + void draw(RenderWindow& window)
     }
 
-    class Menus {
-
-    }
-
 
     class Movement {
         - speed float
@@ -369,37 +365,6 @@ classDiagram
         + void move(sf::Vector2f &mapOffset)
         + getX() float
         + getY() float
-    }
-
-    class Sprites {
-
-    }
-
-    class Camera {
-
-    }
-
-    class Audio {
-
-    }
-
-    class Scene{
-
-    }
-
-    class Map{
-
-    }
-
-    class DiceRolls {
-        -int sides
-        -unsigned long seed
-        -unsigned long random()
-        +DiceRoll(int sides=6, unsigned long initialSeed=1)
-        +int roll()
-        +int getSides() const
-        +void setSides(int newSides)
-        +void setSeed(unsigned long newSeed)
     }
 
     class Items{
@@ -435,20 +400,48 @@ classDiagram
         + bool isWeapon() const
     }
 
+    class Player {
+        - RectangleShape player
+        - Texture playerTex
+        - View playerView
+        - MapManager* mapManager
+        - Vector2f velocity
+        - const float movementSpeed
+        - FloatRect playerBounds
+        - FloatRect nextPos
+        - Vector2f direction
+        - Animation* animation
+        - mapChangeCallback : callback(string, string)
+        - float animationSpeed
+        - bool faceRight
+        - const int COLLISION_TRIGGER
+        - const int COLLISION_TRIGGER_BACK
+        - int mapIteration
+        - GameData data
+
+        + Player(MapManager* mapManager, function<void(string, string, string)> mapChangeCallback)
+        + ~Player()
+        + void playerMovement(float dt, const std::vector<RectangleShape>& walls, MapManager& mapManager)
+        + void setHumanTex()
+        + void setBarbarianTex()
+        + void setDwarfTex()
+        + void setElfTex()
+        + const RectangleShape& getPlayer() const
+        + Vector2f getPositionPlayer()
+        + FloatRect getPlayerBounds()
+        + void loadPreviousMap()
+        + int getMapIteration()
+    }
 
     class System {
         <<Interface>>
-    }
-
-    class Player {
-
     }
 
     class Fight {
         - group1 vector:shared_ptr(Entity )
         - group2 vector:shared_ptr(Entity)
         - heroes Group& 
-        - monsters Group& 
+        - monsters Group&
 
         + Fight(Group& , Group& )
         + fightOrder() queue : shared_ptr(Entity)
@@ -567,17 +560,10 @@ classDiagram
     Common <-- ExplosiveDuck
     Creature <-- Boss
     Boss <-- ProgramLich
-    
-    System <-- Camera
-    System <-- Audio
-    System <-- Sprites
-    System <-- Menus
+
     System <-- Player
     Player <-- Movement
     System <-- Fight
-    Fight <-- DiceRolls
-    System <-- Map
-    Map <-- Scene
     Inventory <-- Items
     Player <-- Inventory
     
