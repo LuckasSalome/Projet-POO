@@ -1,5 +1,8 @@
 
 ```mermaid
+
+classDiagram
+
     class Entity {
         <<abstract>>
         virtual getName() string
