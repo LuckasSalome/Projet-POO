@@ -18,7 +18,7 @@ public:
         detectionZone = sf::FloatRect(position.x - 125.f, position.y - 125.f, 250, 250); // Zone de détection autour du coffre
 
         // Initialiser la forme du coffre avec une taille appropriée
-        trappedChest.setSize(sf::Vector2f(50.f, 50.f));
+        trappedChest.setSize(sf::Vector2f(100.f, 100.f));
         trappedChest.setPosition(this->position);
 
         // Charger les textures

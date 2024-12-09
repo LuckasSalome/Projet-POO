@@ -8,6 +8,7 @@
 #include <random>
 #include "Group.hpp"
 #include "Enemy.hpp"
+#include "DialogBox.hpp"
 
 class Fight {
 private:
@@ -19,7 +20,7 @@ private:
 
 public:
     Fight(Group& heroesGroup, Group& monstersGroup)
-        : heroes(heroesGroup), monsters(monstersGroup) {
+        : heroes(heroesGroup), monsters(monstersGroup), enemy(nullptr) { // Initialisation de enemy
         group1 = heroes.getGroup();
         group2 = monsters.getGroup();
     }
@@ -49,7 +50,7 @@ public:
         return finalOrder;
     }
 
-    void roundCheck() {
+    void roundCheck(const std::string& newEntityMap) { // Ajout de const et référence
         for (auto& hero : this->group1) {
             if (!hero->getAlive()) {
                 heroes.removeParty(hero);
@@ -59,67 +60,117 @@ public:
             if (!mob->getAlive()) {
                 for (int i = 0; i < group1.size(); i++) {
                     group1[i]->setExp(30);
-					cout << "Vous etes niveau :" << group1[i]->getHeroLevel() << endl;
+                    std::cout << "Vous etes niveau :" << group1[i]->getHeroLevel() << std::endl;
                 }
-                enemy->setDefeated(true,"Config/entityMap1.txt");
+                enemy->setDefeated(true, newEntityMap);
                 monsters.removeParty(mob);
-				cout << "Enemy defeated" << endl;
+                std::cout << "Enemy defeated" << std::endl;
             }
         }
     }
 
-    void fighting(Common& mob, Boss& lich, Race& race, Jobs& job) {
+    void fighting(Common& mob, Boss& lich, Race& race, Jobs& job, sf::RenderWindow& window, const string& newEntityMap) {
         int target;
         int spell;
+        std::string content;
+        DialogBox dialogBox(window.getSize().x, window.getSize().y / 3);
+
+        // Calculer la position centrale
+        float dialogBoxWidth = dialogBox.getSize().x;
+        float dialogBoxHeight = dialogBox.getSize().y;
+        float windowWidth = window.getSize().x;
+        float windowHeight = window.getSize().y;
+
+        // Positionner la boîte de dialogue en bas au milieu de l'écran
+        float posX = (windowWidth - dialogBoxWidth) / 2;
+        float posY = windowHeight - dialogBoxHeight - 50; // 50 pixels au-dessus du bas de l'écran
+        dialogBox.setPosition(posX, posY);
+
         while (!heroes.isGroupEmpty() && !monsters.isGroupEmpty()) {
             auto Ordre = fightOrder();
             while (!Ordre.empty()) {
+                content = "";
                 std::shared_ptr<Entity> currentEntity = Ordre.front();
                 Ordre.pop();
-                std::cout << group1[0]->getStat()["HP"] << std::endl;
-                std::cout << group1[1]->getStat()["HP"] << std::endl;
-                std::cout << group2[0]->getStat()["HP"] << std::endl;
                 if (currentEntity->getHeroType()) {
-                    std::cout << currentEntity->getName() << std::endl;
+                    content += "C'est au tour de " + currentEntity->getName() + "\n" + currentEntity->getDesc() + "\n";
+                    for (auto& stat : currentEntity->getStat()) {
+                        content += (stat.first + " : " + std::to_string(stat.second)) + "\n";
+                    }
+                    content += "Choisissez une cible et un sort [0: Attaque de base / 1: Competence de race / 2: Competence de metier]";
+                    dialogBox.setText(content);
+                    dialogBox.draw(window);
+                    window.display();
                     std::cin >> target;
                     std::cin >> spell;
+
                     if (target >= 0 && target < group2.size()) {
-                        if (spell == 0)
-                            currentEntity->getBasicAttack(race, group2[target]);
-                        else if (spell == 1)
-                            currentEntity->getRaceSpell(race, group2[target]);
-                        else if (spell == 2)
-                            currentEntity->getJobSpell(job, group2[target]);
+                        if (spell == 0) {
+                            dialogBox.setText("Vous avez lance " + currentEntity->getBasicAttack(race, group2[target]) + " sur " + group2[target]->getName());
+                        }
+                        else if (spell == 1) {
+                            dialogBox.setText("Vous avez lance " + currentEntity->getRaceSpell(race, group2[target]) + " sur " + group2[target]->getName());
+                        }
+                        else if (spell == 2) {
+                            dialogBox.setText("Vous avez lance " + currentEntity->getJobSpell(job, group2[target]) + " sur " + group2[target]->getName());
+                        }
                     }
                     else {
-                        std::cout << "Index de cible invalide !" << std::endl;
+                        dialogBox.setText("Index de cible invalide !");
                     }
+                    dialogBox.draw(window);
+                    window.display();
+                    sf::sleep(sf::seconds(4));
                 }
-                else if (currentEntity->getIsBoss()) {
-                    std::cout << currentEntity->getName() << std::endl;
+                else if (currentEntity->getIsBoss() == true) {
+                    content += "C'est au tour de " + currentEntity->getName() + "\n" + currentEntity->getDesc() + "\n";
+
+                    for (auto& stat : currentEntity->getStat()) {
+                        content += stat.first + " : " + std::to_string(stat.second) + "\n";
+                    }
+                    dialogBox.setText(content);
+                    dialogBox.draw(window);
+                    window.display();
+
                     spell = rand() % 2;
                     target = rand() % group1.size();
                     if (spell == 0) {
-                        currentEntity->getBossSpell1(lich, group1[target]);
+                        dialogBox.setText(currentEntity->getName() + " lance " + currentEntity->getBossSpell1(lich, group1[target]) + " sur " + group1[target]->getName());
                     }
                     else {
-                        currentEntity->getBossSpell2(lich, group1[target]);
+                        dialogBox.setText(currentEntity->getName() + " lance " + currentEntity->getBossSpell2(lich, group1[target]) + " sur " + group1[target]->getName());
                     }
+                    dialogBox.draw(window);
+                    window.display();
+                    sf::sleep(sf::seconds(4));
                 }
                 else {
-                    std::cout << currentEntity->getName() << std::endl;
+                    content += "C'est au tour de " + currentEntity->getName() + "\n" + currentEntity->getDesc() + "\n";
+
+                    for (auto& stat : currentEntity->getStat()) {
+                        content += stat.first + " : " + std::to_string(stat.second) + "\n";
+                    }
+                    dialogBox.setText(content);
+                    dialogBox.draw(window);
+                    window.display();
+                    sf::sleep(sf::seconds(1));
+
                     spell = rand() % 2;
                     target = rand() % group1.size();
                     if (spell == 0) {
-                        currentEntity->getMonsterSpell(mob, group1[target]);
+                        dialogBox.setText(currentEntity->getName() + " a lance " + currentEntity->getMonsterSpell(mob, group1[target]) + " sur " + group1[target]->getName());
                     }
                     else {
-                        currentEntity->getBasicAttack(mob, group1[target]);
+                        dialogBox.setText(currentEntity->getName() + " a lance " + currentEntity->getBasicAttack(mob, group1[target]) + " et inflige " + std::to_string(currentEntity->getStat()["AD"]) + " degats a " + group1[target]->getName());
                     }
+                    dialogBox.draw(window);
+                    window.display();
+                    sf::sleep(sf::seconds(4));
                 }
-                roundCheck();
+                roundCheck(newEntityMap);
             }
-            roundCheck();
+            roundCheck(newEntityMap);
         }
     }
+
 };

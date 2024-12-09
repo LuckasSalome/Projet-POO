@@ -50,12 +50,16 @@ private:
             throw std::runtime_error("Cannot load Assets/black.png");
         enemyTex[7] = duckTex;
 
+        Texture lichTex;
+        if (!lichTex.loadFromFile("Assets/Lich.png"))
+            throw std::runtime_error("Cannot load Assets/black.png");
+        enemyTex[8] = lichTex;
     }
 
     void initHitbox() {
         hitbox.setRadius(75.f); // Taille de la hitbox
         hitbox.setFillColor(Color::Transparent);
-        hitbox.setOutlineColor(Color::Red);
+        hitbox.setOutlineColor(Color::Transparent);
         hitbox.setOutlineThickness(1.f);
         hitbox.setPosition(position.x - 25, position.y - 25); //-25 pour recentrer pifometre tkt
     }
@@ -111,7 +115,7 @@ public:
 
 
     void setDefeated(bool def, const string& entityMapFile) {
-        cout << "testdefeated" << endl;
+
         markEnemyAsDefeated(entityMapFile);
 
     }

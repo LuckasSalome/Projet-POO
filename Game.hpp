@@ -71,13 +71,6 @@ private:
     vector<Enemy> enemies;
     vector<Chest> chests;
     vector<TrappedChest> trappedChests;
-    bool inRange = false;
-    bool inGame = true;
-    float dt;
-    int currentMap = 1;
-    sf::Vector2f lichPosition;
-    sf::Texture lichTexture;
-    sf::Sprite lichSprite;
     vector<string> entityMapFiles = {
         "Config/entityMap1.txt",
         "Config/entityMap2.txt",
@@ -86,6 +79,14 @@ private:
         "Config/entityMap6.txt",
         "Config/entityMap7.txt"
     };
+	std::string currentNarrativeText;
+    bool inRange = false;
+    bool inGame = true;
+    bool isNarrativeActive = false;
+    float dt;
+    int currentMap = 1;
+	Clock narrativeTimer;
+	
 
     void initGameWindow() {
         ifstream ifs("Config/window.txt");
@@ -167,6 +168,46 @@ private:
     }
 
     void initializeChests() {
+        if (this->currentMap == 1) {
+            // Position du coffre sur la carte tileMap
+                vector<sf::Vector2f> chestPositions = {{ 10 * mapManager->getGridSize(), 1 * mapManager->getGridSize() }
+            };
+            for (const auto& pos : chestPositions) {
+                chests.emplace_back(pos, inventory);
+            }
+        }
+        if (this->currentMap == 2) {
+            // Position du coffre sur la carte tileMap
+                vector<sf::Vector2f> chestPositions = { { 5 * mapManager->getGridSize(), 7 * mapManager->getGridSize() }
+                };
+                for (const auto& pos : chestPositions) {
+                    chests.emplace_back(pos, inventory);
+                }
+            }
+        if (this->currentMap == 3) {
+            // Position du coffre sur la carte tileMap
+                vector<sf::Vector2f> chestPositions = { { 16 * mapManager->getGridSize(), 10 * mapManager->getGridSize() }
+                };
+                for (const auto& pos : chestPositions) {
+                    chests.emplace_back(pos, inventory);
+                }
+            }
+        if (this->currentMap == 4) {
+            // Position du coffre sur la carte tileMap
+                vector<sf::Vector2f> chestPositions = { { 6 * mapManager->getGridSize(), 8 * mapManager->getGridSize() }
+                };
+                for (const auto& pos : chestPositions) {
+                    chests.emplace_back(pos, inventory);
+                }
+            }
+        if (this->currentMap == 5) {
+            // Position du coffre sur la carte tileMap
+                vector<sf::Vector2f> chestPositions = { { 5 * mapManager->getGridSize(), 7 * mapManager->getGridSize() }
+                };
+                for (const auto& pos : chestPositions) {
+                    chests.emplace_back(pos, inventory);
+                }
+            }
         if (this->currentMap == 6) {
             // Position du coffre sur la carte tileMap6
             vector<sf::Vector2f> chestPositions = {
@@ -200,16 +241,6 @@ private:
     }
 
     void populateInventory() {
-        inventory->addItem(0, 0, new PotionIntelligence());
-        inventory->addItem(0, 1, new RustyKey());
-        inventory->addItem(0, 2, new RopeTrap());
-        inventory->addItem(0, 3, new BeerPotion());
-        inventory->addItem(0, 4, new BookOfLostRules());
-        inventory->addItem(1, 0, new ScepterSyntactic());
-        inventory->addItem(1, 1, new KeyCorridor());
-        inventory->addItem(1, 2, new DiscretionShoesNoisy());
-        inventory->addItem(1, 3, new BluntSword());
-        inventory->addItem(1, 4, new MajorHealingPotion());;
         inventory->addItem(2, 1, new Bow());
         inventory->addItem(2, 2, new SorcererStick());
         inventory->addItem(2, 3, new Dagger());
@@ -223,29 +254,82 @@ private:
         inventory->addItem(4, 1, new SorcererCape());
     }
 
-    void populateSecondaryGrid() {
-        inventory->addSecondaryItem(0, 0, new PotionIntelligence());
-        inventory->addSecondaryItem(0, 1, new RustyKey());
-        inventory->addSecondaryItem(0, 2, new Sword());
-        inventory->addSecondaryItem(1, 0, new BeerPotion());
-        inventory->addSecondaryItem(2, 2, new ChainMail());
+    void populateChest() {
+        if (currentMap == 1)
+        {
+            inventory->addSecondaryItem(0, 0, new RustyKey());
+            inventory->addSecondaryItem(0, 1, new BeerPotion());
+        }
+        if (currentMap == 2)
+        {
+            inventory->addSecondaryItem(0, 0, new PotionIntelligence());
+            inventory->addSecondaryItem(0, 1, new RopeTrap());
+        }
+        if (currentMap == 3)
+            inventory->addSecondaryItem(0, 0, new KeyCorridor());
+
+        if (currentMap == 4)
+            inventory->addSecondaryItem(0, 0, new DiscretionShoesNoisy());
+
+        if (currentMap == 5) {
+            inventory->addSecondaryItem(0, 0, new BluntSword());
+            inventory->addSecondaryItem(0, 1, new MajorHealingPotion());
+        }
+
+		if (currentMap == 6) {
+			inventory->addSecondaryItem(0, 0, new BookOfLostRules());
+		}
     }
 
-    void checkPlayerPosition() {
-        if (player->getPositionPlayer() == lichPosition) {
-            entityInit(getCharaJob(), getCharaRace(), data, "ProgramLich");
+    void updateNarrative() {
+        if (isNarrativeActive) {
+            // Vérifier si la touche Espace est pressée
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                isNarrativeActive = false;
+                currentNarrativeText = "";
+                return;
+            }
+
+            // Créer un rectangle de fond
+            sf::RectangleShape backgroundRect;
+            backgroundRect.setSize(sf::Vector2f(this->window->getSize().x * 0.8f, this->window->getSize().y * 0.2f));
+            backgroundRect.setPosition(
+                this->window->getSize().x * 0.1f,
+                this->window->getSize().y * 0.7f
+            );
+            backgroundRect.setFillColor(sf::Color(0, 0, 0, 200)); // Noir semi-transparent
+
+            // Créer le texte
+            sf::Text narrativeText;
+            narrativeText.setFont(font);
+            narrativeText.setString(currentNarrativeText + "\n\n(Appuyez sur Espace pour continuer)");
+            narrativeText.setCharacterSize(20);
+            narrativeText.setFillColor(sf::Color::White);
+            narrativeText.setPosition(
+                backgroundRect.getPosition().x + 20,
+                backgroundRect.getPosition().y + 20
+            );
+
+            // Sauvegarder la vue actuelle
+            sf::View currentView = this->window->getView();
+
+            // Utiliser la vue UI pour s'assurer que le texte est affiché correctement
+            this->window->setView(this->uiView);
+
+            // Dessiner le rectangle et le texte
+            this->window->draw(backgroundRect);
+            this->window->draw(narrativeText);
+
+            // Restaurer la vue précédente
+            this->window->setView(currentView);
         }
     }
 
-    void loadLichTexture() {
-        if (!lichTexture.loadFromFile("Assets/Lich.png")) {
-            throw std::runtime_error("Cannot load Assets/Lich.png");
-        }
-        lichSprite.setTexture(lichTexture);
-    }
-    void initLichSprite() {
-        lichSprite.setTexture(lichTexture);
-        lichSprite.setPosition(lichPosition);
+    void displayNarrative(const std::string& text) {
+        // Activer le texte narratif
+        isNarrativeActive = true;
+        currentNarrativeText = text;
+        narrativeTimer.restart();
     }
 
 public:
@@ -263,15 +347,12 @@ public:
         this->job = nullptr;
         this->race = nullptr;
         this->populateInventory();
-        this->populateSecondaryGrid();
         Enemy::resetAllEnemiesInFiles(entityMapFiles);
         this->enemies = Enemy::createEnemies("Config/entityMap1.txt", *this->mapManager);
         this->initializeChests(); // initialise les coffres
         this->initializeTrappedChests(); // initialise les coffres pieges
-        lichPosition = { mapManager->getGridSize() * 15, mapManager->getGridSize() * 15 };
         // Charger et initialiser le sprite de la Lich
-        this->loadLichTexture();
-        this->initLichSprite();
+		this->populateChest();
 
 
     };
@@ -379,20 +460,28 @@ public:
             enemy.drawEnemy(*this->window);
         }
 
-
         Enemy* collidedEnemy = Enemy::checkCollisions(*this->player, this->enemies);
         if (collidedEnemy != nullptr) {
             auto creature = collidedEnemy->getCreature();
             if (creature != nullptr) {
+                if (collidedEnemy->getTextureKey() != 8) {
 
-                // Obtenir le nom du mob
-                std::string mobName = getMobName(collidedEnemy->getTextureKey()); // Assurez-vous que getId() retourne l'identifiant du mob
-                cout << "fight vs " << mobName << " at position (" << collidedEnemy->getPosition().x << ", " << collidedEnemy->getPosition().y << ") with texture key " << collidedEnemy->getTextureKey() << endl;
-                //this->initFight(this->heroesGroup, this->monstersGroup);
-                entityInit(getCharaJob(), getCharaRace(), data, mobName);
-                onMapChange(getCurrentTile(), getCurrentColli(), getCurrentEntity());
+                    // Obtenir le nom du mob
+                    std::string mobName = getMobName(collidedEnemy->getTextureKey()); // Assurez-vous que getId() retourne l'identifiant du mob
+                    cout << "fight vs " << mobName << " at position (" << collidedEnemy->getPosition().x << ", " << collidedEnemy->getPosition().y << ") with texture key " << collidedEnemy->getTextureKey() << endl;
+                    //this->initFight(this->heroesGroup, this->monstersGroup);
+                    entityInit(getCharaJob(), getCharaRace(), data, mobName);
+                    onMapChange(getCurrentTile(), getCurrentColli(), getCurrentEntity());
 
+                }
+                else {
+                    std::string mobName = getMobName(collidedEnemy->getTextureKey());
+                    cout << "Why do i hear bossfight?" << endl;
+					bossFight(getCharaJob(), getCharaRace(), data, mobName);
+                    onMapChange(getCurrentTile(), getCurrentColli(), getCurrentEntity());
+                    displayNarrative("Bien joué! t'es bloqué maintenant.");
 
+                }
             }
             else {
                 cout << "Error: collided enemy's creature is null." << endl;
@@ -445,6 +534,7 @@ public:
         if (inventory->getIsSecondaryGridVisible()) {
             inventory->drawSecondaryGrid(*this->window);
         }
+		updateNarrative();
         this->window->display();
     }
 
@@ -456,6 +546,8 @@ public:
             this->initGameWindow(); // Initialiser la fenêtre de jeu si elle n'est pas déjà initialisée
         }
 
+        displayNarrative("Il caille ici, il faudrait peut-etre rentrer dans ce batiment");
+
         while (this->window->isOpen()) {
             this->updateDT();
             this->update();
@@ -463,15 +555,55 @@ public:
         }
     }
 
-
     void viewOnPlayer() {
         this->playerView.setCenter(player->getPositionPlayer());
     };
 
     void onMapChange(string NewTileMap, string NewCollisionMap, string NewEntityMap) {
         this->mapManager->loadNewMap(NewTileMap, NewCollisionMap);
-        if (NewTileMap == "Config/tileTypes6.txt") {
+        if (NewTileMap == "Config/tileTypes1.txt")
+        {
+            this->currentMap = 1;
+            std::cout << currentMap << std::endl;
+            clearChest();
+            initializeChests();
+        }
+        else if (NewTileMap == "Config/tileTypes2.txt")
+        {
+            this->currentMap = 2;
+            displayNarrative("Vous progressez dans les profondeurs du réseau, chaque pas vous rapprochant de l'inconnu...");
+            std::cout << currentMap << std::endl;
+            clearChest();
+            initializeChests();
+        }
+        else if (NewTileMap == "Config/tileTypes3.txt")
+        {
+            this->currentMap = 3;
+            displayNarrative("Les systèmes de défense se font plus complexes. La tension monte...");
+            std::cout << currentMap << std::endl;
+            clearChest();
+            initializeChests();
+        }
+        else if (NewTileMap == "Config/tileTypes4.txt")
+        {            
+            this->currentMap = 4;
+            displayNarrative("Petit pas par petits pas, on peut gravir des montagnes...");
+            std::cout << currentMap << std::endl;
+            clearChest();
+            initializeChests();
+        }
+        else if (NewTileMap == "Config/tileTypes5.txt")
+        {
+            this->currentMap = 5;
+            displayNarrative("Un couloir étroit se dessine. Les ombres semblent vous observer...");
+            std::cout << currentMap << std::endl;
+            clearChest();
+            initializeChests();
+        }
+
+        else if (NewTileMap == "Config/tileTypes6.txt") {
             this->currentMap = 6;
+            displayNarrative("Une salle remplie de coffres piégés. La prudence sera votre meilleur allié...");
             std::cout << currentMap << std::endl;
             clearChest();
             clearTrappedChest();
@@ -479,10 +611,9 @@ public:
             initializeTrappedChests();
         }
         else if (NewTileMap == "Config/tileTypes7.txt") {
+			this->currentMap = 7;
             clearChest();
             clearTrappedChest();
-            loadLichTexture();
-            initLichSprite();
             if (data.soundEnabled) {
                 if (!data.backgroundMusic.openFromFile("Soul of Cinder.mp3")) {
                     std::cerr << "Erreur de chargement de la musique de fond" << std::endl;
@@ -493,12 +624,7 @@ public:
                 }
             }
         }
-        else {
-            clearChest();
-            clearTrappedChest();
-            currentMap++;
-            std::cout << currentMap << std::endl;
-        }
+        this->populateChest();
         this->wall->resetCollisions();
         this->enemies = Enemy::createEnemies(NewEntityMap, *this->mapManager);
     };
@@ -676,7 +802,96 @@ public:
             ordre.pop();
         }
 
-        combat->fighting(*mob, *lich, *race, *job);
+        combat->fighting(*mob, *lich, *race, *job, *window ,getCurrentEntity());
+    }
+
+
+    void bossFight(string jobName, string raceName, GameData& data, string mobName) {
+        string mobType = mobName;
+        string statistics[6] = { "COU", "CHA", "INT", "FO", "AD", "HP" };
+
+        Jobs* job = createJobs(jobName);
+        Race* race = createRace(raceName);
+        Common* mob = createMob(mobType);
+        Boss* lich = new ProgramLich();
+
+        std::shared_ptr<Entity> mainCharacter = createEntity("Hero");
+        std::shared_ptr<Entity> Character1 = createEntity("Hero");
+        std::shared_ptr<Entity> Character2 = createEntity("Hero");
+        std::shared_ptr<Entity> Mob1 = createEntity("Monstre");
+        //std::shared_ptr<Entity> Mob2 = createEntity("Monstre");
+        //std::shared_ptr<Entity> Mob3 = createEntity("Monstre");
+        //std::shared_ptr<Entity> Mob4 = createEntity("Monstre");
+        std::shared_ptr<Entity> Boss = createEntity("Monstre");
+        Group* Heros = new Group();
+        Group* Monstres = new Group();
+
+        // Utilisation des valeurs de charaRace et charaJob de GameData
+        mainCharacter->StatComparison(*createRace(getCharaRace()), *createJobs(getCharaJob()));
+        mainCharacter->initDesc(*createRace(getCharaRace()), *createJobs(getCharaJob()));
+        mainCharacter->initName(*createRace(getCharaRace()), *createJobs(getCharaJob()));
+        mainCharacter->initHeroStat(*createRace(getCharaRace()), *createJobs(getCharaJob()));
+        std::cout << mainCharacter->getName() << endl;
+        std::cout << mainCharacter->getDesc() << endl;
+        for (auto stat : statistics)
+            std::cout << mainCharacter->getStat()[stat] << endl;
+
+        // hero numero 1
+        Character1->StatComparison(*race, *job);
+        Character1->initDesc(*race, *job);
+        Character1->initName(*race, *job);
+        Character1->initHeroStat(*race, *job);
+
+        // hero numero 2
+        Character2->StatComparison(*race, *job);
+        Character2->initDesc(*race, *job);
+        Character2->initName(*race, *job);
+        Character2->initHeroStat(*race, *job);
+
+        // monstre numero 1
+        Mob1->initCreatureDesc(*mob);
+        Mob1->initCreatureName(*mob);
+        Mob1->initCreatureStat(*mob);
+
+        //// monstre numero 2
+        //Mob2->initCreatureDesc(*mob);
+        //Mob2->initCreatureName(*mob);
+        //Mob2->initCreatureStat(*mob);
+
+        //// monstre numero 3
+        //Mob3->initCreatureDesc(*mob);
+        //Mob3->initCreatureName(*mob);
+        //Mob3->initCreatureStat(*mob);
+
+        //// monstre numero 4
+        //Mob4->initCreatureDesc(*mob);
+        //Mob4->initCreatureName(*mob);
+        //Mob4->initCreatureStat(*mob);
+
+        // boss
+        Boss->initBossName(*lich);
+        Boss->initBossDesc(*lich);
+        Boss->initBossStat(*lich);
+
+        Monstres->addParty(Boss);
+        //Monstres->addParty(Mob2);
+        //Monstres->addParty(Mob3);
+        //Monstres->addParty(Mob4);
+        Heros->addParty(mainCharacter);
+        Heros->addParty(Character2);
+        Heros->addParty(Character1);
+
+        // Heros->removeParty(Character1);
+
+        Fight* combat = new Fight(*Heros, *Monstres);
+        // Affichage de l'ordre de combat 
+        auto ordre = combat->fightOrder();
+        while (!ordre.empty()) {
+            std::cout << ordre.front()->getName() << std::endl;
+            ordre.pop();
+        }
+
+        combat->fighting(*mob, *lich, *race, *job, *window, getCurrentEntity());
     }
 };
 
