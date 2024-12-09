@@ -1,7 +1,5 @@
+
 ```mermaid
-
-classDiagram
-
     class Entity {
         <<abstract>>
         virtual getName() string
@@ -483,12 +481,6 @@ classDiagram
         + void setCollisionMap(const vector<vector<int>>& newCollisionMap)
     }
 
-
-    class System {
-        <<Interface>>
-    }
-
-
     class Fight {
         - group1 vector:shared_ptr(Entity )
         - group2 vector:shared_ptr(Entity)
@@ -614,6 +606,43 @@ classDiagram
         +~GameData()
     }
 
+    class Game {
+        -void initGameWindow()
+        -void initMenuWindow()
+        -void initFont()
+        -void initializeChests()
+        -void initializeTrappedChests()
+        -void populateInventory()
+        -void populateChest()
+        -void updateNarrative()
+        -void displayNarrative()
+        +Game()
+        +~Game()
+        +void handleGameWindow()
+        +void clearChest()
+        +void clearTrappedChest()
+        +void startFight()
+        +void updateDT()
+        +void update()
+        +void render()
+        +void run()
+        +void viewOnPlayer()
+        +void onMapChange(string NewTileMap, string NewCollisionMap, string NewEntityMap)
+        +static Jobs* createJobs(const string& type)
+        +static Race* createRace(const string& type)
+        +static Common* createMob(const string& type)
+        +string getMobName(int mobId)
+        +shared_ptr<Entity> createEntity(const string& type)
+        +string getCurrentTile()
+        +string getCurrentColli()
+        +string getCurrentEntity()
+        +void entityInit(string jobName, string raceName, GameData& data, string mobName)
+        +void bossFight(string jobName, string raceName, GameData& data, string mobName)
+        
+
+
+    }
+
     class MainMenu {
         +static initMainMenu(GameData& data)
         +static handleMainMenuEvents(GameData& data, bool& inOptionsMenu, bool &inCharacterSelection)
@@ -668,6 +697,48 @@ classDiagram
     OptionsMenu ..> GameData 
     ChoixPerso ..> GameData
 
+    Game --> Collision
+    Game --> Player
+    Game --> MapManager
+    Game --> Heroes
+    Game --> Creatures
+    Game --> ExplosiveDuck
+    Game --> RhetoricianTroll
+    Game --> SarcasticGobelin
+    Game --> ProgramLich
+    Game --> Fight
+    Game --> Inventory
+    Game --> BeerPotion
+    Game --> RustyKey
+    Game --> RopeTrap
+    Game --> BookOfLostRules
+    Game --> ScepterSintactic
+    Game --> KeyCorridor
+    Game --> DiscretionShoesNoisy
+    Game --> BluntSword
+    Game --> PotionIntelligence
+    Game --> MajorHealingPotion
+    Game --> Sword
+    Game --> Bow
+    Game --> SorcererStick
+    Game --> Dagger
+    Game --> StealBoots
+    Game --> LeatherBoots
+    Game --> DarkBoots
+    Game --> SorcererBoots
+    Game --> ChainMail
+    Game --> LeatherChest
+    Game --> DarkCape
+    Game --> SorcererCape
+    Game --> GameData
+    Game --> MainMenu
+    Game --> OptionsMenu
+    Game --> ChoixPerso
+    Game --> Group
+    Game --> Enemy
+    Game --> Chest
+    Game --> trappedChest
+
 
     Hero o-- Group
 
@@ -711,6 +782,5 @@ classDiagram
     Weapon <-- Bow
     Weapon <-- Dagger
     Weapon <-- SorcererStick
-```
 
 ```
