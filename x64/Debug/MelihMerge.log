@@ -1,0 +1,290 @@
+﻿  main.cpp
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(26,40): warning C4244: '=' : conversion de 'float' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(26,40): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(26,40): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(26,40): warning C4244:             T=int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(26,40): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(27,41): warning C4244: '=' : conversion de 'float' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(27,41): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(27,41): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(27,41): warning C4244:             T=int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Animation.hpp(27,41): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(74,49): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(74,49): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(74,49): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(74,49): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(74,49): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(75,49): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(75,49): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(75,49): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(75,49): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(75,49): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(76,56): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(76,56): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(76,56): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(76,56): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(76,56): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(77,55): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(77,55): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(77,55): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(77,55): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(77,55): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(78,55): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(78,55): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(78,55): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(78,55): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(78,55): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(79,56): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(79,56): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(79,56): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(79,56): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(79,56): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(80,55): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(80,55): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(80,55): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(80,55): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(80,55): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(81,55): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(81,55): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(81,55): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(81,55): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(81,55): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(82,56): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(82,56): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(82,56): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(82,56): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(82,56): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(83,55): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(83,55): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(83,55): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(83,55): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(83,55): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(84,55): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(84,55): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(84,55): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(84,55): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(84,55): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(355,54): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(355,54): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(355,54): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(355,54): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(355,54): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(357,52): warning C4244: '=' : conversion de 'T' en 'size_t', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(357,52): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(357,52): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(357,52): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(357,52): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(358,52): warning C4244: '=' : conversion de 'T' en 'size_t', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(358,52): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(358,52): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(358,52): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(358,52): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,61): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,61): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,61): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,61): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,61): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,47): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,47): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,47): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,47): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(445,47): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(474,54): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(474,54): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(474,54): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(474,54): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(474,54): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,69): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,69): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,69): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,69): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,69): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,55): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,55): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,55): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,55): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(479,55): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,69): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,69): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,69): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,69): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,69): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,55): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,55): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,55): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,55): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(510,55): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(511,54): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(511,38): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(518,60): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(518,44): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,69): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,69): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,69): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,69): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,69): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,55): warning C4244: 'argument' : conversion de 'size_t' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,55): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,55): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,55): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(564,55): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(565,54): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(565,38): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(572,60): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Inventory.hpp(572,44): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\ChoixPerso.hpp(112,71): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,68): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,68): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,68): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,68): warning C4244:             T=unsigned int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,68): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,45): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,45): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,45): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,45): warning C4244:             T=unsigned int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(76,45): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(81,27): warning C4244: 'initialisation' : conversion de 'T' en 'float', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(81,27): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(81,27): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(81,27): warning C4244:             T=unsigned int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(81,27): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(82,28): warning C4244: 'initialisation' : conversion de 'T' en 'float', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(82,28): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(82,28): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(82,28): warning C4244:             T=unsigned int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Fight.hpp(82,28): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\OptionsMenu.hpp(49,21): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\OptionsMenu.hpp(130,62): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\OptionsMenu.hpp(150,141): warning C4244: '=' : conversion de 'unsigned __int64' en 'int', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\OptionsMenu.hpp(240,66): warning C4244: 'argument' : conversion de 'size_t' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(110,68): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(110,47): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,109): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,109): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,109): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,109): warning C4244:             T=unsigned int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,109): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,80): warning C4244: 'argument' : conversion de 'T' en 'float', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,80): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,80): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,80): warning C4244:             T=unsigned int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(344,80): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,62): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,62): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,62): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,62): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,62): warning C4244:         ]
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,62): warning C4244:         and
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,62): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,62): warning C4244:             T=int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,62): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,50): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,50): warning C4244:         with
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,50): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,50): warning C4244:             T=float
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,50): warning C4244:         ]
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,50): warning C4244:         and
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,50): warning C4244:         [
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,50): warning C4244:             T=int
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(412,50): warning C4244:         ]
+  (compiler le fichier source 'main.cpp')
+  
+  MelihMerge.cpp
+  Génération de code en cours...
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\ChoixPerso.hpp(251,1): warning C4715: 'handleCharacterSelection' : les chemins de contrôle ne retournent pas tous une valeur
+C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\MelihMerge\Game.hpp(700,1): warning C4715: 'Game::createEntity' : les chemins de contrôle ne retournent pas tous une valeur
+  MelihMerge.vcxproj -> C:\Users\melih\Documents\CESI\Seq2\Projet\v4\MelihLucasMerge\x64\Debug\MelihMerge.exe
